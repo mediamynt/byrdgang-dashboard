@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYRDGANG — Team Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #222;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .updated {
+            color: #444;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #888;
+        }
+
+        .offer-active {
+            border-color: #16a34a;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0a1f0a 100%);
+        }
+
+        .offer-active .card-title {
+            color: #22c55e;
+        }
+
+        .offer-text {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .offer-details {
+            color: #666;
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .no-offer {
+            color: #666;
+            font-style: italic;
+        }
+
+        .design-list {
+            list-style: none;
+        }
+
+        .design-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .design-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .design-list li:first-child {
+            padding-top: 0;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-dot.in-stock {
+            background: #22c55e;
+        }
+
+        .status-dot.low {
+            background: #eab308;
+        }
+
+        .status-dot.out {
+            background: #ef4444;
+        }
+
+        .status-dot.new {
+            background: #3b82f6;
+        }
+
+        .design-name {
+            flex: 1;
+        }
+
+        .design-note {
+            color: #666;
+            font-size: 0.75rem;
+        }
+
+        .empty-state {
+            color: #444;
+            font-style: italic;
+            padding: 1rem 0;
+        }
+
+        .warning-card {
+            border-color: #dc2626;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1f0a0a 100%);
+        }
+
+        .warning-card .card-title {
+            color: #ef4444;
+        }
+
+        .new-card {
+            border-color: #2563eb;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0a0a1f 100%);
+        }
+
+        .new-card .card-title {
+            color: #3b82f6;
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 2rem;
+            color: #333;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .offer-text {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">BYRDGANG</div>
+            <div class="subtitle">Team Dashboard</div>
+            <div class="updated">Last updated: February 1, 2025 @ 5:05 PM MST</div>
+        </header>
+
+        <div class="card offer-active">
+            <div class="card-header">
+                <span class="card-icon">🔥</span>
+                <span class="card-title">Active Offer</span>
+            </div>
+            <div class="offer-text">— Awaiting Update —</div>
+            <div class="offer-details">Tell Dezmon what's currently running</div>
+        </div>
+
+        <div class="card new-card">
+            <div class="card-header">
+                <span class="card-icon">🆕</span>
+                <span class="card-title">New Drops — Push These</span>
+            </div>
+            <ul class="design-list">
+                <li class="empty-state">No new drops listed yet</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <span class="card-icon">✅</span>
+                <span class="card-title">In Stock — Safe to Promote</span>
+            </div>
+            <ul class="design-list">
+                <li class="empty-state">Add designs to track</li>
+            </ul>
+        </div>
+
+        <div class="card warning-card">
+            <div class="card-header">
+                <span class="card-icon">⚠️</span>
+                <span class="card-title">Low / Out of Stock — Avoid</span>
+            </div>
+            <ul class="design-list">
+                <li class="empty-state">Nothing flagged yet</li>
+            </ul>
+        </div>
+
+        <footer>
+            Updated by Dezmon · Questions? Message the group
+        </footer>
+    </div>
+</body>
+</html>

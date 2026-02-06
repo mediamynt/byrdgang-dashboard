@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BYRDGANG Profit Dashboard</title>
+  <title>BYRDGANG Analytics</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -14,316 +15,485 @@
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      background: #0f1117;
-      color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f6f6f7;
+      color: #1a1a1a;
       min-height: 100vh;
     }
     
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 24px;
+    /* Shopify-style sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 240px;
+      height: 100vh;
+      background: #1a1a1a;
+      padding: 20px 0;
+      z-index: 100;
+    }
+    
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 20px 24px;
+      border-bottom: 1px solid #333;
+      margin-bottom: 20px;
+    }
+    
+    .sidebar-logo span {
+      font-size: 28px;
+    }
+    
+    .sidebar-logo h1 {
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: #b5b5b5;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.15s;
+    }
+    
+    .sidebar-nav a:hover,
+    .sidebar-nav a.active {
+      background: #333;
+      color: white;
+    }
+    
+    .sidebar-nav a.active {
+      border-left: 3px solid #36b37e;
+    }
+    
+    /* Main content */
+    .main {
+      margin-left: 240px;
+      padding: 24px 32px;
     }
     
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     
-    .logo {
+    .header h2 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    /* Date picker - Shopify style */
+    .date-picker-container {
+      position: relative;
+    }
+    
+    .date-picker-btn {
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-    
-    .logo h1 {
-      font-size: 24px;
-      font-weight: 700;
-    }
-    
-    .logo span {
-      font-size: 28px;
-    }
-    
-    .date-picker {
-      display: flex;
       gap: 8px;
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid #c9cccf;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
     }
     
-    .date-picker button {
-      padding: 10px 20px;
-      border: 1px solid #2a2d35;
-      background: #1a1d24;
-      color: #9ca3af;
-      border-radius: 8px;
+    .date-picker-btn:hover {
+      background: #f9fafb;
+      border-color: #8c9196;
+    }
+    
+    .date-picker-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: white;
+      border: 1px solid #c9cccf;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      padding: 8px;
+      min-width: 200px;
+      display: none;
+      z-index: 50;
+    }
+    
+    .date-picker-dropdown.show {
+      display: block;
+    }
+    
+    .date-option {
+      padding: 10px 12px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
-      transition: all 0.2s;
+      transition: all 0.1s;
     }
     
-    .date-picker button:hover,
-    .date-picker button.active {
-      background: #6366f1;
-      border-color: #6366f1;
-      color: white;
+    .date-option:hover {
+      background: #f6f6f7;
     }
     
+    .date-option.active {
+      background: #e3f1e9;
+      color: #008060;
+      font-weight: 500;
+    }
+    
+    /* Metrics grid - Shopify style */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 32px;
+      gap: 16px;
+      margin-bottom: 24px;
     }
     
     .metric-card {
-      background: #1a1d24;
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid #2a2d35;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e1e3e5;
+    }
+    
+    .metric-card.highlight {
+      background: linear-gradient(135deg, #008060 0%, #004c3f 100%);
+      color: white;
+      border: none;
+    }
+    
+    .metric-card.highlight .metric-label {
+      color: rgba(255,255,255,0.85);
     }
     
     .metric-label {
-      font-size: 14px;
-      color: #9ca3af;
+      font-size: 13px;
+      color: #6d7175;
       margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-weight: 500;
     }
     
     .metric-value {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 8px;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 6px;
     }
     
     .metric-change {
-      font-size: 14px;
+      font-size: 13px;
       display: flex;
       align-items: center;
       gap: 4px;
     }
     
     .metric-change.positive {
-      color: #22c55e;
+      color: #008060;
     }
     
     .metric-change.negative {
-      color: #ef4444;
+      color: #d72c0d;
     }
     
-    .charts-grid {
+    .metric-card.highlight .metric-change {
+      color: rgba(255,255,255,0.85);
+    }
+    
+    /* Secondary metrics row */
+    .secondary-metrics {
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
     }
     
-    .chart-card {
-      background: #1a1d24;
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid #2a2d35;
+    .secondary-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #e1e3e5;
     }
     
-    .chart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+    .secondary-label {
+      font-size: 12px;
+      color: #6d7175;
+      margin-bottom: 4px;
+      font-weight: 500;
     }
     
-    .chart-title {
-      font-size: 18px;
+    .secondary-value {
+      font-size: 20px;
       font-weight: 600;
     }
     
-    .breakdown-list {
-      display: flex;
-      flex-direction: column;
+    /* Charts section */
+    .charts-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
       gap: 16px;
+      margin-bottom: 24px;
     }
     
-    .breakdown-item {
+    .chart-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #e1e3e5;
+    }
+    
+    .chart-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #1a1a1a;
+    }
+    
+    /* Breakdown table */
+    .breakdown-table {
+      width: 100%;
+    }
+    
+    .breakdown-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px;
-      background: #0f1117;
-      border-radius: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e1e3e5;
+    }
+    
+    .breakdown-row:last-child {
+      border-bottom: none;
+      padding-top: 16px;
+      font-weight: 600;
     }
     
     .breakdown-label {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
+      font-size: 14px;
     }
     
-    .breakdown-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
+    .breakdown-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
     }
-    
-    .breakdown-icon.revenue { background: #22c55e20; }
-    .breakdown-icon.ads { background: #6366f120; }
-    .breakdown-icon.shipping { background: #f59e0b20; }
-    .breakdown-icon.cogs { background: #ef444420; }
     
     .breakdown-value {
-      font-size: 18px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 500;
     }
     
-    .profit-card {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      border: none;
+    .breakdown-value.negative {
+      color: #d72c0d;
     }
     
-    .profit-card .metric-label {
-      color: rgba(255,255,255,0.8);
+    .breakdown-value.positive {
+      color: #008060;
     }
     
-    .profit-card .metric-change {
-      color: rgba(255,255,255,0.9);
-    }
-    
+    /* Loading state */
     .loading {
       display: flex;
       align-items: center;
       justify-content: center;
       height: 200px;
-      color: #9ca3af;
+      color: #6d7175;
     }
     
-    @media (max-width: 1024px) {
+    /* Responsive */
+    @media (max-width: 1200px) {
       .metrics-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-      .charts-grid {
+      .secondary-metrics {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .charts-section {
         grid-template-columns: 1fr;
       }
     }
     
-    @media (max-width: 640px) {
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+      .main {
+        margin-left: 0;
+        padding: 16px;
+      }
       .metrics-grid {
         grid-template-columns: 1fr;
       }
-      .header {
-        flex-direction: column;
-        gap: 16px;
+      .secondary-metrics {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span>🦩</span>
+      <h1>BYRDGANG</h1>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="active">📊 Analytics</a>
+      <a href="#">📦 Orders</a>
+      <a href="#">📢 Marketing</a>
+      <a href="#">💰 Finances</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
     <header class="header">
-      <div class="logo">
-        <span>🦩</span>
-        <h1>BYRDGANG Profit Dashboard</h1>
-      </div>
-      <div class="date-picker">
-        <button onclick="setDateRange(7)">7 Days</button>
-        <button onclick="setDateRange(14)">14 Days</button>
-        <button onclick="setDateRange(30)" class="active">30 Days</button>
-        <button onclick="setDateRange(90)">90 Days</button>
+      <h2>Analytics overview</h2>
+      <div class="date-picker-container">
+        <button class="date-picker-btn" onclick="toggleDatePicker()">
+          <span>📅</span>
+          <span id="date-range-label">Last 30 days</span>
+          <span>▼</span>
+        </button>
+        <div class="date-picker-dropdown" id="date-dropdown">
+          <div class="date-option" onclick="setDateRange(1, 'Today')">Today</div>
+          <div class="date-option" onclick="setDateRange(7, 'Last 7 days')">Last 7 days</div>
+          <div class="date-option" onclick="setDateRange(14, 'Last 2 weeks')">Last 2 weeks</div>
+          <div class="date-option active" onclick="setDateRange(30, 'Last 30 days')">Last 30 days</div>
+          <div class="date-option" onclick="setDateRange(90, 'Last 90 days')">Last 90 days</div>
+          <div class="date-option" onclick="setDateRange(365, 'Last 12 months')">Last 12 months</div>
+        </div>
       </div>
     </header>
-    
+
+    <!-- Primary Metrics -->
     <div class="metrics-grid">
       <div class="metric-card">
-        <div class="metric-label">💰 Revenue</div>
+        <div class="metric-label">Total sales</div>
         <div class="metric-value" id="revenue">$0</div>
         <div class="metric-change positive" id="revenue-change">
-          <span>↑</span> <span>0%</span> vs prior period
+          <span>↑ 0%</span> vs prior period
         </div>
       </div>
       
       <div class="metric-card">
-        <div class="metric-label">📢 Ad Spend</div>
+        <div class="metric-label">Total orders</div>
+        <div class="metric-value" id="orders">0</div>
+        <div class="metric-change" id="orders-change">
+          vs prior period
+        </div>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-label">Ad spend</div>
         <div class="metric-value" id="ad-spend">$0</div>
         <div class="metric-change" id="ad-spend-change">
-          <span>-</span> <span>0%</span> vs prior period
+          Facebook + Google
         </div>
       </div>
       
-      <div class="metric-card">
-        <div class="metric-label">📦 Shipping + COGS</div>
-        <div class="metric-value" id="costs">$0</div>
-        <div class="metric-change" id="costs-change">
-          <span>-</span> <span>0%</span> vs prior period
-        </div>
-      </div>
-      
-      <div class="metric-card profit-card">
-        <div class="metric-label">📊 Net Profit</div>
+      <div class="metric-card highlight">
+        <div class="metric-label">Net profit</div>
         <div class="metric-value" id="profit">$0</div>
         <div class="metric-change" id="profit-margin">
-          <span>📈</span> <span>0%</span> margin
+          0% margin
         </div>
       </div>
     </div>
-    
-    <div class="charts-grid">
+
+    <!-- Secondary Metrics -->
+    <div class="secondary-metrics">
+      <div class="secondary-card">
+        <div class="secondary-label">ROAS</div>
+        <div class="secondary-value" id="roas">0.00x</div>
+      </div>
+      <div class="secondary-card">
+        <div class="secondary-label">AOV</div>
+        <div class="secondary-value" id="aov">$0</div>
+      </div>
+      <div class="secondary-card">
+        <div class="secondary-label">Units sold</div>
+        <div class="secondary-value" id="units">0</div>
+      </div>
+      <div class="secondary-card">
+        <div class="secondary-label">COGS</div>
+        <div class="secondary-value" id="cogs">$0</div>
+      </div>
+      <div class="secondary-card">
+        <div class="secondary-label">Shipping</div>
+        <div class="secondary-value" id="shipping">$0</div>
+      </div>
+      <div class="secondary-card">
+        <div class="secondary-label">CPA</div>
+        <div class="secondary-value" id="cpa">$0</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-section">
       <div class="chart-card">
-        <div class="chart-header">
-          <h3 class="chart-title">Daily Performance</h3>
-        </div>
-        <canvas id="performanceChart" height="300"></canvas>
+        <h3 class="chart-title">Revenue vs Ad Spend</h3>
+        <canvas id="performanceChart" height="280"></canvas>
       </div>
       
       <div class="chart-card">
-        <div class="chart-header">
-          <h3 class="chart-title">Cost Breakdown</h3>
-        </div>
-        <div class="breakdown-list" id="breakdown">
-          <div class="breakdown-item">
+        <h3 class="chart-title">P&L Breakdown</h3>
+        <div class="breakdown-table">
+          <div class="breakdown-row">
             <div class="breakdown-label">
-              <div class="breakdown-icon revenue">💵</div>
-              <span>Gross Revenue</span>
+              <div class="breakdown-dot" style="background: #008060"></div>
+              <span>Gross revenue</span>
             </div>
-            <div class="breakdown-value" id="breakdown-revenue">$0</div>
+            <div class="breakdown-value positive" id="bl-revenue">$0</div>
           </div>
-          <div class="breakdown-item">
+          <div class="breakdown-row">
             <div class="breakdown-label">
-              <div class="breakdown-icon ads">📱</div>
+              <div class="breakdown-dot" style="background: #f59e0b"></div>
               <span>Facebook Ads</span>
             </div>
-            <div class="breakdown-value" id="breakdown-fb">$0</div>
+            <div class="breakdown-value negative" id="bl-fb">−$0</div>
           </div>
-          <div class="breakdown-item">
+          <div class="breakdown-row">
             <div class="breakdown-label">
-              <div class="breakdown-icon ads">🔍</div>
+              <div class="breakdown-dot" style="background: #3b82f6"></div>
               <span>Google Ads</span>
             </div>
-            <div class="breakdown-value" id="breakdown-google">$0</div>
+            <div class="breakdown-value negative" id="bl-google">−$0</div>
           </div>
-          <div class="breakdown-item">
+          <div class="breakdown-row">
             <div class="breakdown-label">
-              <div class="breakdown-icon shipping">📦</div>
-              <span>Shipping</span>
-            </div>
-            <div class="breakdown-value" id="breakdown-shipping">$0</div>
-          </div>
-          <div class="breakdown-item">
-            <div class="breakdown-label">
-              <div class="breakdown-icon cogs">🏭</div>
+              <div class="breakdown-dot" style="background: #8b5cf6"></div>
               <span>COGS</span>
             </div>
-            <div class="breakdown-value" id="breakdown-cogs">$0</div>
+            <div class="breakdown-value negative" id="bl-cogs">−$0</div>
+          </div>
+          <div class="breakdown-row">
+            <div class="breakdown-label">
+              <div class="breakdown-dot" style="background: #ec4899"></div>
+              <span>Shipping</span>
+            </div>
+            <div class="breakdown-value negative" id="bl-shipping">−$0</div>
+          </div>
+          <div class="breakdown-row">
+            <div class="breakdown-label">
+              <span>Net profit</span>
+            </div>
+            <div class="breakdown-value positive" id="bl-profit">$0</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
   <script>
     // Supabase config
@@ -336,11 +506,64 @@
     let currentDays = 30;
     
     function formatCurrency(num) {
-      return '$' + num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return '$' + Math.round(num).toLocaleString('en-US');
     }
     
-    function formatPercent(num) {
-      return num.toFixed(1) + '%';
+    function formatNumber(num) {
+      return Math.round(num).toLocaleString('en-US');
+    }
+    
+    function toggleDatePicker() {
+      document.getElementById('date-dropdown').classList.toggle('show');
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.date-picker-container')) {
+        document.getElementById('date-dropdown').classList.remove('show');
+      }
+    });
+    
+    async function fetchAllOrders(startISO, endISO) {
+      let orders = [];
+      let offset = 0;
+      const pageSize = 1000;
+      
+      while (true) {
+        const { data: batch, error } = await supabase
+          .from('orders')
+          .select('*')
+          .gte('created_at', startISO)
+          .lte('created_at', endISO)
+          .range(offset, offset + pageSize - 1);
+        
+        if (error || !batch || batch.length === 0) break;
+        orders = orders.concat(batch);
+        offset += pageSize;
+        if (batch.length < pageSize) break;
+      }
+      return orders;
+    }
+    
+    async function fetchAllLineItems(startISO, endISO) {
+      let items = [];
+      let offset = 0;
+      const pageSize = 1000;
+      
+      while (true) {
+        const { data: batch, error } = await supabase
+          .from('line_items')
+          .select('*')
+          .gte('sale_date', startISO)
+          .lte('sale_date', endISO)
+          .range(offset, offset + pageSize - 1);
+        
+        if (error || !batch || batch.length === 0) break;
+        items = items.concat(batch);
+        offset += pageSize;
+        if (batch.length < pageSize) break;
+      }
+      return items;
     }
     
     async function fetchData(days) {
@@ -348,81 +571,31 @@
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
       
-      // Format dates - date columns use YYYY-MM-DD, timestamp columns need full ISO
       const startStr = startDate.toISOString().split('T')[0];
       const endStr = endDate.toISOString().split('T')[0];
       const startISO = startStr + 'T00:00:00Z';
       const endISO = endStr + 'T23:59:59Z';
       
-      console.log('Date range:', startStr, 'to', endStr);
-      
-      // Fetch ad spend (date column - use date strings)
-      const { data: adSpend, error: adError } = await supabase
+      // Fetch ad spend
+      const { data: adSpend } = await supabase
         .from('daily_ad_spend')
         .select('*')
         .gte('date', startStr)
         .lte('date', endStr)
         .order('date', { ascending: true });
       
-      if (adError) console.error('Ad spend error:', adError);
+      // Fetch all orders
+      const orders = await fetchAllOrders(startISO, endISO);
       
-      // Fetch ALL orders with pagination (Supabase default limit is 1000)
-      let orders = [];
-      let offset = 0;
-      const pageSize = 1000;
-      
-      while (true) {
-        const { data: batch, error: orderError } = await supabase
-          .from('orders')
-          .select('*')
-          .gte('created_at', startISO)
-          .lte('created_at', endISO)
-          .range(offset, offset + pageSize - 1);
-        
-        if (orderError) {
-          console.error('Orders error:', orderError);
-          break;
-        }
-        
-        if (!batch || batch.length === 0) break;
-        orders = orders.concat(batch);
-        offset += pageSize;
-        
-        if (batch.length < pageSize) break;
-      }
-      
-      console.log('Orders:', orders.length, 'Revenue:', orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0));
-      
-      // Fetch ALL line items with pagination
-      let lineItems = [];
-      offset = 0;
-      
-      while (true) {
-        const { data: batch, error: lineError } = await supabase
-          .from('line_items')
-          .select('*')
-          .gte('sale_date', startISO)
-          .lte('sale_date', endISO)
-          .range(offset, offset + pageSize - 1);
-        
-        if (lineError) {
-          console.error('Line items error:', lineError);
-          break;
-        }
-        
-        if (!batch || batch.length === 0) break;
-        lineItems = lineItems.concat(batch);
-        offset += pageSize;
-        
-        if (batch.length < pageSize) break;
-      }
-      
-      console.log('Line items:', lineItems.length);
+      // Fetch all line items
+      const lineItems = await fetchAllLineItems(startISO, endISO);
       
       // Fetch product costs
       const { data: productCosts } = await supabase
         .from('product_costs')
         .select('*');
+      
+      console.log('Fetched:', orders.length, 'orders,', lineItems.length, 'line items');
       
       return { adSpend, orders, lineItems, productCosts };
     }
@@ -430,12 +603,16 @@
     function calculateMetrics(data) {
       const { adSpend, orders, lineItems, productCosts } = data;
       
-      // Revenue
+      // Revenue & orders
       const revenue = orders?.reduce((sum, o) => sum + parseFloat(o.total_price || 0), 0) || 0;
       const refunds = orders?.reduce((sum, o) => sum + parseFloat(o.refund_amount || 0), 0) || 0;
       const netRevenue = revenue - refunds;
+      const orderCount = orders?.length || 0;
       
-      // Ad spend by platform
+      // Units sold
+      const unitsSold = lineItems?.reduce((sum, i) => sum + (i.quantity || 1), 0) || 0;
+      
+      // Ad spend
       const fbSpend = adSpend?.filter(a => a.platform === 'facebook').reduce((sum, a) => sum + parseFloat(a.spend), 0) || 0;
       const googleSpend = adSpend?.filter(a => a.platform === 'google').reduce((sum, a) => sum + parseFloat(a.spend), 0) || 0;
       const totalAdSpend = fbSpend + googleSpend;
@@ -443,14 +620,14 @@
       // Shipping
       const shippingCost = orders?.reduce((sum, o) => sum + parseFloat(o.shipping_cost || 0), 0) || 0;
       
-      // COGS (estimate based on product types)
+      // COGS
       const costMap = {};
       productCosts?.forEach(pc => { costMap[pc.product_type.toLowerCase()] = parseFloat(pc.cost); });
       
       let cogs = 0;
       lineItems?.forEach(item => {
         const title = (item.title || '').toLowerCase();
-        let unitCost = 7; // default polo cost
+        let unitCost = 7;
         if (title.includes('hat') || title.includes('cap')) unitCost = costMap['hat'] || 6;
         else if (title.includes('towel')) unitCost = costMap['golf towel'] || 6;
         else if (title.includes('glove')) unitCost = costMap['golf glove'] || 6;
@@ -458,52 +635,69 @@
         cogs += unitCost * (item.quantity || 1);
       });
       
-      // Net profit
-      const totalCosts = totalAdSpend + shippingCost + cogs;
-      const netProfit = netRevenue - totalCosts;
+      // Calculated metrics
+      const netProfit = netRevenue - totalAdSpend - shippingCost - cogs;
       const profitMargin = netRevenue > 0 ? (netProfit / netRevenue) * 100 : 0;
+      const roas = totalAdSpend > 0 ? netRevenue / totalAdSpend : 0;
+      const aov = orderCount > 0 ? netRevenue / orderCount : 0;
+      const cpa = orderCount > 0 ? totalAdSpend / orderCount : 0;
       
       return {
         revenue: netRevenue,
+        orderCount,
+        unitsSold,
         adSpend: totalAdSpend,
         fbSpend,
         googleSpend,
         shippingCost,
         cogs,
-        totalCosts: shippingCost + cogs,
         netProfit,
         profitMargin,
+        roas,
+        aov,
+        cpa,
         dailyData: adSpend || []
       };
     }
     
     function updateUI(metrics) {
+      // Primary metrics
       document.getElementById('revenue').textContent = formatCurrency(metrics.revenue);
+      document.getElementById('orders').textContent = formatNumber(metrics.orderCount);
       document.getElementById('ad-spend').textContent = formatCurrency(metrics.adSpend);
-      document.getElementById('costs').textContent = formatCurrency(metrics.totalCosts);
       document.getElementById('profit').textContent = formatCurrency(metrics.netProfit);
-      document.getElementById('profit-margin').innerHTML = `<span>📈</span> <span>${formatPercent(metrics.profitMargin)}</span> margin`;
+      document.getElementById('profit-margin').textContent = metrics.profitMargin.toFixed(1) + '% margin';
+      
+      // Secondary metrics
+      document.getElementById('roas').textContent = metrics.roas.toFixed(2) + 'x';
+      document.getElementById('aov').textContent = formatCurrency(metrics.aov);
+      document.getElementById('units').textContent = formatNumber(metrics.unitsSold);
+      document.getElementById('cogs').textContent = formatCurrency(metrics.cogs);
+      document.getElementById('shipping').textContent = formatCurrency(metrics.shippingCost);
+      document.getElementById('cpa').textContent = formatCurrency(metrics.cpa);
       
       // Breakdown
-      document.getElementById('breakdown-revenue').textContent = formatCurrency(metrics.revenue);
-      document.getElementById('breakdown-fb').textContent = formatCurrency(metrics.fbSpend);
-      document.getElementById('breakdown-google').textContent = formatCurrency(metrics.googleSpend);
-      document.getElementById('breakdown-shipping').textContent = formatCurrency(metrics.shippingCost);
-      document.getElementById('breakdown-cogs').textContent = formatCurrency(metrics.cogs);
+      document.getElementById('bl-revenue').textContent = formatCurrency(metrics.revenue);
+      document.getElementById('bl-fb').textContent = '−' + formatCurrency(metrics.fbSpend);
+      document.getElementById('bl-google').textContent = '−' + formatCurrency(metrics.googleSpend);
+      document.getElementById('bl-cogs').textContent = '−' + formatCurrency(metrics.cogs);
+      document.getElementById('bl-shipping').textContent = '−' + formatCurrency(metrics.shippingCost);
+      document.getElementById('bl-profit').textContent = formatCurrency(metrics.netProfit);
       
-      // Update profit card color based on positive/negative
-      const profitCard = document.querySelector('.profit-card');
+      // Update profit color
+      const profitValue = document.getElementById('bl-profit');
       if (metrics.netProfit < 0) {
-        profitCard.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+        profitValue.classList.remove('positive');
+        profitValue.classList.add('negative');
       } else {
-        profitCard.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
+        profitValue.classList.remove('negative');
+        profitValue.classList.add('positive');
       }
     }
     
     function updateChart(metrics) {
       const ctx = document.getElementById('performanceChart').getContext('2d');
       
-      // Group by date
       const dailySpend = {};
       metrics.dailyData.forEach(d => {
         if (!dailySpend[d.date]) dailySpend[d.date] = 0;
@@ -525,12 +719,13 @@
           datasets: [{
             label: 'Ad Spend',
             data: spendData,
-            borderColor: '#6366f1',
-            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
             fill: true,
-            tension: 0.4,
-            pointRadius: 4,
-            pointBackgroundColor: '#6366f1'
+            tension: 0.3,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            borderWidth: 2
           }]
         },
         options: {
@@ -539,18 +734,29 @@
           plugins: {
             legend: {
               display: false
+            },
+            tooltip: {
+              backgroundColor: '#1a1a1a',
+              titleFont: { size: 13 },
+              bodyFont: { size: 12 },
+              padding: 12,
+              cornerRadius: 8,
+              callbacks: {
+                label: (ctx) => 'Ad Spend: $' + ctx.raw.toLocaleString()
+              }
             }
           },
           scales: {
             x: {
-              grid: { color: '#2a2d35' },
-              ticks: { color: '#9ca3af' }
+              grid: { display: false },
+              ticks: { font: { size: 11 }, color: '#6d7175' }
             },
             y: {
-              grid: { color: '#2a2d35' },
-              ticks: { 
-                color: '#9ca3af',
-                callback: (value) => '$' + value.toLocaleString()
+              grid: { color: '#e1e3e5' },
+              ticks: {
+                font: { size: 11 },
+                color: '#6d7175',
+                callback: (v) => '$' + (v / 1000).toFixed(0) + 'k'
               }
             }
           }
@@ -558,48 +764,31 @@
       });
     }
     
-    async function loadDashboard(days) {
+    async function setDateRange(days, label) {
       currentDays = days;
+      document.getElementById('date-range-label').textContent = label;
+      document.getElementById('date-dropdown').classList.remove('show');
       
-      // Update active button
-      document.querySelectorAll('.date-picker button').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.textContent === days + ' Days') btn.classList.add('active');
-      });
+      // Update active state
+      document.querySelectorAll('.date-option').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
       
+      await loadDashboard();
+    }
+    
+    async function loadDashboard() {
       try {
-        const data = await fetchData(days);
+        const data = await fetchData(currentDays);
         const metrics = calculateMetrics(data);
         updateUI(metrics);
         updateChart(metrics);
-      } catch (error) {
-        console.error('Error loading dashboard:', error);
-      }
-    }
-    
-    function setDateRange(days) {
-      loadDashboard(days);
-    }
-    
-    // Initial load - wait for DOM and scripts
-    document.addEventListener('DOMContentLoaded', async () => {
-      console.log('DOM ready, loading dashboard...');
-      console.log('Supabase available:', typeof window.supabase);
-      
-      if (typeof window.supabase === 'undefined') {
-        console.error('Supabase not loaded!');
-        document.getElementById('revenue').textContent = 'Error: Supabase not loaded';
-        return;
-      }
-      
-      try {
-        await loadDashboard(30);
-        console.log('Dashboard loaded successfully');
       } catch (err) {
-        console.error('Dashboard load failed:', err);
-        document.getElementById('revenue').textContent = 'Error: ' + err.message;
+        console.error('Dashboard error:', err);
       }
-    });
+    }
+    
+    // Initialize
+    loadDashboard();
   </script>
 </body>
 </html>

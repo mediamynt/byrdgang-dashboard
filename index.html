@@ -8,25 +8,20 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: #f6f6f7;
       color: #1a1a1a;
       min-height: 100vh;
     }
     
-    /* Shopify-style sidebar */
     .sidebar {
       position: fixed;
       left: 0;
       top: 0;
-      width: 240px;
+      width: 220px;
       height: 100vh;
       background: #1a1a1a;
       padding: 20px 0;
@@ -42,15 +37,8 @@
       margin-bottom: 20px;
     }
     
-    .sidebar-logo span {
-      font-size: 28px;
-    }
-    
-    .sidebar-logo h1 {
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-    }
+    .sidebar-logo span { font-size: 28px; }
+    .sidebar-logo h1 { color: white; font-size: 16px; font-weight: 600; }
     
     .sidebar-nav a {
       display: flex;
@@ -63,19 +51,15 @@
       transition: all 0.15s;
     }
     
-    .sidebar-nav a:hover,
-    .sidebar-nav a.active {
+    .sidebar-nav a:hover, .sidebar-nav a.active {
       background: #333;
       color: white;
     }
     
-    .sidebar-nav a.active {
-      border-left: 3px solid #36b37e;
-    }
+    .sidebar-nav a.active { border-left: 3px solid #36b37e; }
     
-    /* Main content */
     .main {
-      margin-left: 240px;
+      margin-left: 220px;
       padding: 24px 32px;
     }
     
@@ -86,15 +70,9 @@
       margin-bottom: 24px;
     }
     
-    .header h2 {
-      font-size: 20px;
-      font-weight: 600;
-    }
+    .header h2 { font-size: 20px; font-weight: 600; }
     
-    /* Date picker - Shopify style */
-    .date-picker-container {
-      position: relative;
-    }
+    .date-picker-container { position: relative; }
     
     .date-picker-btn {
       display: flex;
@@ -106,13 +84,9 @@
       border-radius: 8px;
       font-size: 14px;
       cursor: pointer;
-      transition: all 0.15s;
     }
     
-    .date-picker-btn:hover {
-      background: #f9fafb;
-      border-color: #8c9196;
-    }
+    .date-picker-btn:hover { background: #f9fafb; }
     
     .date-picker-dropdown {
       position: absolute;
@@ -128,40 +102,49 @@
       z-index: 50;
     }
     
-    .date-picker-dropdown.show {
-      display: block;
-    }
+    .date-picker-dropdown.show { display: block; }
     
     .date-option {
       padding: 10px 12px;
       border-radius: 6px;
       cursor: pointer;
       font-size: 14px;
-      transition: all 0.1s;
     }
     
-    .date-option:hover {
-      background: #f6f6f7;
+    .date-option:hover { background: #f6f6f7; }
+    .date-option.active { background: #e3f1e9; color: #008060; font-weight: 500; }
+    
+    /* Section titles */
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6d7175;
+      margin: 24px 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
-    .date-option.active {
-      background: #e3f1e9;
-      color: #008060;
-      font-weight: 500;
-    }
+    .section-title:first-of-type { margin-top: 0; }
     
-    /* Metrics grid - Shopify style */
+    /* Metrics grid */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 8px;
+    }
+    
+    .metrics-grid-6 {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-bottom: 8px;
     }
     
     .metric-card {
       background: white;
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       border: 1px solid #e1e3e5;
     }
     
@@ -171,75 +154,55 @@
       border: none;
     }
     
-    .metric-card.highlight .metric-label {
-      color: rgba(255,255,255,0.85);
+    .metric-card.highlight .metric-label { color: rgba(255,255,255,0.85); }
+    .metric-card.highlight .metric-sub { color: rgba(255,255,255,0.7); }
+    
+    .metric-card.negative {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: white;
+      border: none;
     }
     
+    .metric-card.negative .metric-label { color: rgba(255,255,255,0.85); }
+    
     .metric-label {
-      font-size: 13px;
+      font-size: 12px;
       color: #6d7175;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 500;
     }
     
     .metric-value {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
-    .metric-change {
-      font-size: 13px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+    .metric-sub {
+      font-size: 12px;
+      color: #6d7175;
     }
     
-    .metric-change.positive {
-      color: #008060;
-    }
+    .metric-sub.positive { color: #008060; }
+    .metric-sub.negative { color: #dc2626; }
     
-    .metric-change.negative {
-      color: #d72c0d;
-    }
-    
-    .metric-card.highlight .metric-change {
-      color: rgba(255,255,255,0.85);
-    }
-    
-    /* Secondary metrics row */
-    .secondary-metrics {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    
-    .secondary-card {
+    /* Small metric cards */
+    .metric-card-sm {
       background: white;
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 14px;
       border: 1px solid #e1e3e5;
     }
     
-    .secondary-label {
-      font-size: 12px;
-      color: #6d7175;
-      margin-bottom: 4px;
-      font-weight: 500;
-    }
-    
-    .secondary-value {
-      font-size: 20px;
-      font-weight: 600;
-    }
+    .metric-card-sm .metric-label { font-size: 11px; margin-bottom: 4px; }
+    .metric-card-sm .metric-value { font-size: 18px; }
     
     /* Charts section */
     .charts-section {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1.5fr 1fr;
       gap: 16px;
-      margin-bottom: 24px;
+      margin-top: 24px;
     }
     
     .chart-card {
@@ -249,43 +212,38 @@
       border: 1px solid #e1e3e5;
     }
     
-    .chart-container {
-      position: relative;
-      height: 250px;
-      max-height: 250px;
-    }
-    
     .chart-title {
       font-size: 14px;
       font-weight: 600;
       margin-bottom: 16px;
-      color: #1a1a1a;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 220px;
     }
     
     /* Breakdown table */
-    .breakdown-table {
-      width: 100%;
-    }
-    
     .breakdown-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid #e1e3e5;
+      font-size: 13px;
     }
     
     .breakdown-row:last-child {
       border-bottom: none;
-      padding-top: 16px;
+      padding-top: 14px;
       font-weight: 600;
+      font-size: 14px;
     }
     
     .breakdown-label {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 14px;
     }
     
     .breakdown-dot {
@@ -294,64 +252,58 @@
       border-radius: 50%;
     }
     
-    .breakdown-value {
-      font-size: 14px;
-      font-weight: 500;
+    .breakdown-value.negative { color: #dc2626; }
+    .breakdown-value.positive { color: #008060; }
+    
+    /* Customer metrics split */
+    .split-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: #e1e3e5;
+      margin: 12px 0;
+      overflow: hidden;
+      display: flex;
     }
     
-    .breakdown-value.negative {
-      color: #d72c0d;
+    .split-bar .new { background: #3b82f6; }
+    .split-bar .returning { background: #22c55e; }
+    
+    .split-legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
     }
     
-    .breakdown-value.positive {
-      color: #008060;
-    }
-    
-    /* Loading state */
-    .loading {
+    .split-legend span {
       display: flex;
       align-items: center;
-      justify-content: center;
-      height: 200px;
-      color: #6d7175;
+      gap: 6px;
+    }
+    
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
     }
     
     /* Responsive */
     @media (max-width: 1200px) {
-      .metrics-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .secondary-metrics {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .charts-section {
-        grid-template-columns: 1fr;
-      }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid-6 { grid-template-columns: repeat(3, 1fr); }
+      .charts-section { grid-template-columns: 1fr; }
     }
     
     @media (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
-      .main {
-        margin-left: 0;
-        padding: 16px;
-      }
-      .metrics-grid {
-        grid-template-columns: 1fr;
-      }
-      .secondary-metrics {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .chart-container {
-        height: 200px;
-        max-height: 200px;
-      }
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 16px; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid-6 { grid-template-columns: repeat(2, 1fr); }
+      .metric-value { font-size: 20px; }
+      .chart-container { height: 180px; }
     }
   </style>
 </head>
 <body>
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-logo">
       <span>🦩</span>
@@ -360,15 +312,14 @@
     <nav class="sidebar-nav">
       <a href="#" class="active">📊 Analytics</a>
       <a href="#">📦 Orders</a>
+      <a href="#">👥 Customers</a>
       <a href="#">📢 Marketing</a>
-      <a href="#">💰 Finances</a>
     </nav>
   </aside>
 
-  <!-- Main Content -->
   <main class="main">
     <header class="header">
-      <h2>Analytics overview</h2>
+      <h2>Analytics Dashboard</h2>
       <div class="date-picker-container">
         <button class="date-picker-btn" onclick="toggleDatePicker()">
           <span>📅</span>
@@ -386,392 +337,467 @@
       </div>
     </header>
 
-    <!-- Primary Metrics -->
+    <!-- PRIMARY METRICS -->
+    <div class="section-title">💰 Revenue & Profit</div>
     <div class="metrics-grid">
       <div class="metric-card">
-        <div class="metric-label">Total sales</div>
+        <div class="metric-label">Total Revenue</div>
         <div class="metric-value" id="revenue">$0</div>
-        <div class="metric-change positive" id="revenue-change">
-          <span>↑ 0%</span> vs prior period
-        </div>
+        <div class="metric-sub" id="orders-count">0 orders</div>
       </div>
-      
       <div class="metric-card">
-        <div class="metric-label">Total orders</div>
-        <div class="metric-value" id="orders">0</div>
-        <div class="metric-change" id="orders-change">
-          vs prior period
-        </div>
+        <div class="metric-label">Gross Margin</div>
+        <div class="metric-value" id="gross-margin">$0</div>
+        <div class="metric-sub" id="gross-margin-pct">0% margin</div>
       </div>
-      
       <div class="metric-card">
-        <div class="metric-label">Ad spend</div>
-        <div class="metric-value" id="ad-spend">$0</div>
-        <div class="metric-change" id="ad-spend-change">
-          Facebook + Google
-        </div>
+        <div class="metric-label">Contribution Margin</div>
+        <div class="metric-value" id="contrib-margin">$0</div>
+        <div class="metric-sub" id="contrib-margin-pct">0% of revenue</div>
       </div>
-      
-      <div class="metric-card highlight">
-        <div class="metric-label">Net profit</div>
+      <div class="metric-card highlight" id="profit-card">
+        <div class="metric-label">Net Profit</div>
         <div class="metric-value" id="profit">$0</div>
-        <div class="metric-change" id="profit-margin">
-          0% margin
-        </div>
+        <div class="metric-sub" id="profit-margin">0% margin</div>
       </div>
     </div>
 
-    <!-- Secondary Metrics -->
-    <div class="secondary-metrics">
-      <div class="secondary-card">
-        <div class="secondary-label">ROAS</div>
-        <div class="secondary-value" id="roas">0.00x</div>
+    <!-- MARKETING METRICS -->
+    <div class="section-title">📢 Marketing Performance</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total Ad Spend</div>
+        <div class="metric-value" id="ad-spend">$0</div>
+        <div class="metric-sub" id="ad-split">FB $0 · Google $0</div>
       </div>
-      <div class="secondary-card">
-        <div class="secondary-label">AOV</div>
-        <div class="secondary-value" id="aov">$0</div>
+      <div class="metric-card">
+        <div class="metric-label">ROAS</div>
+        <div class="metric-value" id="roas">0.00x</div>
+        <div class="metric-sub" id="roas-status">-</div>
       </div>
-      <div class="secondary-card">
-        <div class="secondary-label">Units sold</div>
-        <div class="secondary-value" id="units">0</div>
+      <div class="metric-card">
+        <div class="metric-label">MER (Blended)</div>
+        <div class="metric-value" id="mer">0.00x</div>
+        <div class="metric-sub">Revenue ÷ All Marketing</div>
       </div>
-      <div class="secondary-card">
-        <div class="secondary-label">COGS</div>
-        <div class="secondary-value" id="cogs">$0</div>
-      </div>
-      <div class="secondary-card">
-        <div class="secondary-label">Shipping</div>
-        <div class="secondary-value" id="shipping">$0</div>
-      </div>
-      <div class="secondary-card">
-        <div class="secondary-label">CPA</div>
-        <div class="secondary-value" id="cpa">$0</div>
+      <div class="metric-card">
+        <div class="metric-label">Break-even ROAS</div>
+        <div class="metric-value" id="be-roas">0.00x</div>
+        <div class="metric-sub">Min ROAS to profit</div>
       </div>
     </div>
 
-    <!-- Charts -->
+    <!-- CUSTOMER METRICS -->
+    <div class="section-title">👥 Customer Metrics</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">CAC (Cost per Acquisition)</div>
+        <div class="metric-value" id="cac">$0</div>
+        <div class="metric-sub" id="cac-sub">Ad spend ÷ orders</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">LTV (Lifetime Value)</div>
+        <div class="metric-value" id="ltv">$0</div>
+        <div class="metric-sub" id="ltv-ratio">LTV:CAC = 0:1</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Repurchase Rate</div>
+        <div class="metric-value" id="repurchase">0%</div>
+        <div class="metric-sub" id="repeat-customers">0 repeat customers</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">CAC Payback</div>
+        <div class="metric-value" id="cac-payback">0 days</div>
+        <div class="metric-sub">Time to recover CAC</div>
+      </div>
+    </div>
+
+    <!-- NEW VS RETURNING -->
+    <div class="chart-card" style="margin-top: 16px;">
+      <div class="chart-title">New vs Returning Customers</div>
+      <div class="split-bar">
+        <div class="new" id="new-bar" style="width: 50%"></div>
+        <div class="returning" id="returning-bar" style="width: 50%"></div>
+      </div>
+      <div class="split-legend">
+        <span><div class="legend-dot" style="background: #3b82f6"></div> New: <strong id="new-revenue">$0</strong> (<span id="new-pct">0%</span>)</span>
+        <span><div class="legend-dot" style="background: #22c55e"></div> Returning: <strong id="returning-revenue">$0</strong> (<span id="returning-pct">0%</span>)</span>
+      </div>
+    </div>
+
+    <!-- ORDER METRICS -->
+    <div class="section-title">📦 Order Metrics</div>
+    <div class="metrics-grid-6">
+      <div class="metric-card-sm">
+        <div class="metric-label">AOV</div>
+        <div class="metric-value" id="aov">$0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Units Sold</div>
+        <div class="metric-value" id="units">0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Units/Order</div>
+        <div class="metric-value" id="units-per-order">0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Avg Discount</div>
+        <div class="metric-value" id="avg-discount">0%</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Refund Rate</div>
+        <div class="metric-value" id="refund-rate">0%</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Refunds</div>
+        <div class="metric-value" id="refunds">$0</div>
+      </div>
+    </div>
+
+    <!-- COSTS -->
+    <div class="section-title">🏭 Cost Breakdown</div>
+    <div class="metrics-grid-6">
+      <div class="metric-card-sm">
+        <div class="metric-label">COGS</div>
+        <div class="metric-value" id="cogs">$0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Shipping</div>
+        <div class="metric-value" id="shipping">$0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Facebook Ads</div>
+        <div class="metric-value" id="fb-spend">$0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Google Ads</div>
+        <div class="metric-value" id="google-spend">$0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Cost/Unit</div>
+        <div class="metric-value" id="cost-per-unit">$0</div>
+      </div>
+      <div class="metric-card-sm">
+        <div class="metric-label">Ship/Order</div>
+        <div class="metric-value" id="ship-per-order">$0</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
     <div class="charts-section">
       <div class="chart-card">
         <h3 class="chart-title">Daily Ad Spend</h3>
         <div class="chart-container">
-          <canvas id="performanceChart"></canvas>
+          <canvas id="spendChart"></canvas>
         </div>
       </div>
       
       <div class="chart-card">
-        <h3 class="chart-title">P&L Breakdown</h3>
-        <div class="breakdown-table">
-          <div class="breakdown-row">
-            <div class="breakdown-label">
-              <div class="breakdown-dot" style="background: #008060"></div>
-              <span>Gross revenue</span>
-            </div>
-            <div class="breakdown-value positive" id="bl-revenue">$0</div>
-          </div>
-          <div class="breakdown-row">
-            <div class="breakdown-label">
-              <div class="breakdown-dot" style="background: #f59e0b"></div>
-              <span>Facebook Ads</span>
-            </div>
-            <div class="breakdown-value negative" id="bl-fb">−$0</div>
-          </div>
-          <div class="breakdown-row">
-            <div class="breakdown-label">
-              <div class="breakdown-dot" style="background: #3b82f6"></div>
-              <span>Google Ads</span>
-            </div>
-            <div class="breakdown-value negative" id="bl-google">−$0</div>
-          </div>
-          <div class="breakdown-row">
-            <div class="breakdown-label">
-              <div class="breakdown-dot" style="background: #8b5cf6"></div>
-              <span>COGS</span>
-            </div>
-            <div class="breakdown-value negative" id="bl-cogs">−$0</div>
-          </div>
-          <div class="breakdown-row">
-            <div class="breakdown-label">
-              <div class="breakdown-dot" style="background: #ec4899"></div>
-              <span>Shipping</span>
-            </div>
-            <div class="breakdown-value negative" id="bl-shipping">−$0</div>
-          </div>
-          <div class="breakdown-row">
-            <div class="breakdown-label">
-              <span>Net profit</span>
-            </div>
-            <div class="breakdown-value positive" id="bl-profit">$0</div>
-          </div>
+        <h3 class="chart-title">P&L Summary</h3>
+        <div class="breakdown-row">
+          <div class="breakdown-label"><div class="breakdown-dot" style="background: #22c55e"></div> Revenue</div>
+          <div class="breakdown-value positive" id="bl-revenue">$0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-label"><div class="breakdown-dot" style="background: #8b5cf6"></div> COGS</div>
+          <div class="breakdown-value negative" id="bl-cogs">−$0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-label"><div class="breakdown-dot" style="background: #ec4899"></div> Shipping</div>
+          <div class="breakdown-value negative" id="bl-shipping">−$0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-label"><div class="breakdown-dot" style="background: #f59e0b"></div> Facebook</div>
+          <div class="breakdown-value negative" id="bl-fb">−$0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-label"><div class="breakdown-dot" style="background: #3b82f6"></div> Google</div>
+          <div class="breakdown-value negative" id="bl-google">−$0</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-label">Net Profit</div>
+          <div class="breakdown-value positive" id="bl-profit">$0</div>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    // Supabase config
     const SUPABASE_URL = 'https://umhgcrwurpmnqvjiizud.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtaGdjcnd1cnBtbnF2amlpenVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNTgzNzIsImV4cCI6MjA4NTYzNDM3Mn0.Wt11j2jxiph7dcgv-n2tUSJiOED7Plof6GxwSRg4Spk';
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
     let chart = null;
     let currentDays = 30;
     
-    function formatCurrency(num) {
-      return '$' + Math.round(num).toLocaleString('en-US');
-    }
-    
-    function formatNumber(num) {
-      return Math.round(num).toLocaleString('en-US');
-    }
+    const fmt = (n) => '$' + Math.round(n).toLocaleString();
+    const fmtNum = (n) => Math.round(n).toLocaleString();
+    const fmtPct = (n) => n.toFixed(1) + '%';
     
     function toggleDatePicker() {
       document.getElementById('date-dropdown').classList.toggle('show');
     }
     
-    // Close dropdown when clicking outside
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.date-picker-container')) {
         document.getElementById('date-dropdown').classList.remove('show');
       }
     });
     
-    async function fetchAllOrders(startISO, endISO) {
-      let orders = [];
-      let offset = 0;
-      const pageSize = 1000;
-      
+    async function fetchAll(table, dateCol, startISO, endISO) {
+      let all = [], offset = 0;
       while (true) {
-        const { data: batch, error } = await supabase
-          .from('orders')
+        const { data, error } = await supabase
+          .from(table)
           .select('*')
-          .gte('created_at', startISO)
-          .lte('created_at', endISO)
-          .range(offset, offset + pageSize - 1);
-        
-        if (error || !batch || batch.length === 0) break;
-        orders = orders.concat(batch);
-        offset += pageSize;
-        if (batch.length < pageSize) break;
+          .gte(dateCol, startISO)
+          .lte(dateCol, endISO)
+          .range(offset, offset + 999);
+        if (error || !data?.length) break;
+        all = all.concat(data);
+        offset += 1000;
+        if (data.length < 1000) break;
       }
-      return orders;
-    }
-    
-    async function fetchAllLineItems(startISO, endISO) {
-      let items = [];
-      let offset = 0;
-      const pageSize = 1000;
-      
-      while (true) {
-        const { data: batch, error } = await supabase
-          .from('line_items')
-          .select('*')
-          .gte('sale_date', startISO)
-          .lte('sale_date', endISO)
-          .range(offset, offset + pageSize - 1);
-        
-        if (error || !batch || batch.length === 0) break;
-        items = items.concat(batch);
-        offset += pageSize;
-        if (batch.length < pageSize) break;
-      }
-      return items;
+      return all;
     }
     
     async function fetchData(days) {
-      const endDate = new Date();
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - days);
+      const end = new Date();
+      const start = new Date();
+      start.setDate(start.getDate() - days);
       
-      const startStr = startDate.toISOString().split('T')[0];
-      const endStr = endDate.toISOString().split('T')[0];
+      const startStr = start.toISOString().split('T')[0];
+      const endStr = end.toISOString().split('T')[0];
       const startISO = startStr + 'T00:00:00Z';
       const endISO = endStr + 'T23:59:59Z';
       
-      // Fetch ad spend
-      const { data: adSpend } = await supabase
-        .from('daily_ad_spend')
-        .select('*')
-        .gte('date', startStr)
-        .lte('date', endStr)
-        .order('date', { ascending: true });
+      const [orders, lineItems, adSpend, productCosts] = await Promise.all([
+        fetchAll('orders', 'created_at', startISO, endISO),
+        fetchAll('line_items', 'sale_date', startISO, endISO),
+        supabase.from('daily_ad_spend').select('*').gte('date', startStr).lte('date', endStr).order('date'),
+        supabase.from('product_costs').select('*')
+      ]);
       
-      // Fetch all orders
-      const orders = await fetchAllOrders(startISO, endISO);
-      
-      // Fetch all line items
-      const lineItems = await fetchAllLineItems(startISO, endISO);
-      
-      // Fetch product costs
-      const { data: productCosts } = await supabase
-        .from('product_costs')
-        .select('*');
-      
-      console.log('Fetched:', orders.length, 'orders,', lineItems.length, 'line items');
-      
-      return { adSpend, orders, lineItems, productCosts };
-    }
-    
-    function calculateMetrics(data) {
-      const { adSpend, orders, lineItems, productCosts } = data;
-      
-      // Revenue & orders
-      const revenue = orders?.reduce((sum, o) => sum + parseFloat(o.total_price || 0), 0) || 0;
-      const refunds = orders?.reduce((sum, o) => sum + parseFloat(o.refund_amount || 0), 0) || 0;
-      const netRevenue = revenue - refunds;
-      const orderCount = orders?.length || 0;
-      
-      // Units sold
-      const unitsSold = lineItems?.reduce((sum, i) => sum + (i.quantity || 1), 0) || 0;
-      
-      // Ad spend
-      const fbSpend = adSpend?.filter(a => a.platform === 'facebook').reduce((sum, a) => sum + parseFloat(a.spend), 0) || 0;
-      const googleSpend = adSpend?.filter(a => a.platform === 'google').reduce((sum, a) => sum + parseFloat(a.spend), 0) || 0;
-      const totalAdSpend = fbSpend + googleSpend;
-      
-      // Shipping
-      const shippingCost = orders?.reduce((sum, o) => sum + parseFloat(o.shipping_cost || 0), 0) || 0;
-      
-      // COGS
-      const costMap = {};
-      productCosts?.forEach(pc => { costMap[pc.product_type.toLowerCase()] = parseFloat(pc.cost); });
-      
-      let cogs = 0;
-      lineItems?.forEach(item => {
-        const title = (item.title || '').toLowerCase();
-        let unitCost = 7;
-        if (title.includes('hat') || title.includes('cap')) unitCost = costMap['hat'] || 6;
-        else if (title.includes('towel')) unitCost = costMap['golf towel'] || 6;
-        else if (title.includes('glove')) unitCost = costMap['golf glove'] || 6;
-        else if (title.includes('polo') || title.includes('shirt')) unitCost = costMap['polo'] || 7;
-        cogs += unitCost * (item.quantity || 1);
-      });
-      
-      // Calculated metrics
-      const netProfit = netRevenue - totalAdSpend - shippingCost - cogs;
-      const profitMargin = netRevenue > 0 ? (netProfit / netRevenue) * 100 : 0;
-      const roas = totalAdSpend > 0 ? netRevenue / totalAdSpend : 0;
-      const aov = orderCount > 0 ? netRevenue / orderCount : 0;
-      const cpa = orderCount > 0 ? totalAdSpend / orderCount : 0;
-      
-      return {
-        revenue: netRevenue,
-        orderCount,
-        unitsSold,
-        adSpend: totalAdSpend,
-        fbSpend,
-        googleSpend,
-        shippingCost,
-        cogs,
-        netProfit,
-        profitMargin,
-        roas,
-        aov,
-        cpa,
-        dailyData: adSpend || []
+      return { 
+        orders, 
+        lineItems, 
+        adSpend: adSpend.data || [], 
+        productCosts: productCosts.data || [] 
       };
     }
     
-    function updateUI(metrics) {
-      // Primary metrics
-      document.getElementById('revenue').textContent = formatCurrency(metrics.revenue);
-      document.getElementById('orders').textContent = formatNumber(metrics.orderCount);
-      document.getElementById('ad-spend').textContent = formatCurrency(metrics.adSpend);
-      document.getElementById('profit').textContent = formatCurrency(metrics.netProfit);
-      document.getElementById('profit-margin').textContent = metrics.profitMargin.toFixed(1) + '% margin';
+    function calculate(data) {
+      const { orders, lineItems, adSpend, productCosts } = data;
       
-      // Secondary metrics
-      document.getElementById('roas').textContent = metrics.roas.toFixed(2) + 'x';
-      document.getElementById('aov').textContent = formatCurrency(metrics.aov);
-      document.getElementById('units').textContent = formatNumber(metrics.unitsSold);
-      document.getElementById('cogs').textContent = formatCurrency(metrics.cogs);
-      document.getElementById('shipping').textContent = formatCurrency(metrics.shippingCost);
-      document.getElementById('cpa').textContent = formatCurrency(metrics.cpa);
+      // Basic counts
+      const orderCount = orders.length;
+      const unitsSold = lineItems.reduce((s, i) => s + (i.quantity || 1), 0);
       
-      // Breakdown
-      document.getElementById('bl-revenue').textContent = formatCurrency(metrics.revenue);
-      document.getElementById('bl-fb').textContent = '−' + formatCurrency(metrics.fbSpend);
-      document.getElementById('bl-google').textContent = '−' + formatCurrency(metrics.googleSpend);
-      document.getElementById('bl-cogs').textContent = '−' + formatCurrency(metrics.cogs);
-      document.getElementById('bl-shipping').textContent = '−' + formatCurrency(metrics.shippingCost);
-      document.getElementById('bl-profit').textContent = formatCurrency(metrics.netProfit);
+      // Revenue
+      const grossRevenue = orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
+      const refunds = orders.reduce((s, o) => s + parseFloat(o.refund_amount || 0), 0);
+      const revenue = grossRevenue - refunds;
       
-      // Update profit color
-      const profitValue = document.getElementById('bl-profit');
-      if (metrics.netProfit < 0) {
-        profitValue.classList.remove('positive');
-        profitValue.classList.add('negative');
-      } else {
-        profitValue.classList.remove('negative');
-        profitValue.classList.add('positive');
-      }
-    }
-    
-    function updateChart(metrics) {
-      const ctx = document.getElementById('performanceChart').getContext('2d');
+      // Ad spend
+      const fbSpend = adSpend.filter(a => a.platform === 'facebook').reduce((s, a) => s + parseFloat(a.spend), 0);
+      const googleSpend = adSpend.filter(a => a.platform === 'google').reduce((s, a) => s + parseFloat(a.spend), 0);
+      const totalAdSpend = fbSpend + googleSpend;
       
-      const dailySpend = {};
-      metrics.dailyData.forEach(d => {
-        if (!dailySpend[d.date]) dailySpend[d.date] = 0;
-        dailySpend[d.date] += parseFloat(d.spend);
+      // Shipping
+      const shipping = orders.reduce((s, o) => s + parseFloat(o.shipping_cost || 0), 0);
+      
+      // COGS
+      const costMap = {};
+      productCosts.forEach(pc => { costMap[pc.product_type.toLowerCase()] = parseFloat(pc.cost); });
+      
+      let cogs = 0;
+      lineItems.forEach(item => {
+        const title = (item.title || '').toLowerCase();
+        let cost = 7;
+        if (title.includes('hat') || title.includes('cap')) cost = costMap['hat'] || 6;
+        else if (title.includes('towel')) cost = costMap['golf towel'] || 6;
+        else if (title.includes('glove')) cost = costMap['golf glove'] || 6;
+        cogs += cost * (item.quantity || 1);
       });
       
-      const labels = Object.keys(dailySpend).sort();
-      const spendData = labels.map(d => dailySpend[d]);
+      // Margins
+      const grossMargin = revenue - cogs;
+      const grossMarginPct = revenue > 0 ? (grossMargin / revenue) * 100 : 0;
+      const contribMargin = revenue - cogs - shipping;
+      const contribMarginPct = revenue > 0 ? (contribMargin / revenue) * 100 : 0;
+      const netProfit = revenue - cogs - shipping - totalAdSpend;
+      const netProfitPct = revenue > 0 ? (netProfit / revenue) * 100 : 0;
+      
+      // Marketing metrics
+      const roas = totalAdSpend > 0 ? revenue / totalAdSpend : 0;
+      const mer = totalAdSpend > 0 ? revenue / totalAdSpend : 0;
+      const variableCostPct = revenue > 0 ? (cogs + shipping) / revenue : 0;
+      const beRoas = variableCostPct < 1 ? 1 / (1 - variableCostPct) : 999;
+      
+      // Customer metrics
+      const cac = orderCount > 0 ? totalAdSpend / orderCount : 0;
+      
+      // LTV & Repurchase (group by email)
+      const customerOrders = {};
+      orders.forEach(o => {
+        const email = o.email || 'unknown';
+        if (!customerOrders[email]) customerOrders[email] = [];
+        customerOrders[email].push(o);
+      });
+      
+      const customers = Object.keys(customerOrders);
+      const totalCustomers = customers.length;
+      const repeatCustomers = customers.filter(c => customerOrders[c].length > 1).length;
+      const repurchaseRate = totalCustomers > 0 ? (repeatCustomers / totalCustomers) * 100 : 0;
+      const ltv = totalCustomers > 0 ? revenue / totalCustomers : 0;
+      const ltvCacRatio = cac > 0 ? ltv / cac : 0;
+      
+      // CAC Payback (days to recover CAC based on daily profit per customer)
+      const days = currentDays || 30;
+      const dailyProfitPerCustomer = totalCustomers > 0 ? netProfit / totalCustomers / days : 0;
+      const cacPayback = dailyProfitPerCustomer > 0 ? Math.round(cac / dailyProfitPerCustomer) : 999;
+      
+      // New vs Returning
+      let newRevenue = 0, returningRevenue = 0;
+      customers.forEach(c => {
+        const custOrders = customerOrders[c];
+        if (custOrders.length === 1) {
+          newRevenue += parseFloat(custOrders[0].total_price || 0);
+        } else {
+          custOrders.forEach(o => {
+            returningRevenue += parseFloat(o.total_price || 0);
+          });
+        }
+      });
+      const newPct = revenue > 0 ? (newRevenue / revenue) * 100 : 0;
+      const returningPct = revenue > 0 ? (returningRevenue / revenue) * 100 : 0;
+      
+      // Order metrics
+      const aov = orderCount > 0 ? revenue / orderCount : 0;
+      const unitsPerOrder = orderCount > 0 ? unitsSold / orderCount : 0;
+      const refundRate = orderCount > 0 ? (orders.filter(o => parseFloat(o.refund_amount || 0) > 0).length / orderCount) * 100 : 0;
+      
+      // Discount calculation (estimate from B1G2F: ~$138 discount per 3-polo order)
+      const avgDiscount = orderCount > 0 ? (orders.reduce((s, o) => s + parseFloat(o.subtotal_price || 0), 0) - revenue) / orderCount : 0;
+      const avgDiscountPct = aov > 0 ? (avgDiscount / (aov + avgDiscount)) * 100 : 0;
+      
+      // Cost per unit
+      const costPerUnit = unitsSold > 0 ? cogs / unitsSold : 0;
+      const shipPerOrder = orderCount > 0 ? shipping / orderCount : 0;
+      
+      return {
+        revenue, grossRevenue, refunds, orderCount, unitsSold,
+        grossMargin, grossMarginPct, contribMargin, contribMarginPct,
+        netProfit, netProfitPct,
+        totalAdSpend, fbSpend, googleSpend,
+        roas, mer, beRoas,
+        cac, ltv, ltvCacRatio, repurchaseRate, repeatCustomers, totalCustomers, cacPayback,
+        newRevenue, returningRevenue, newPct, returningPct,
+        aov, unitsPerOrder, refundRate, avgDiscountPct,
+        cogs, shipping, costPerUnit, shipPerOrder,
+        dailyData: adSpend
+      };
+    }
+    
+    function updateUI(m) {
+      // Revenue & Profit
+      document.getElementById('revenue').textContent = fmt(m.revenue);
+      document.getElementById('orders-count').textContent = fmtNum(m.orderCount) + ' orders';
+      document.getElementById('gross-margin').textContent = fmt(m.grossMargin);
+      document.getElementById('gross-margin-pct').textContent = fmtPct(m.grossMarginPct) + ' margin';
+      document.getElementById('contrib-margin').textContent = fmt(m.contribMargin);
+      document.getElementById('contrib-margin-pct').textContent = fmtPct(m.contribMarginPct) + ' of revenue';
+      document.getElementById('profit').textContent = fmt(m.netProfit);
+      document.getElementById('profit-margin').textContent = fmtPct(m.netProfitPct) + ' margin';
+      
+      // Profit card color
+      const profitCard = document.getElementById('profit-card');
+      profitCard.className = 'metric-card ' + (m.netProfit >= 0 ? 'highlight' : 'negative');
+      
+      // Marketing
+      document.getElementById('ad-spend').textContent = fmt(m.totalAdSpend);
+      document.getElementById('ad-split').textContent = 'FB ' + fmt(m.fbSpend) + ' · Google ' + fmt(m.googleSpend);
+      document.getElementById('roas').textContent = m.roas.toFixed(2) + 'x';
+      document.getElementById('roas-status').textContent = m.roas >= m.beRoas ? '✅ Profitable' : '⚠️ Below break-even';
+      document.getElementById('roas-status').className = 'metric-sub ' + (m.roas >= m.beRoas ? 'positive' : 'negative');
+      document.getElementById('mer').textContent = m.mer.toFixed(2) + 'x';
+      document.getElementById('be-roas').textContent = m.beRoas.toFixed(2) + 'x';
+      
+      // Customer
+      document.getElementById('cac').textContent = fmt(m.cac);
+      document.getElementById('ltv').textContent = fmt(m.ltv);
+      document.getElementById('ltv-ratio').textContent = 'LTV:CAC = ' + m.ltvCacRatio.toFixed(1) + ':1';
+      document.getElementById('ltv-ratio').className = 'metric-sub ' + (m.ltvCacRatio >= 3 ? 'positive' : m.ltvCacRatio >= 1 ? '' : 'negative');
+      document.getElementById('repurchase').textContent = fmtPct(m.repurchaseRate);
+      document.getElementById('repeat-customers').textContent = fmtNum(m.repeatCustomers) + ' of ' + fmtNum(m.totalCustomers);
+      document.getElementById('cac-payback').textContent = m.cacPayback > 365 ? '365+ days' : m.cacPayback + ' days';
+      
+      // New vs Returning
+      document.getElementById('new-bar').style.width = m.newPct + '%';
+      document.getElementById('returning-bar').style.width = m.returningPct + '%';
+      document.getElementById('new-revenue').textContent = fmt(m.newRevenue);
+      document.getElementById('new-pct').textContent = fmtPct(m.newPct);
+      document.getElementById('returning-revenue').textContent = fmt(m.returningRevenue);
+      document.getElementById('returning-pct').textContent = fmtPct(m.returningPct);
+      
+      // Order metrics
+      document.getElementById('aov').textContent = fmt(m.aov);
+      document.getElementById('units').textContent = fmtNum(m.unitsSold);
+      document.getElementById('units-per-order').textContent = m.unitsPerOrder.toFixed(1);
+      document.getElementById('avg-discount').textContent = fmtPct(m.avgDiscountPct);
+      document.getElementById('refund-rate').textContent = fmtPct(m.refundRate);
+      document.getElementById('refunds').textContent = fmt(m.refunds);
+      
+      // Costs
+      document.getElementById('cogs').textContent = fmt(m.cogs);
+      document.getElementById('shipping').textContent = fmt(m.shipping);
+      document.getElementById('fb-spend').textContent = fmt(m.fbSpend);
+      document.getElementById('google-spend').textContent = fmt(m.googleSpend);
+      document.getElementById('cost-per-unit').textContent = fmt(m.costPerUnit);
+      document.getElementById('ship-per-order').textContent = fmt(m.shipPerOrder);
+      
+      // P&L breakdown
+      document.getElementById('bl-revenue').textContent = fmt(m.revenue);
+      document.getElementById('bl-cogs').textContent = '−' + fmt(m.cogs);
+      document.getElementById('bl-shipping').textContent = '−' + fmt(m.shipping);
+      document.getElementById('bl-fb').textContent = '−' + fmt(m.fbSpend);
+      document.getElementById('bl-google').textContent = '−' + fmt(m.googleSpend);
+      document.getElementById('bl-profit').textContent = fmt(m.netProfit);
+      document.getElementById('bl-profit').className = 'breakdown-value ' + (m.netProfit >= 0 ? 'positive' : 'negative');
+    }
+    
+    function updateChart(m) {
+      const ctx = document.getElementById('spendChart').getContext('2d');
+      
+      const daily = {};
+      m.dailyData.forEach(d => {
+        if (!daily[d.date]) daily[d.date] = 0;
+        daily[d.date] += parseFloat(d.spend);
+      });
+      
+      const labels = Object.keys(daily).sort();
+      const data = labels.map(d => daily[d]);
       
       if (chart) chart.destroy();
       
       chart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-          labels: labels.map(d => {
-            const date = new Date(d + 'T00:00:00');
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-          }),
+          labels: labels.map(d => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
           datasets: [{
             label: 'Ad Spend',
-            data: spendData,
-            borderColor: '#f59e0b',
-            backgroundColor: 'rgba(245, 158, 11, 0.1)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 3,
-            pointHoverRadius: 5,
-            borderWidth: 2
+            data: data,
+            backgroundColor: '#f59e0b',
+            borderRadius: 4
           }]
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
-          aspectRatio: 2.5,
-          plugins: {
-            legend: {
-              display: false
-            },
-            tooltip: {
-              backgroundColor: '#1a1a1a',
-              titleFont: { size: 13 },
-              bodyFont: { size: 12 },
-              padding: 12,
-              cornerRadius: 8,
-              callbacks: {
-                label: (ctx) => 'Ad Spend: $' + ctx.raw.toLocaleString()
-              }
-            }
-          },
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
           scales: {
-            x: {
-              grid: { display: false },
-              ticks: { font: { size: 11 }, color: '#6d7175' }
-            },
-            y: {
-              grid: { color: '#e1e3e5' },
-              ticks: {
-                font: { size: 11 },
-                color: '#6d7175',
-                callback: (v) => '$' + (v / 1000).toFixed(0) + 'k'
-              }
-            }
+            x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } },
+            y: { grid: { color: '#e1e3e5' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k' } }
           }
         }
       });
@@ -781,27 +807,19 @@
       currentDays = days;
       document.getElementById('date-range-label').textContent = label;
       document.getElementById('date-dropdown').classList.remove('show');
-      
-      // Update active state
       document.querySelectorAll('.date-option').forEach(el => el.classList.remove('active'));
       event.target.classList.add('active');
-      
-      await loadDashboard();
+      await load();
     }
     
-    async function loadDashboard() {
-      try {
-        const data = await fetchData(currentDays);
-        const metrics = calculateMetrics(data);
-        updateUI(metrics);
-        updateChart(metrics);
-      } catch (err) {
-        console.error('Dashboard error:', err);
-      }
+    async function load() {
+      const data = await fetchData(currentDays);
+      const metrics = calculate(data);
+      updateUI(metrics);
+      updateChart(metrics);
     }
     
-    // Initialize
-    loadDashboard();
+    load();
   </script>
 </body>
 </html>

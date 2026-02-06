@@ -1,257 +1,542 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BYRDGANG — Team Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid #222;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            color: #666;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .updated {
-            color: #444;
-            font-size: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .card {
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .card-icon {
-            font-size: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #888;
-        }
-
-        .offer-active {
-            border-color: #16a34a;
-            background: linear-gradient(135deg, #0a0a0a 0%, #0a1f0a 100%);
-        }
-
-        .offer-active .card-title {
-            color: #22c55e;
-        }
-
-        .offer-text {
-            font-size: 1.75rem;
-            font-weight: 700;
-            line-height: 1.3;
-        }
-
-        .offer-details {
-            color: #666;
-            margin-top: 0.75rem;
-            font-size: 0.875rem;
-        }
-
-        .no-offer {
-            color: #666;
-            font-style: italic;
-        }
-
-        .design-list {
-            list-style: none;
-        }
-
-        .design-list li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #1a1a1a;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .design-list li:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .design-list li:first-child {
-            padding-top: 0;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .status-dot.in-stock {
-            background: #22c55e;
-        }
-
-        .status-dot.low {
-            background: #eab308;
-        }
-
-        .status-dot.out {
-            background: #ef4444;
-        }
-
-        .status-dot.new {
-            background: #3b82f6;
-        }
-
-        .design-name {
-            flex: 1;
-        }
-
-        .design-note {
-            color: #666;
-            font-size: 0.75rem;
-        }
-
-        .empty-state {
-            color: #444;
-            font-style: italic;
-            padding: 1rem 0;
-        }
-
-        .warning-card {
-            border-color: #dc2626;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1f0a0a 100%);
-        }
-
-        .warning-card .card-title {
-            color: #ef4444;
-        }
-
-        .new-card {
-            border-color: #2563eb;
-            background: linear-gradient(135deg, #0a0a0a 0%, #0a0a1f 100%);
-        }
-
-        .new-card .card-title {
-            color: #3b82f6;
-        }
-
-        footer {
-            text-align: center;
-            padding-top: 2rem;
-            color: #333;
-            font-size: 0.75rem;
-        }
-
-        @media (max-width: 600px) {
-            body {
-                padding: 1rem;
-            }
-
-            .offer-text {
-                font-size: 1.25rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYRDGANG Profit Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: #0f1117;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .logo span {
+      font-size: 28px;
+    }
+    
+    .date-picker {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .date-picker button {
+      padding: 10px 20px;
+      border: 1px solid #2a2d35;
+      background: #1a1d24;
+      color: #9ca3af;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    
+    .date-picker button:hover,
+    .date-picker button.active {
+      background: #6366f1;
+      border-color: #6366f1;
+      color: white;
+    }
+    
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .metric-card {
+      background: #1a1d24;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #2a2d35;
+    }
+    
+    .metric-label {
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .metric-value {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .metric-change {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .metric-change.positive {
+      color: #22c55e;
+    }
+    
+    .metric-change.negative {
+      color: #ef4444;
+    }
+    
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    
+    .chart-card {
+      background: #1a1d24;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid #2a2d35;
+    }
+    
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .breakdown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: #0f1117;
+      border-radius: 12px;
+    }
+    
+    .breakdown-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .breakdown-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    
+    .breakdown-icon.revenue { background: #22c55e20; }
+    .breakdown-icon.ads { background: #6366f120; }
+    .breakdown-icon.shipping { background: #f59e0b20; }
+    .breakdown-icon.cogs { background: #ef444420; }
+    
+    .breakdown-value {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .profit-card {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      border: none;
+    }
+    
+    .profit-card .metric-label {
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .profit-card .metric-change {
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: #9ca3af;
+    }
+    
+    @media (max-width: 1024px) {
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+      .header {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">BYRDGANG</div>
-            <div class="subtitle">Team Dashboard</div>
-            <div class="updated">Last updated: February 1, 2025 @ 5:05 PM MST</div>
-        </header>
-
-        <div class="card offer-active">
-            <div class="card-header">
-                <span class="card-icon">🔥</span>
-                <span class="card-title">Active Offer</span>
-            </div>
-            <div class="offer-text">— Awaiting Update —</div>
-            <div class="offer-details">Tell Dezmon what's currently running</div>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <span>🦩</span>
+        <h1>BYRDGANG Profit Dashboard</h1>
+      </div>
+      <div class="date-picker">
+        <button onclick="setDateRange(7)">7 Days</button>
+        <button onclick="setDateRange(14)">14 Days</button>
+        <button onclick="setDateRange(30)" class="active">30 Days</button>
+        <button onclick="setDateRange(90)">90 Days</button>
+      </div>
+    </header>
+    
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">💰 Revenue</div>
+        <div class="metric-value" id="revenue">$0</div>
+        <div class="metric-change positive" id="revenue-change">
+          <span>↑</span> <span>0%</span> vs prior period
         </div>
-
-        <div class="card new-card">
-            <div class="card-header">
-                <span class="card-icon">🆕</span>
-                <span class="card-title">New Drops — Push These</span>
-            </div>
-            <ul class="design-list">
-                <li class="empty-state">No new drops listed yet</li>
-            </ul>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-label">📢 Ad Spend</div>
+        <div class="metric-value" id="ad-spend">$0</div>
+        <div class="metric-change" id="ad-spend-change">
+          <span>-</span> <span>0%</span> vs prior period
         </div>
-
-        <div class="card">
-            <div class="card-header">
-                <span class="card-icon">✅</span>
-                <span class="card-title">In Stock — Safe to Promote</span>
-            </div>
-            <ul class="design-list">
-                <li class="empty-state">Add designs to track</li>
-            </ul>
+      </div>
+      
+      <div class="metric-card">
+        <div class="metric-label">📦 Shipping + COGS</div>
+        <div class="metric-value" id="costs">$0</div>
+        <div class="metric-change" id="costs-change">
+          <span>-</span> <span>0%</span> vs prior period
         </div>
-
-        <div class="card warning-card">
-            <div class="card-header">
-                <span class="card-icon">⚠️</span>
-                <span class="card-title">Low / Out of Stock — Avoid</span>
-            </div>
-            <ul class="design-list">
-                <li class="empty-state">Nothing flagged yet</li>
-            </ul>
+      </div>
+      
+      <div class="metric-card profit-card">
+        <div class="metric-label">📊 Net Profit</div>
+        <div class="metric-value" id="profit">$0</div>
+        <div class="metric-change" id="profit-margin">
+          <span>📈</span> <span>0%</span> margin
         </div>
-
-        <footer>
-            Updated by Dezmon · Questions? Message the group
-        </footer>
+      </div>
     </div>
+    
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Daily Performance</h3>
+        </div>
+        <canvas id="performanceChart" height="300"></canvas>
+      </div>
+      
+      <div class="chart-card">
+        <div class="chart-header">
+          <h3 class="chart-title">Cost Breakdown</h3>
+        </div>
+        <div class="breakdown-list" id="breakdown">
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <div class="breakdown-icon revenue">💵</div>
+              <span>Gross Revenue</span>
+            </div>
+            <div class="breakdown-value" id="breakdown-revenue">$0</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <div class="breakdown-icon ads">📱</div>
+              <span>Facebook Ads</span>
+            </div>
+            <div class="breakdown-value" id="breakdown-fb">$0</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <div class="breakdown-icon ads">🔍</div>
+              <span>Google Ads</span>
+            </div>
+            <div class="breakdown-value" id="breakdown-google">$0</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <div class="breakdown-icon shipping">📦</div>
+              <span>Shipping</span>
+            </div>
+            <div class="breakdown-value" id="breakdown-shipping">$0</div>
+          </div>
+          <div class="breakdown-item">
+            <div class="breakdown-label">
+              <div class="breakdown-icon cogs">🏭</div>
+              <span>COGS</span>
+            </div>
+            <div class="breakdown-value" id="breakdown-cogs">$0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Supabase config
+    const SUPABASE_URL = 'https://umhgcrwurpmnqvjiizud.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtaGdjcnd1cnBtbnF2amlpenVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNTgzNzIsImV4cCI6MjA4NTYzNDM3Mn0.Wt11j2jxiph7dcgv-n2tUSJiOED7Plof6GxwSRg4Spk';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let chart = null;
+    let currentDays = 30;
+    
+    function formatCurrency(num) {
+      return '$' + num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+    
+    function formatPercent(num) {
+      return num.toFixed(1) + '%';
+    }
+    
+    async function fetchData(days) {
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - days);
+      
+      const startStr = startDate.toISOString().split('T')[0];
+      const endStr = endDate.toISOString().split('T')[0];
+      
+      // Fetch ad spend
+      const { data: adSpend } = await supabase
+        .from('daily_ad_spend')
+        .select('*')
+        .gte('date', startStr)
+        .lte('date', endStr)
+        .order('date', { ascending: true });
+      
+      // Fetch orders (for revenue)
+      const { data: orders } = await supabase
+        .from('orders')
+        .select('*')
+        .gte('created_at', startStr)
+        .lte('created_at', endStr);
+      
+      // Fetch line items for COGS calculation
+      const { data: lineItems } = await supabase
+        .from('line_items')
+        .select('*')
+        .gte('sale_date', startStr)
+        .lte('sale_date', endStr);
+      
+      // Fetch product costs
+      const { data: productCosts } = await supabase
+        .from('product_costs')
+        .select('*');
+      
+      return { adSpend, orders, lineItems, productCosts };
+    }
+    
+    function calculateMetrics(data) {
+      const { adSpend, orders, lineItems, productCosts } = data;
+      
+      // Revenue
+      const revenue = orders?.reduce((sum, o) => sum + parseFloat(o.total_price || 0), 0) || 0;
+      const refunds = orders?.reduce((sum, o) => sum + parseFloat(o.refund_amount || 0), 0) || 0;
+      const netRevenue = revenue - refunds;
+      
+      // Ad spend by platform
+      const fbSpend = adSpend?.filter(a => a.platform === 'facebook').reduce((sum, a) => sum + parseFloat(a.spend), 0) || 0;
+      const googleSpend = adSpend?.filter(a => a.platform === 'google').reduce((sum, a) => sum + parseFloat(a.spend), 0) || 0;
+      const totalAdSpend = fbSpend + googleSpend;
+      
+      // Shipping
+      const shippingCost = orders?.reduce((sum, o) => sum + parseFloat(o.shipping_cost || 0), 0) || 0;
+      
+      // COGS (estimate based on product types)
+      const costMap = {};
+      productCosts?.forEach(pc => { costMap[pc.product_type.toLowerCase()] = parseFloat(pc.cost); });
+      
+      let cogs = 0;
+      lineItems?.forEach(item => {
+        const title = (item.title || '').toLowerCase();
+        let unitCost = 7; // default polo cost
+        if (title.includes('hat') || title.includes('cap')) unitCost = costMap['hat'] || 6;
+        else if (title.includes('towel')) unitCost = costMap['golf towel'] || 6;
+        else if (title.includes('glove')) unitCost = costMap['golf glove'] || 6;
+        else if (title.includes('polo') || title.includes('shirt')) unitCost = costMap['polo'] || 7;
+        cogs += unitCost * (item.quantity || 1);
+      });
+      
+      // Net profit
+      const totalCosts = totalAdSpend + shippingCost + cogs;
+      const netProfit = netRevenue - totalCosts;
+      const profitMargin = netRevenue > 0 ? (netProfit / netRevenue) * 100 : 0;
+      
+      return {
+        revenue: netRevenue,
+        adSpend: totalAdSpend,
+        fbSpend,
+        googleSpend,
+        shippingCost,
+        cogs,
+        totalCosts: shippingCost + cogs,
+        netProfit,
+        profitMargin,
+        dailyData: adSpend || []
+      };
+    }
+    
+    function updateUI(metrics) {
+      document.getElementById('revenue').textContent = formatCurrency(metrics.revenue);
+      document.getElementById('ad-spend').textContent = formatCurrency(metrics.adSpend);
+      document.getElementById('costs').textContent = formatCurrency(metrics.totalCosts);
+      document.getElementById('profit').textContent = formatCurrency(metrics.netProfit);
+      document.getElementById('profit-margin').innerHTML = `<span>📈</span> <span>${formatPercent(metrics.profitMargin)}</span> margin`;
+      
+      // Breakdown
+      document.getElementById('breakdown-revenue').textContent = formatCurrency(metrics.revenue);
+      document.getElementById('breakdown-fb').textContent = formatCurrency(metrics.fbSpend);
+      document.getElementById('breakdown-google').textContent = formatCurrency(metrics.googleSpend);
+      document.getElementById('breakdown-shipping').textContent = formatCurrency(metrics.shippingCost);
+      document.getElementById('breakdown-cogs').textContent = formatCurrency(metrics.cogs);
+      
+      // Update profit card color based on positive/negative
+      const profitCard = document.querySelector('.profit-card');
+      if (metrics.netProfit < 0) {
+        profitCard.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+      } else {
+        profitCard.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
+      }
+    }
+    
+    function updateChart(metrics) {
+      const ctx = document.getElementById('performanceChart').getContext('2d');
+      
+      // Group by date
+      const dailySpend = {};
+      metrics.dailyData.forEach(d => {
+        if (!dailySpend[d.date]) dailySpend[d.date] = 0;
+        dailySpend[d.date] += parseFloat(d.spend);
+      });
+      
+      const labels = Object.keys(dailySpend).sort();
+      const spendData = labels.map(d => dailySpend[d]);
+      
+      if (chart) chart.destroy();
+      
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.map(d => {
+            const date = new Date(d + 'T00:00:00');
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          }),
+          datasets: [{
+            label: 'Ad Spend',
+            data: spendData,
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#6366f1'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: '#2a2d35' },
+              ticks: { color: '#9ca3af' }
+            },
+            y: {
+              grid: { color: '#2a2d35' },
+              ticks: { 
+                color: '#9ca3af',
+                callback: (value) => '$' + value.toLocaleString()
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    async function loadDashboard(days) {
+      currentDays = days;
+      
+      // Update active button
+      document.querySelectorAll('.date-picker button').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent === days + ' Days') btn.classList.add('active');
+      });
+      
+      try {
+        const data = await fetchData(days);
+        const metrics = calculateMetrics(data);
+        updateUI(metrics);
+        updateChart(metrics);
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+      }
+    }
+    
+    function setDateRange(days) {
+      loadDashboard(days);
+    }
+    
+    // Initial load
+    loadDashboard(30);
+  </script>
 </body>
 </html>

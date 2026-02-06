@@ -348,30 +348,43 @@
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - days);
       
+      // Format dates - date columns use YYYY-MM-DD, timestamp columns need full ISO
       const startStr = startDate.toISOString().split('T')[0];
       const endStr = endDate.toISOString().split('T')[0];
+      const startISO = startStr + 'T00:00:00Z';
+      const endISO = endStr + 'T23:59:59Z';
       
-      // Fetch ad spend
-      const { data: adSpend } = await supabase
+      console.log('Date range:', startStr, 'to', endStr);
+      
+      // Fetch ad spend (date column - use date strings)
+      const { data: adSpend, error: adError } = await supabase
         .from('daily_ad_spend')
         .select('*')
         .gte('date', startStr)
         .lte('date', endStr)
         .order('date', { ascending: true });
       
-      // Fetch orders (for revenue)
-      const { data: orders } = await supabase
+      if (adError) console.error('Ad spend error:', adError);
+      
+      // Fetch orders (timestamp column - use full ISO)
+      const { data: orders, error: orderError } = await supabase
         .from('orders')
         .select('*')
-        .gte('created_at', startStr)
-        .lte('created_at', endStr);
+        .gte('created_at', startISO)
+        .lte('created_at', endISO);
       
-      // Fetch line items for COGS calculation
-      const { data: lineItems } = await supabase
+      if (orderError) console.error('Orders error:', orderError);
+      console.log('Orders:', orders?.length, 'Revenue:', orders?.reduce((s, o) => s + parseFloat(o.total_price || 0), 0));
+      
+      // Fetch line items (timestamp column - use full ISO)
+      const { data: lineItems, error: lineError } = await supabase
         .from('line_items')
         .select('*')
-        .gte('sale_date', startStr)
-        .lte('sale_date', endStr);
+        .gte('sale_date', startISO)
+        .lte('sale_date', endISO);
+      
+      if (lineError) console.error('Line items error:', lineError);
+      console.log('Line items:', lineItems?.length);
       
       // Fetch product costs
       const { data: productCosts } = await supabase

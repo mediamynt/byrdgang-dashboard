@@ -249,6 +249,12 @@
       border: 1px solid #e1e3e5;
     }
     
+    .chart-container {
+      position: relative;
+      height: 250px;
+      max-height: 250px;
+    }
+    
     .chart-title {
       font-size: 14px;
       font-weight: 600;
@@ -336,6 +342,10 @@
       }
       .secondary-metrics {
         grid-template-columns: repeat(2, 1fr);
+      }
+      .chart-container {
+        height: 200px;
+        max-height: 200px;
       }
     }
   </style>
@@ -442,8 +452,10 @@
     <!-- Charts -->
     <div class="charts-section">
       <div class="chart-card">
-        <h3 class="chart-title">Revenue vs Ad Spend</h3>
-        <canvas id="performanceChart" height="280"></canvas>
+        <h3 class="chart-title">Daily Ad Spend</h3>
+        <div class="chart-container">
+          <canvas id="performanceChart"></canvas>
+        </div>
       </div>
       
       <div class="chart-card">
@@ -730,7 +742,8 @@
         },
         options: {
           responsive: true,
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
+          aspectRatio: 2.5,
           plugins: {
             legend: {
               display: false

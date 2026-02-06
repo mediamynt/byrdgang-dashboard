@@ -366,25 +366,58 @@
       
       if (adError) console.error('Ad spend error:', adError);
       
-      // Fetch orders (timestamp column - use full ISO)
-      const { data: orders, error: orderError } = await supabase
-        .from('orders')
-        .select('*')
-        .gte('created_at', startISO)
-        .lte('created_at', endISO);
+      // Fetch ALL orders with pagination (Supabase default limit is 1000)
+      let orders = [];
+      let offset = 0;
+      const pageSize = 1000;
       
-      if (orderError) console.error('Orders error:', orderError);
-      console.log('Orders:', orders?.length, 'Revenue:', orders?.reduce((s, o) => s + parseFloat(o.total_price || 0), 0));
+      while (true) {
+        const { data: batch, error: orderError } = await supabase
+          .from('orders')
+          .select('*')
+          .gte('created_at', startISO)
+          .lte('created_at', endISO)
+          .range(offset, offset + pageSize - 1);
+        
+        if (orderError) {
+          console.error('Orders error:', orderError);
+          break;
+        }
+        
+        if (!batch || batch.length === 0) break;
+        orders = orders.concat(batch);
+        offset += pageSize;
+        
+        if (batch.length < pageSize) break;
+      }
       
-      // Fetch line items (timestamp column - use full ISO)
-      const { data: lineItems, error: lineError } = await supabase
-        .from('line_items')
-        .select('*')
-        .gte('sale_date', startISO)
-        .lte('sale_date', endISO);
+      console.log('Orders:', orders.length, 'Revenue:', orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0));
       
-      if (lineError) console.error('Line items error:', lineError);
-      console.log('Line items:', lineItems?.length);
+      // Fetch ALL line items with pagination
+      let lineItems = [];
+      offset = 0;
+      
+      while (true) {
+        const { data: batch, error: lineError } = await supabase
+          .from('line_items')
+          .select('*')
+          .gte('sale_date', startISO)
+          .lte('sale_date', endISO)
+          .range(offset, offset + pageSize - 1);
+        
+        if (lineError) {
+          console.error('Line items error:', lineError);
+          break;
+        }
+        
+        if (!batch || batch.length === 0) break;
+        lineItems = lineItems.concat(batch);
+        offset += pageSize;
+        
+        if (batch.length < pageSize) break;
+      }
+      
+      console.log('Line items:', lineItems.length);
       
       // Fetch product costs
       const { data: productCosts } = await supabase

@@ -114,6 +114,72 @@
     .date-option:hover { background: #f6f6f7; }
     .date-option.active { background: #e3f1e9; color: #008060; font-weight: 500; }
     
+    .date-divider {
+      height: 1px;
+      background: #e1e3e5;
+      margin: 8px 0;
+    }
+    
+    .custom-range {
+      padding: 8px 4px;
+    }
+    
+    .custom-range-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6d7175;
+      margin-bottom: 8px;
+      padding: 0 8px;
+    }
+    
+    .custom-range-inputs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .date-input-group {
+      flex: 1;
+    }
+    
+    .date-input-group label {
+      display: block;
+      font-size: 11px;
+      color: #6d7175;
+      margin-bottom: 4px;
+      padding-left: 4px;
+    }
+    
+    .date-input-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #c9cccf;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    
+    .date-input-group input:focus {
+      outline: none;
+      border-color: #008060;
+    }
+    
+    .apply-btn {
+      width: 100%;
+      padding: 10px;
+      background: #008060;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .apply-btn:hover {
+      background: #006e52;
+    }
+    
     /* Section titles */
     .section-title {
       font-size: 14px;
@@ -323,16 +389,33 @@
       <div class="date-picker-container">
         <button class="date-picker-btn" onclick="toggleDatePicker()">
           <span>📅</span>
-          <span id="date-range-label">Last 30 days</span>
+          <span id="date-range-label">Today</span>
           <span>▼</span>
         </button>
         <div class="date-picker-dropdown" id="date-dropdown">
-          <div class="date-option" onclick="setDateRange(1, 'Today')">Today</div>
-          <div class="date-option" onclick="setDateRange(7, 'Last 7 days')">Last 7 days</div>
-          <div class="date-option" onclick="setDateRange(14, 'Last 2 weeks')">Last 2 weeks</div>
-          <div class="date-option active" onclick="setDateRange(30, 'Last 30 days')">Last 30 days</div>
-          <div class="date-option" onclick="setDateRange(90, 'Last 90 days')">Last 90 days</div>
-          <div class="date-option" onclick="setDateRange(365, 'Last 12 months')">Last 12 months</div>
+          <div class="date-presets">
+            <div class="date-option active" onclick="setDateRange(1, 'Today')">Today</div>
+            <div class="date-option" onclick="setDateRange(7, 'Last 7 days')">Last 7 days</div>
+            <div class="date-option" onclick="setDateRange(14, 'Last 2 weeks')">Last 2 weeks</div>
+            <div class="date-option" onclick="setDateRange(30, 'Last 30 days')">Last 30 days</div>
+            <div class="date-option" onclick="setDateRange(90, 'Last 90 days')">Last 90 days</div>
+            <div class="date-option" onclick="setDateRange(180, 'Last 6 months')">Last 6 months</div>
+          </div>
+          <div class="date-divider"></div>
+          <div class="custom-range">
+            <div class="custom-range-label">Custom Range</div>
+            <div class="custom-range-inputs">
+              <div class="date-input-group">
+                <label>From</label>
+                <input type="date" id="start-date" onchange="updateCustomRange()">
+              </div>
+              <div class="date-input-group">
+                <label>To</label>
+                <input type="date" id="end-date" onchange="updateCustomRange()">
+              </div>
+            </div>
+            <button class="apply-btn" onclick="applyCustomRange()">Apply</button>
+          </div>
         </div>
       </div>
     </header>
@@ -528,7 +611,9 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let chart = null;
-    let currentDays = 30;
+    let currentDays = 1;
+    let customStartDate = null;
+    let customEndDate = null;
     
     const fmt = (n) => '$' + Math.round(n).toLocaleString();
     const fmtNum = (n) => Math.round(n).toLocaleString();
@@ -561,18 +646,27 @@
       return all;
     }
     
-    async function fetchData(days) {
-      // Use MST (UTC-7) to match Shopify store timezone
-      const now = new Date();
-      const mstOffset = -7 * 60; // MST is UTC-7
-      const mstNow = new Date(now.getTime() + (now.getTimezoneOffset() + mstOffset) * 60000);
+    async function fetchData(days, startOverride = null, endOverride = null) {
+      let startStr, endStr;
       
-      const end = new Date(mstNow);
-      const start = new Date(mstNow);
-      start.setDate(start.getDate() - days);
+      if (startOverride && endOverride) {
+        // Custom date range
+        startStr = startOverride;
+        endStr = endOverride;
+      } else {
+        // Use MST (UTC-7) to match Shopify store timezone
+        const now = new Date();
+        const mstOffset = -7 * 60; // MST is UTC-7
+        const mstNow = new Date(now.getTime() + (now.getTimezoneOffset() + mstOffset) * 60000);
+        
+        const end = new Date(mstNow);
+        const start = new Date(mstNow);
+        start.setDate(start.getDate() - days + 1); // Include today
+        
+        startStr = start.toISOString().split('T')[0];
+        endStr = end.toISOString().split('T')[0];
+      }
       
-      const startStr = start.toISOString().split('T')[0];
-      const endStr = end.toISOString().split('T')[0];
       // Use MST offset (-07:00) for queries
       const startISO = startStr + 'T00:00:00-07:00';
       const endISO = endStr + 'T23:59:59-07:00';
@@ -811,6 +905,8 @@
     
     async function setDateRange(days, label) {
       currentDays = days;
+      customStartDate = null;
+      customEndDate = null;
       document.getElementById('date-range-label').textContent = label;
       document.getElementById('date-dropdown').classList.remove('show');
       document.querySelectorAll('.date-option').forEach(el => el.classList.remove('active'));
@@ -818,13 +914,59 @@
       await load();
     }
     
+    function updateCustomRange() {
+      // Clear preset selections when using custom
+      document.querySelectorAll('.date-option').forEach(el => el.classList.remove('active'));
+    }
+    
+    async function applyCustomRange() {
+      const startInput = document.getElementById('start-date').value;
+      const endInput = document.getElementById('end-date').value;
+      
+      if (!startInput || !endInput) {
+        alert('Please select both start and end dates');
+        return;
+      }
+      
+      if (startInput > endInput) {
+        alert('Start date must be before end date');
+        return;
+      }
+      
+      customStartDate = startInput;
+      customEndDate = endInput;
+      currentDays = null;
+      
+      // Format label
+      const start = new Date(startInput + 'T00:00:00');
+      const end = new Date(endInput + 'T00:00:00');
+      const opts = { month: 'short', day: 'numeric' };
+      const label = start.toLocaleDateString('en-US', opts) + ' - ' + end.toLocaleDateString('en-US', opts);
+      
+      document.getElementById('date-range-label').textContent = label;
+      document.getElementById('date-dropdown').classList.remove('show');
+      
+      await load();
+    }
+    
     async function load() {
-      const data = await fetchData(currentDays);
+      const data = await fetchData(currentDays, customStartDate, customEndDate);
       const metrics = calculate(data);
       updateUI(metrics);
       updateChart(metrics);
     }
     
+    // Initialize date inputs with reasonable defaults
+    function initDatePickers() {
+      const today = new Date();
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(today.getDate() - 30);
+      
+      document.getElementById('end-date').value = today.toISOString().split('T')[0];
+      document.getElementById('start-date').value = thirtyDaysAgo.toISOString().split('T')[0];
+    }
+    
+    initDatePickers();
     load();
   </script>
 </body>

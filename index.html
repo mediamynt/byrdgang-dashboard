@@ -103,6 +103,7 @@
       min-width: 200px;
       display: none;
       z-index: 50;
+      overflow: hidden;
     }
     
     .date-picker-dropdown.show { display: block; }
@@ -125,6 +126,7 @@
     
     .custom-range {
       padding: 8px 4px;
+      overflow: hidden;
     }
     
     .custom-range-label {
@@ -139,10 +141,13 @@
       display: flex;
       gap: 8px;
       margin-bottom: 10px;
+      padding: 0 4px;
     }
     
     .date-input-group {
       flex: 1;
+      min-width: 0;
+      overflow: hidden;
     }
     
     .date-input-group label {
@@ -155,11 +160,13 @@
     
     .date-input-group input {
       width: 100%;
+      max-width: 100%;
       padding: 8px;
       border: 1px solid #c9cccf;
       border-radius: 6px;
       font-size: 13px;
       font-family: inherit;
+      box-sizing: border-box;
     }
     
     .date-input-group input:focus {
@@ -371,21 +378,32 @@
       .chart-container { height: 180px; }
       
       /* Fix date picker dropdown on mobile */
+      .date-picker-container {
+        position: static;
+      }
+      
       .date-picker-dropdown {
-        right: -16px;
-        left: auto;
-        width: calc(100vw - 32px);
-        max-width: 320px;
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px 16px 0 0;
+        padding: 16px;
+        max-height: 70vh;
+        overflow-y: auto;
       }
       
       .custom-range-inputs {
-        flex-direction: column;
+        flex-direction: row;
         gap: 12px;
       }
       
       .date-input-group input {
-        padding: 10px 8px;
-        font-size: 14px;
+        padding: 12px 8px;
+        font-size: 16px;
       }
     }
   </style>

@@ -1072,11 +1072,16 @@
         let totalUnits = 0;
         const customerOrders = {};
         const dailyData = {};
+        
+        // Average shipping cost for orders without Labelogics data yet
+        const AVG_SHIPPING_COST = 6.15;
 
         orders.forEach(order => {
           const revenue = parseFloat(order.total_price) || 0;
           const refund = parseFloat(order.refund_amount) || 0;
-          const shipping = parseFloat(order.shipping_cost) || 0;
+          // Use actual shipping cost if available, otherwise estimate with average
+          const hasShippingData = order.shipping_cost !== null && order.shipping_cost > 0;
+          const shipping = hasShippingData ? parseFloat(order.shipping_cost) : AVG_SHIPPING_COST;
           
           totalRevenue += revenue;
           totalRefunds += refund;

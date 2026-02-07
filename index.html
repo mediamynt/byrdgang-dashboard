@@ -562,14 +562,20 @@
     }
     
     async function fetchData(days) {
-      const end = new Date();
-      const start = new Date();
+      // Use MST (UTC-7) to match Shopify store timezone
+      const now = new Date();
+      const mstOffset = -7 * 60; // MST is UTC-7
+      const mstNow = new Date(now.getTime() + (now.getTimezoneOffset() + mstOffset) * 60000);
+      
+      const end = new Date(mstNow);
+      const start = new Date(mstNow);
       start.setDate(start.getDate() - days);
       
       const startStr = start.toISOString().split('T')[0];
       const endStr = end.toISOString().split('T')[0];
-      const startISO = startStr + 'T00:00:00Z';
-      const endISO = endStr + 'T23:59:59Z';
+      // Use MST offset (-07:00) for queries
+      const startISO = startStr + 'T00:00:00-07:00';
+      const endISO = endStr + 'T23:59:59-07:00';
       
       const [orders, lineItems, adSpend, productCosts] = await Promise.all([
         fetchAll('orders', 'created_at', startISO, endISO),

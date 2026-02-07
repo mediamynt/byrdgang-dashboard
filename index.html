@@ -744,6 +744,7 @@
 
     // Load data
     async function loadData() {
+      console.log('Loading data...');
       try {
         // Calculate date range (using MST)
         let start, end;
@@ -769,15 +770,13 @@
         const startISO = start.toISOString();
         const endISO = end.toISOString();
 
-        // Fetch all data
-        const [orders, lineItems, adSpend, productCosts] = await Promise.all([
+        // Fetch orders and product costs first
+        console.log('Fetching orders and costs...');
+        const [orders, adSpend, productCostsRes] = await Promise.all([
           fetchAllRows('orders', { 
             select: 'id,total_price,shipping_cost,customer_id,created_at,refund_amount',
             gte: ['created_at', startISO],
             lt: ['created_at', endISO]
-          }),
-          fetchAllRows('line_items', {
-            select: 'order_id,quantity,title'
           }),
           fetchAllRows('daily_ad_spend', {
             select: '*',
@@ -786,17 +785,34 @@
           }),
           supabase.from('product_costs').select('*')
         ]);
+        
+        console.log('Orders:', orders.length, 'Ad spend rows:', adSpend.length);
 
         // Build COGS lookup
         const costsMap = {};
-        (productCosts.data || []).forEach(p => {
+        (productCostsRes.data || []).forEach(p => {
           costsMap[p.product_type.toLowerCase()] = p.cost_per_unit;
         });
         const defaultCOGS = costsMap['polo'] || 7;
 
-        // Filter line items for current orders
-        const orderIds = new Set(orders.map(o => o.id));
-        const relevantLineItems = lineItems.filter(li => orderIds.has(li.order_id));
+        // Fetch line items only for these orders (batch by order IDs)
+        const orderIds = orders.map(o => o.id);
+        let relevantLineItems = [];
+        
+        if (orderIds.length > 0) {
+          // Fetch in batches of 100 order IDs to avoid URL limits
+          const batchSize = 100;
+          for (let i = 0; i < orderIds.length; i += batchSize) {
+            const batch = orderIds.slice(i, i + batchSize);
+            const { data, error } = await supabase
+              .from('line_items')
+              .select('order_id,quantity,title')
+              .in('order_id', batch);
+            if (error) throw error;
+            relevantLineItems = relevantLineItems.concat(data || []);
+          }
+        }
+        console.log('Line items:', relevantLineItems.length);
 
         // Calculate metrics
         let totalRevenue = 0;
@@ -996,6 +1012,7 @@
 
       } catch (error) {
         console.error('Error loading data:', error);
+        alert('Error loading data: ' + error.message);
       }
     }
 

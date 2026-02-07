@@ -1163,11 +1163,10 @@
         `;
 
         const roasStatus = roas >= breakEvenRoas ? 'profitable' : 'below break-even';
-        const adSpendNote = totalAdSpend === 0 ? '~24h delay' : `FB ${formatCurrency(fbSpend)} / G ${formatCurrency(googleSpend)}`;
         document.getElementById('marketing-metrics').innerHTML = `
-          <div class="metric-card"><div class="metric-label">Ad Spend</div><div class="metric-value">${formatCurrency(totalAdSpend)}</div><div class="metric-sub">${adSpendNote}</div></div>
-          <div class="metric-card"><div class="metric-label">ROAS</div><div class="metric-value">${totalAdSpend > 0 ? roas.toFixed(2) + 'x' : '—'}</div><div class="metric-sub ${totalAdSpend > 0 && roas >= breakEvenRoas ? 'positive' : totalAdSpend > 0 ? 'negative' : ''}">${totalAdSpend > 0 ? roasStatus : 'awaiting data'}</div></div>
-          <div class="metric-card"><div class="metric-label">MER</div><div class="metric-value">${totalAdSpend > 0 ? mer.toFixed(2) + 'x' : '—'}</div><div class="metric-sub">Revenue ÷ Spend</div></div>
+          <div class="metric-card"><div class="metric-label">Ad Spend</div><div class="metric-value">${formatCurrency(totalAdSpend)}</div><div class="metric-sub">FB ${formatCurrency(fbSpend)} / G ${formatCurrency(googleSpend)}</div></div>
+          <div class="metric-card"><div class="metric-label">ROAS</div><div class="metric-value">${roas.toFixed(2)}x</div><div class="metric-sub ${roas >= breakEvenRoas ? 'positive' : 'negative'}">${roasStatus}</div></div>
+          <div class="metric-card"><div class="metric-label">MER</div><div class="metric-value">${mer.toFixed(2)}x</div><div class="metric-sub">Revenue ÷ Spend</div></div>
           <div class="metric-card"><div class="metric-label">Break-even ROAS</div><div class="metric-value">${breakEvenRoas.toFixed(2)}x</div><div class="metric-sub">Min to profit</div></div>
         `;
 

@@ -934,6 +934,15 @@
       });
     }
 
+    // Format date as YYYY-MM-DD in MST
+    function formatDateString(date) {
+      // Use the date's local values (already in MST from getMSTDate)
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     // Format currency
     function formatCurrency(amount) {
       if (amount >= 1000) {
@@ -954,6 +963,7 @@
         
         if (query.gte) q = q.gte(query.gte[0], query.gte[1]);
         if (query.lt) q = q.lt(query.lt[0], query.lt[1]);
+        if (query.lte) q = q.lte(query.lte[0], query.lte[1]);
         if (query.order) q = q.order(query.order[0], { ascending: query.order[1] });
         
         q = q.range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
@@ -1010,6 +1020,7 @@
         const startISO = start.toISOString();
         const endISO = end.toISOString();
         console.log('ISO range:', startISO, 'to', endISO);
+        console.log('Ad spend date range:', formatDateString(start), 'to', formatDateString(end));
 
         // Fetch orders and product costs first
         const [orders, adSpend, productCostsRes] = await Promise.all([
@@ -1020,13 +1031,14 @@
           }),
           fetchAllRows('daily_ad_spend', {
             select: '*',
-            gte: ['date', start.toISOString().split('T')[0]],
-            lt: ['date', new Date(end.getTime() + 86400000).toISOString().split('T')[0]]
+            gte: ['date', formatDateString(start)],
+            lte: ['date', formatDateString(end)]
           }),
           supabase.from('product_costs').select('*')
         ]);
 
         console.log('Fetched:', orders.length, 'orders,', adSpend.length, 'ad spend rows');
+        console.log('Ad spend data:', adSpend);
         
         // Build COGS lookup
         const costsMap = {};

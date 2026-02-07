@@ -654,22 +654,25 @@
         startStr = startOverride;
         endStr = endOverride;
       } else {
-        // Use MST (UTC-7) to match Shopify store timezone
+        // Get current date in MST (UTC-7)
+        // Create a date string that represents "now" in MST
         const now = new Date();
-        const mstOffset = -7 * 60; // MST is UTC-7
-        const mstNow = new Date(now.getTime() + (now.getTimezoneOffset() + mstOffset) * 60000);
+        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+        const mstTime = utcTime - (7 * 60 * 60000); // Subtract 7 hours for MST
+        const mstDate = new Date(mstTime);
         
-        const end = new Date(mstNow);
-        const start = new Date(mstNow);
-        start.setDate(start.getDate() - days + 1); // Include today
+        endStr = mstDate.toISOString().split('T')[0];
         
-        startStr = start.toISOString().split('T')[0];
-        endStr = end.toISOString().split('T')[0];
+        const startDate = new Date(mstTime);
+        startDate.setDate(startDate.getDate() - days + 1);
+        startStr = startDate.toISOString().split('T')[0];
       }
       
       // Use MST offset (-07:00) for queries
       const startISO = startStr + 'T00:00:00-07:00';
       const endISO = endStr + 'T23:59:59-07:00';
+      
+      console.log('Date range:', startStr, 'to', endStr);
       
       const [orders, lineItems, adSpend, productCosts] = await Promise.all([
         fetchAll('orders', 'created_at', startISO, endISO),

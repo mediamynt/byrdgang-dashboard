@@ -777,7 +777,7 @@
     // Edge Function URLs
     const EDGE_BASE = 'https://umhgcrwurpmnqvjiizud.supabase.co/functions/v1';
     
-    // Real-time refresh via Edge Functions
+    // Incremental sync via Edge Functions (only fetches NEW data)
     async function refreshRealTime() {
       if (isRefreshing) return;
       
@@ -790,24 +790,23 @@
       text.textContent = 'Syncing...';
       
       try {
-        const { start, end } = getDateRange();
-        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-        
-        // Call all Edge Functions in parallel
+        // Call all Edge Functions in parallel (each does incremental sync)
         const [ordersRes, adSpendRes, shippingRes] = await Promise.all([
-          fetch(`${EDGE_BASE}/fetch-orders?days=${days}`).then(r => r.json()),
-          fetch(`${EDGE_BASE}/fetch-ad-spend?days=${days}`).then(r => r.json()),
-          fetch(`${EDGE_BASE}/fetch-shipping?limit=200`).then(r => r.json())
+          fetch(`${EDGE_BASE}/fetch-orders`).then(r => r.json()),
+          fetch(`${EDGE_BASE}/fetch-ad-spend`).then(r => r.json()),
+          fetch(`${EDGE_BASE}/fetch-shipping`).then(r => r.json())
         ]);
         
-        console.log('Real-time sync complete:', {
-          orders: ordersRes.totalOrders,
-          adSpend: ordersRes.success ? 'ok' : 'failed',
-          shipping: shippingRes.ordersUpdated
-        });
+        const newOrders = ordersRes.newOrders || 0;
+        const newDays = adSpendRes.daysUpdated || 0;
+        const shippingUpdates = shippingRes.ordersUpdated || 0;
         
-        // Reload data from Supabase (now updated with fresh data)
-        await loadData();
+        console.log('Incremental sync:', { newOrders, newDays, shippingUpdates });
+        
+        // Only reload if there was new data
+        if (newOrders > 0 || newDays > 0 || shippingUpdates > 0) {
+          await loadData();
+        }
         
         updateTimestamp();
         text.textContent = 'Refresh';
@@ -898,7 +897,11 @@
       document.getElementById('date-label').textContent = labels[value] || 'Custom';
       
       closeDatePicker();
-      refreshRealTime();
+      // Show cached data instantly, then sync in background
+      loadData().then(() => {
+        updateTimestamp();
+        refreshRealTime();
+      });
     }
 
     function applyCustomRange() {
@@ -922,7 +925,11 @@
         `${formatDateShort(customStartDate)} – ${formatDateShort(customEndDate)}`;
       
       closeDatePicker();
-      refreshRealTime();
+      // Show cached data instantly, then sync in background
+      loadData().then(() => {
+        updateTimestamp();
+        refreshRealTime();
+      });
     }
 
     // Format currency
@@ -1270,10 +1277,14 @@
     // Initialize
     initDateLabels();
     
-    // Initial load: fetch real-time data immediately
-    refreshRealTime();
+    // Initial load: show cached data INSTANTLY, then sync new data in background
+    loadData().then(() => {
+      updateTimestamp();
+      // Background sync for any new data (incremental - fast)
+      refreshRealTime();
+    });
     
-    // Auto-refresh real-time every 2 minutes
+    // Auto-refresh every 2 minutes (incremental sync is fast now)
     setInterval(() => {
       refreshRealTime();
     }, 2 * 60 * 1000);

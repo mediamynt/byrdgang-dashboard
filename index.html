@@ -702,10 +702,14 @@
       const orderCount = orders.length;
       const unitsSold = lineItems.reduce((s, i) => s + (i.quantity || 1), 0);
       
-      // Revenue (total_price is already current_total_price, which is net of refunds)
-      const revenue = orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
+      // Revenue calculations
+      // total_price is current_total_price (net of refunds)
+      const netRevenue = orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
       const refunds = orders.reduce((s, o) => s + parseFloat(o.refund_amount || 0), 0);
-      // Note: refunds are tracked for display but NOT subtracted (already reflected in total_price)
+      // Gross revenue = net + refunds (for ROAS - ads generated this revenue regardless of returns)
+      const grossRevenue = netRevenue + refunds;
+      // Use net revenue for profit calculations, gross for ROAS
+      const revenue = netRevenue;
       
       // Ad spend
       const fbSpend = adSpend.filter(a => a.platform === 'facebook').reduce((s, a) => s + parseFloat(a.spend), 0);
@@ -737,9 +741,9 @@
       const netProfit = revenue - cogs - shipping - totalAdSpend;
       const netProfitPct = revenue > 0 ? (netProfit / revenue) * 100 : 0;
       
-      // Marketing metrics
-      const roas = totalAdSpend > 0 ? revenue / totalAdSpend : 0;
-      const mer = totalAdSpend > 0 ? revenue / totalAdSpend : 0;
+      // Marketing metrics (use grossRevenue for ROAS - returns don't affect ad performance)
+      const roas = totalAdSpend > 0 ? grossRevenue / totalAdSpend : 0;
+      const mer = totalAdSpend > 0 ? grossRevenue / totalAdSpend : 0;
       const variableCostPct = revenue > 0 ? (cogs + shipping) / revenue : 0;
       const beRoas = variableCostPct < 1 ? 1 / (1 - variableCostPct) : 999;
       
@@ -795,7 +799,7 @@
       const shipPerOrder = orderCount > 0 ? shipping / orderCount : 0;
       
       return {
-        revenue, refunds, orderCount, unitsSold,
+        revenue, grossRevenue, refunds, orderCount, unitsSold,
         grossMargin, grossMarginPct, contribMargin, contribMarginPct,
         netProfit, netProfitPct,
         totalAdSpend, fbSpend, googleSpend,

@@ -369,6 +369,24 @@
       .metrics-grid-6 { grid-template-columns: repeat(2, 1fr); }
       .metric-value { font-size: 20px; }
       .chart-container { height: 180px; }
+      
+      /* Fix date picker dropdown on mobile */
+      .date-picker-dropdown {
+        right: -16px;
+        left: auto;
+        width: calc(100vw - 32px);
+        max-width: 320px;
+      }
+      
+      .custom-range-inputs {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .date-input-group input {
+        padding: 10px 8px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>

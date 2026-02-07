@@ -880,7 +880,7 @@
         // Fetch orders and product costs first
         const [orders, adSpend, productCostsRes] = await Promise.all([
           fetchAllRows('orders', { 
-            select: 'id,total_price,shipping_cost,customer_id,created_at,refund_amount',
+            select: 'id,total_price,shipping_cost,email,created_at,refund_amount',
             gte: ['created_at', startISO],
             lt: ['created_at', endISO]
           }),
@@ -936,8 +936,8 @@
           totalRefunds += refund;
           totalShipping += shipping;
           
-          if (order.customer_id) {
-            customerOrders[order.customer_id] = (customerOrders[order.customer_id] || 0) + 1;
+          if (order.email) {
+            customerOrders[order.email] = (customerOrders[order.email] || 0) + 1;
           }
 
           const day = order.created_at.split('T')[0];

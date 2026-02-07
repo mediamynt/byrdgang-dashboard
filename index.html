@@ -75,121 +75,197 @@
     
     .header h2 { font-size: 20px; font-weight: 600; }
     
-    .date-picker-container { position: relative; }
+    /* Modern Date Picker */
+    .date-picker-wrapper {
+      position: relative;
+    }
     
-    .date-picker-btn {
+    .date-picker-trigger {
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 16px;
+      padding: 10px 14px;
       background: white;
-      border: 1px solid #c9cccf;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: #1a1a1a;
+    }
+    
+    .date-picker-trigger:hover {
+      border-color: #9ca3af;
+      background: #fafafa;
+    }
+    
+    .date-picker-trigger.active {
+      border-color: #008060;
+      box-shadow: 0 0 0 3px rgba(0, 128, 96, 0.1);
+    }
+    
+    .date-picker-trigger svg {
+      width: 16px;
+      height: 16px;
+      color: #6b7280;
+    }
+    
+    .date-picker-trigger .chevron {
+      margin-left: 4px;
+      transition: transform 0.2s;
+    }
+    
+    .date-picker-trigger.active .chevron {
+      transform: rotate(180deg);
+    }
+    
+    /* Backdrop */
+    .date-picker-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      z-index: 199;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .date-picker-backdrop.show {
+      display: block;
+      opacity: 1;
+    }
+    
+    /* Dropdown Panel */
+    .date-picker-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+      z-index: 200;
+      min-width: 280px;
+      overflow: hidden;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    
+    .date-picker-panel.show {
+      display: block;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    /* Preset Options */
+    .date-presets {
+      padding: 8px;
+    }
+    
+    .preset-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
       border-radius: 8px;
       font-size: 14px;
       cursor: pointer;
+      transition: background 0.1s;
     }
     
-    .date-picker-btn:hover { background: #f9fafb; }
-    
-    .date-picker-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: white;
-      border: 1px solid #c9cccf;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      padding: 8px;
-      min-width: 200px;
-      display: none;
-      z-index: 50;
-      overflow: hidden;
+    .preset-option:hover {
+      background: #f3f4f6;
     }
     
-    .date-picker-dropdown.show { display: block; }
-    
-    .date-option {
-      padding: 10px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
+    .preset-option.active {
+      background: #ecfdf5;
+      color: #047857;
     }
     
-    .date-option:hover { background: #f6f6f7; }
-    .date-option.active { background: #e3f1e9; color: #008060; font-weight: 500; }
-    
-    .date-divider {
-      height: 1px;
-      background: #e1e3e5;
-      margin: 8px 0;
+    .preset-option.active::after {
+      content: '✓';
+      font-weight: 600;
+      color: #059669;
     }
     
-    .custom-range {
-      padding: 8px 4px;
-      overflow: hidden;
+    /* Custom Range Section */
+    .custom-section {
+      border-top: 1px solid #e5e7eb;
+      padding: 12px;
     }
     
-    .custom-range-label {
+    .custom-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    
+    .custom-header span {
       font-size: 12px;
       font-weight: 600;
-      color: #6d7175;
-      margin-bottom: 8px;
-      padding: 0 8px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
-    .custom-range-inputs {
+    .custom-inputs {
       display: flex;
       gap: 8px;
-      margin-bottom: 10px;
-      padding: 0 4px;
+      margin-bottom: 12px;
     }
     
-    .date-input-group {
+    .custom-input {
       flex: 1;
-      min-width: 0;
-      overflow: hidden;
     }
     
-    .date-input-group label {
+    .custom-input label {
       display: block;
       font-size: 11px;
-      color: #6d7175;
+      font-weight: 500;
+      color: #6b7280;
       margin-bottom: 4px;
-      padding-left: 4px;
     }
     
-    .date-input-group input {
+    .custom-input input {
       width: 100%;
-      max-width: 100%;
-      padding: 8px;
-      border: 1px solid #c9cccf;
-      border-radius: 6px;
-      font-size: 13px;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
       font-family: inherit;
-      box-sizing: border-box;
+      transition: border-color 0.15s;
     }
     
-    .date-input-group input:focus {
+    .custom-input input:focus {
       outline: none;
       border-color: #008060;
+      box-shadow: 0 0 0 3px rgba(0, 128, 96, 0.1);
     }
     
     .apply-btn {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: #008060;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
+      transition: background 0.15s;
     }
     
     .apply-btn:hover {
       background: #006e52;
     }
     
+    .apply-btn:active {
+      transform: scale(0.98);
+    }
+
     /* Section titles */
     .section-title {
       font-size: 14px;
@@ -377,38 +453,69 @@
       .metric-value { font-size: 20px; }
       .chart-container { height: 180px; }
       
-      /* Fix date picker dropdown on mobile */
-      .date-picker-container {
-        position: static;
-      }
-      
-      .date-picker-dropdown {
+      /* Mobile date picker - slides up from bottom */
+      .date-picker-panel {
         position: fixed;
         top: auto;
         bottom: 0;
         left: 0;
         right: 0;
         width: 100%;
-        max-width: 100%;
-        border-radius: 16px 16px 0 0;
-        padding: 16px;
-        max-height: 70vh;
+        max-width: none;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+        max-height: 80vh;
         overflow-y: auto;
       }
       
-      .custom-range-inputs {
-        flex-direction: row;
+      .date-picker-panel.show {
+        transform: translateY(0);
+      }
+      
+      .date-picker-panel::before {
+        content: '';
+        display: block;
+        width: 36px;
+        height: 4px;
+        background: #d1d5db;
+        border-radius: 2px;
+        margin: 10px auto 6px;
+      }
+      
+      .date-presets {
+        padding: 12px 16px;
+      }
+      
+      .preset-option {
+        padding: 14px 12px;
+        font-size: 16px;
+      }
+      
+      .custom-section {
+        padding: 16px;
+      }
+      
+      .custom-inputs {
+        flex-direction: column;
         gap: 12px;
       }
       
-      .date-input-group input {
-        padding: 12px 8px;
+      .custom-input input {
+        padding: 14px;
+        font-size: 16px;
+      }
+      
+      .apply-btn {
+        padding: 16px;
         font-size: 16px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Backdrop for mobile -->
+  <div class="date-picker-backdrop" id="date-backdrop" onclick="closeDatePicker()"></div>
+  
   <aside class="sidebar">
     <div class="sidebar-logo">
       <span>🦩</span>
@@ -425,598 +532,483 @@
   <main class="main">
     <header class="header">
       <h2>Analytics Dashboard</h2>
-      <div class="date-picker-container">
-        <button class="date-picker-btn" onclick="toggleDatePicker()">
-          <span>📅</span>
+      <div class="date-picker-wrapper">
+        <button class="date-picker-trigger" id="date-trigger" onclick="toggleDatePicker()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" />
+          </svg>
           <span id="date-range-label">Today</span>
-          <span>▼</span>
+          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+          </svg>
         </button>
-        <div class="date-picker-dropdown" id="date-dropdown">
+        
+        <div class="date-picker-panel" id="date-panel">
           <div class="date-presets">
-            <div class="date-option active" onclick="setDateRange(1, 'Today')">Today</div>
-            <div class="date-option" onclick="setDateRange(7, 'Last 7 days')">Last 7 days</div>
-            <div class="date-option" onclick="setDateRange(14, 'Last 2 weeks')">Last 2 weeks</div>
-            <div class="date-option" onclick="setDateRange(30, 'Last 30 days')">Last 30 days</div>
-            <div class="date-option" onclick="setDateRange(90, 'Last 90 days')">Last 90 days</div>
-            <div class="date-option" onclick="setDateRange(180, 'Last 6 months')">Last 6 months</div>
+            <div class="preset-option active" data-days="1" onclick="setDateRange(1, 'Today')">Today</div>
+            <div class="preset-option" data-days="7" onclick="setDateRange(7, 'Last 7 days')">Last 7 days</div>
+            <div class="preset-option" data-days="14" onclick="setDateRange(14, 'Last 2 weeks')">Last 2 weeks</div>
+            <div class="preset-option" data-days="30" onclick="setDateRange(30, 'Last 30 days')">Last 30 days</div>
+            <div class="preset-option" data-days="90" onclick="setDateRange(90, 'Last 90 days')">Last 90 days</div>
+            <div class="preset-option" data-days="180" onclick="setDateRange(180, 'Last 6 months')">Last 6 months</div>
           </div>
-          <div class="date-divider"></div>
-          <div class="custom-range">
-            <div class="custom-range-label">Custom Range</div>
-            <div class="custom-range-inputs">
-              <div class="date-input-group">
-                <label>From</label>
-                <input type="date" id="start-date" onchange="updateCustomRange()">
+          
+          <div class="custom-section">
+            <div class="custom-header">
+              <span>Custom Range</span>
+            </div>
+            <div class="custom-inputs">
+              <div class="custom-input">
+                <label>Start Date</label>
+                <input type="date" id="start-date">
               </div>
-              <div class="date-input-group">
-                <label>To</label>
-                <input type="date" id="end-date" onchange="updateCustomRange()">
+              <div class="custom-input">
+                <label>End Date</label>
+                <input type="date" id="end-date">
               </div>
             </div>
-            <button class="apply-btn" onclick="applyCustomRange()">Apply</button>
+            <button class="apply-btn" onclick="applyCustomRange()">Apply Range</button>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- PRIMARY METRICS -->
-    <div class="section-title">💰 Revenue & Profit</div>
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">Total Revenue</div>
-        <div class="metric-value" id="revenue">$0</div>
-        <div class="metric-sub" id="orders-count">0 orders</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Gross Margin</div>
-        <div class="metric-value" id="gross-margin">$0</div>
-        <div class="metric-sub" id="gross-margin-pct">0% margin</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Contribution Margin</div>
-        <div class="metric-value" id="contrib-margin">$0</div>
-        <div class="metric-sub" id="contrib-margin-pct">0% of revenue</div>
-      </div>
-      <div class="metric-card highlight" id="profit-card">
-        <div class="metric-label">Net Profit</div>
-        <div class="metric-value" id="profit">$0</div>
-        <div class="metric-sub" id="profit-margin">0% margin</div>
-      </div>
+    <div class="section-title">Revenue & Profit</div>
+    <div class="metrics-grid" id="revenue-metrics">
+      <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-value">—</div><div class="metric-sub">— orders</div></div>
+      <div class="metric-card"><div class="metric-label">Gross Margin</div><div class="metric-value">—</div><div class="metric-sub">—%</div></div>
+      <div class="metric-card"><div class="metric-label">Contribution Margin</div><div class="metric-value">—</div><div class="metric-sub">—%</div></div>
+      <div class="metric-card highlight" id="profit-card"><div class="metric-label">Net Profit</div><div class="metric-value">—</div><div class="metric-sub">—% margin</div></div>
     </div>
 
-    <!-- MARKETING METRICS -->
-    <div class="section-title">📢 Marketing Performance</div>
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">Total Ad Spend</div>
-        <div class="metric-value" id="ad-spend">$0</div>
-        <div class="metric-sub" id="ad-split">FB $0 · Google $0</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">ROAS</div>
-        <div class="metric-value" id="roas">0.00x</div>
-        <div class="metric-sub" id="roas-status">-</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">MER (Blended)</div>
-        <div class="metric-value" id="mer">0.00x</div>
-        <div class="metric-sub">Revenue ÷ All Marketing</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Break-even ROAS</div>
-        <div class="metric-value" id="be-roas">0.00x</div>
-        <div class="metric-sub">Min ROAS to profit</div>
-      </div>
+    <div class="section-title">Marketing Performance</div>
+    <div class="metrics-grid" id="marketing-metrics">
+      <div class="metric-card"><div class="metric-label">Ad Spend</div><div class="metric-value">—</div><div class="metric-sub">FB — / G —</div></div>
+      <div class="metric-card"><div class="metric-label">ROAS</div><div class="metric-value">—</div><div class="metric-sub">—</div></div>
+      <div class="metric-card"><div class="metric-label">MER</div><div class="metric-value">—</div><div class="metric-sub">Revenue ÷ Spend</div></div>
+      <div class="metric-card"><div class="metric-label">Break-even ROAS</div><div class="metric-value">—</div><div class="metric-sub">Min to profit</div></div>
+    </div>
+    
+    <div class="section-title">Customer Metrics</div>
+    <div class="metrics-grid-6" id="customer-metrics">
+      <div class="metric-card-sm"><div class="metric-label">CAC</div><div class="metric-value">—</div></div>
+      <div class="metric-card-sm"><div class="metric-label">LTV</div><div class="metric-value">—</div></div>
+      <div class="metric-card-sm"><div class="metric-label">LTV:CAC</div><div class="metric-value">—</div></div>
+      <div class="metric-card-sm"><div class="metric-label">AOV</div><div class="metric-value">—</div></div>
+      <div class="metric-card-sm"><div class="metric-label">Units/Order</div><div class="metric-value">—</div></div>
+      <div class="metric-card-sm"><div class="metric-label">Repurchase</div><div class="metric-value">—</div></div>
     </div>
 
-    <!-- CUSTOMER METRICS -->
-    <div class="section-title">👥 Customer Metrics</div>
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">CAC (Cost per Acquisition)</div>
-        <div class="metric-value" id="cac">$0</div>
-        <div class="metric-sub" id="cac-sub">Ad spend ÷ orders</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">LTV (Lifetime Value)</div>
-        <div class="metric-value" id="ltv">$0</div>
-        <div class="metric-sub" id="ltv-ratio">LTV:CAC = 0:1</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Repurchase Rate</div>
-        <div class="metric-value" id="repurchase">0%</div>
-        <div class="metric-sub" id="repeat-customers">0 repeat customers</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">CAC Payback</div>
-        <div class="metric-value" id="cac-payback">0 days</div>
-        <div class="metric-sub">Time to recover CAC</div>
-      </div>
-    </div>
-
-    <!-- NEW VS RETURNING -->
-    <div class="chart-card" style="margin-top: 16px;">
-      <div class="chart-title">New vs Returning Customers</div>
-      <div class="split-bar">
-        <div class="new" id="new-bar" style="width: 50%"></div>
-        <div class="returning" id="returning-bar" style="width: 50%"></div>
-      </div>
-      <div class="split-legend">
-        <span><div class="legend-dot" style="background: #3b82f6"></div> New: <strong id="new-revenue">$0</strong> (<span id="new-pct">0%</span>)</span>
-        <span><div class="legend-dot" style="background: #22c55e"></div> Returning: <strong id="returning-revenue">$0</strong> (<span id="returning-pct">0%</span>)</span>
-      </div>
-    </div>
-
-    <!-- ORDER METRICS -->
-    <div class="section-title">📦 Order Metrics</div>
-    <div class="metrics-grid-6">
-      <div class="metric-card-sm">
-        <div class="metric-label">AOV</div>
-        <div class="metric-value" id="aov">$0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Units Sold</div>
-        <div class="metric-value" id="units">0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Units/Order</div>
-        <div class="metric-value" id="units-per-order">0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Avg Discount</div>
-        <div class="metric-value" id="avg-discount">0%</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Refund Rate</div>
-        <div class="metric-value" id="refund-rate">0%</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Refunds</div>
-        <div class="metric-value" id="refunds">$0</div>
-      </div>
-    </div>
-
-    <!-- COSTS -->
-    <div class="section-title">🏭 Cost Breakdown</div>
-    <div class="metrics-grid-6">
-      <div class="metric-card-sm">
-        <div class="metric-label">COGS</div>
-        <div class="metric-value" id="cogs">$0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Shipping</div>
-        <div class="metric-value" id="shipping">$0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Facebook Ads</div>
-        <div class="metric-value" id="fb-spend">$0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Google Ads</div>
-        <div class="metric-value" id="google-spend">$0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Cost/Unit</div>
-        <div class="metric-value" id="cost-per-unit">$0</div>
-      </div>
-      <div class="metric-card-sm">
-        <div class="metric-label">Ship/Order</div>
-        <div class="metric-value" id="ship-per-order">$0</div>
-      </div>
-    </div>
-
-    <!-- CHARTS -->
     <div class="charts-section">
       <div class="chart-card">
-        <h3 class="chart-title">Daily Ad Spend</h3>
-        <div class="chart-container">
-          <canvas id="spendChart"></canvas>
-        </div>
+        <div class="chart-title">📈 Daily Revenue & Profit</div>
+        <div class="chart-container"><canvas id="revenue-chart"></canvas></div>
       </div>
-      
       <div class="chart-card">
-        <h3 class="chart-title">P&L Summary</h3>
-        <div class="breakdown-row">
-          <div class="breakdown-label"><div class="breakdown-dot" style="background: #22c55e"></div> Revenue</div>
-          <div class="breakdown-value positive" id="bl-revenue">$0</div>
+        <div class="chart-title">💰 Profit Breakdown</div>
+        <div id="profit-breakdown">
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#22c55e"></span>Revenue</div><div class="breakdown-value">—</div></div>
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#f59e0b"></span>COGS</div><div class="breakdown-value negative">—</div></div>
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#8b5cf6"></span>Shipping</div><div class="breakdown-value negative">—</div></div>
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#3b82f6"></span>Ad Spend</div><div class="breakdown-value negative">—</div></div>
+          <div class="breakdown-row"><div class="breakdown-label">Net Profit</div><div class="breakdown-value positive">—</div></div>
         </div>
-        <div class="breakdown-row">
-          <div class="breakdown-label"><div class="breakdown-dot" style="background: #8b5cf6"></div> COGS</div>
-          <div class="breakdown-value negative" id="bl-cogs">−$0</div>
-        </div>
-        <div class="breakdown-row">
-          <div class="breakdown-label"><div class="breakdown-dot" style="background: #ec4899"></div> Shipping</div>
-          <div class="breakdown-value negative" id="bl-shipping">−$0</div>
-        </div>
-        <div class="breakdown-row">
-          <div class="breakdown-label"><div class="breakdown-dot" style="background: #f59e0b"></div> Facebook</div>
-          <div class="breakdown-value negative" id="bl-fb">−$0</div>
-        </div>
-        <div class="breakdown-row">
-          <div class="breakdown-label"><div class="breakdown-dot" style="background: #3b82f6"></div> Google</div>
-          <div class="breakdown-value negative" id="bl-google">−$0</div>
-        </div>
-        <div class="breakdown-row">
-          <div class="breakdown-label">Net Profit</div>
-          <div class="breakdown-value positive" id="bl-profit">$0</div>
+        <div style="margin-top: 20px;">
+          <div class="chart-title">👥 New vs Returning</div>
+          <div class="split-bar"><div class="new" style="width: 50%"></div><div class="returning" style="width: 50%"></div></div>
+          <div class="split-legend">
+            <span><span class="legend-dot" style="background:#3b82f6"></span>New: —%</span>
+            <span><span class="legend-dot" style="background:#22c55e"></span>Returning: —%</span>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
   <script>
-    const SUPABASE_URL = 'https://umhgcrwurpmnqvjiizud.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtaGdjcnd1cnBtbnF2amlpenVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNTgzNzIsImV4cCI6MjA4NTYzNDM3Mn0.Wt11j2jxiph7dcgv-n2tUSJiOED7Plof6GxwSRg4Spk';
-    
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    let chart = null;
+    // Supabase client
+    const supabase = window.supabase.createClient(
+      'https://umhgcrwurpmnqvjiizud.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVtaGdjcnd1cnBtbnF2amlpenVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNTgzNzIsImV4cCI6MjA4NTYzNDM3Mn0.Wt11j2jxiph7dcgv-n2tUSJiOED7Plof6GxwSRg4Spk'
+    );
+
+    // State
     let currentDays = 1;
-    let customStartDate = null;
-    let customEndDate = null;
-    
-    const fmt = (n) => '$' + Math.round(n).toLocaleString();
-    const fmtNum = (n) => Math.round(n).toLocaleString();
-    const fmtPct = (n) => n.toFixed(1) + '%';
-    
+    let startDate = null;
+    let endDate = null;
+    let revenueChart = null;
+
+    // Date picker functions
     function toggleDatePicker() {
-      document.getElementById('date-dropdown').classList.toggle('show');
-    }
-    
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.date-picker-container')) {
-        document.getElementById('date-dropdown').classList.remove('show');
-      }
-    });
-    
-    async function fetchAll(table, dateCol, startISO, endISO) {
-      let all = [], offset = 0;
-      while (true) {
-        const { data, error } = await supabase
-          .from(table)
-          .select('*')
-          .gte(dateCol, startISO)
-          .lte(dateCol, endISO)
-          .range(offset, offset + 999);
-        if (error || !data?.length) break;
-        all = all.concat(data);
-        offset += 1000;
-        if (data.length < 1000) break;
-      }
-      return all;
-    }
-    
-    async function fetchData(days, startOverride = null, endOverride = null) {
-      let startStr, endStr;
+      const trigger = document.getElementById('date-trigger');
+      const panel = document.getElementById('date-panel');
+      const backdrop = document.getElementById('date-backdrop');
       
-      if (startOverride && endOverride) {
-        // Custom date range
-        startStr = startOverride;
-        endStr = endOverride;
+      const isOpen = panel.classList.contains('show');
+      
+      if (isOpen) {
+        closeDatePicker();
       } else {
-        // Get current date in MST (America/Denver)
-        const now = new Date();
-        const tz = { timeZone: 'America/Denver' };
-        const year = now.toLocaleString('en-US', { ...tz, year: 'numeric' });
-        const month = now.toLocaleString('en-US', { ...tz, month: '2-digit' });
-        const day = now.toLocaleString('en-US', { ...tz, day: '2-digit' });
-        endStr = year + '-' + month + '-' + day;
-        
-        // Calculate start date
-        const startDate = new Date(now);
-        startDate.setDate(startDate.getDate() - days + 1);
-        const sYear = startDate.toLocaleString('en-US', { ...tz, year: 'numeric' });
-        const sMonth = startDate.toLocaleString('en-US', { ...tz, month: '2-digit' });
-        const sDay = startDate.toLocaleString('en-US', { ...tz, day: '2-digit' });
-        startStr = sYear + '-' + sMonth + '-' + sDay;
+        trigger.classList.add('active');
+        panel.classList.add('show');
+        backdrop.classList.add('show');
       }
-      
-      // Use MST offset (-07:00) for queries
-      const startISO = startStr + 'T00:00:00-07:00';
-      const endISO = endStr + 'T23:59:59-07:00';
-      
-      console.log('Date range:', startStr, 'to', endStr);
-      
-      const [orders, lineItems, adSpend, productCosts] = await Promise.all([
-        fetchAll('orders', 'created_at', startISO, endISO),
-        fetchAll('line_items', 'sale_date', startISO, endISO),
-        supabase.from('daily_ad_spend').select('*').gte('date', startStr).lte('date', endStr).order('date'),
-        supabase.from('product_costs').select('*')
-      ]);
-      
-      return { 
-        orders, 
-        lineItems, 
-        adSpend: adSpend.data || [], 
-        productCosts: productCosts.data || [] 
-      };
     }
-    
-    function calculate(data) {
-      const { orders, lineItems, adSpend, productCosts } = data;
+
+    function closeDatePicker() {
+      const trigger = document.getElementById('date-trigger');
+      const panel = document.getElementById('date-panel');
+      const backdrop = document.getElementById('date-backdrop');
       
-      // Basic counts
-      const orderCount = orders.length;
-      const unitsSold = lineItems.reduce((s, i) => s + (i.quantity || 1), 0);
-      
-      // Revenue calculations
-      // total_price is current_total_price (net of refunds)
-      const netRevenue = orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
-      const refunds = orders.reduce((s, o) => s + parseFloat(o.refund_amount || 0), 0);
-      // Gross revenue = net + refunds (for ROAS - ads generated this revenue regardless of returns)
-      const grossRevenue = netRevenue + refunds;
-      // Use net revenue for profit calculations, gross for ROAS
-      const revenue = netRevenue;
-      
-      // Ad spend
-      const fbSpend = adSpend.filter(a => a.platform === 'facebook').reduce((s, a) => s + parseFloat(a.spend), 0);
-      const googleSpend = adSpend.filter(a => a.platform === 'google').reduce((s, a) => s + parseFloat(a.spend), 0);
-      const totalAdSpend = fbSpend + googleSpend;
-      
-      // Shipping
-      const shipping = orders.reduce((s, o) => s + parseFloat(o.shipping_cost || 0), 0);
-      
-      // COGS
-      const costMap = {};
-      productCosts.forEach(pc => { costMap[pc.product_type.toLowerCase()] = parseFloat(pc.cost); });
-      
-      let cogs = 0;
-      lineItems.forEach(item => {
-        const title = (item.title || '').toLowerCase();
-        let cost = 7;
-        if (title.includes('hat') || title.includes('cap')) cost = costMap['hat'] || 6;
-        else if (title.includes('towel')) cost = costMap['golf towel'] || 6;
-        else if (title.includes('glove')) cost = costMap['golf glove'] || 6;
-        cogs += cost * (item.quantity || 1);
-      });
-      
-      // Margins
-      const grossMargin = revenue - cogs;
-      const grossMarginPct = revenue > 0 ? (grossMargin / revenue) * 100 : 0;
-      const contribMargin = revenue - cogs - shipping;
-      const contribMarginPct = revenue > 0 ? (contribMargin / revenue) * 100 : 0;
-      const netProfit = revenue - cogs - shipping - totalAdSpend;
-      const netProfitPct = revenue > 0 ? (netProfit / revenue) * 100 : 0;
-      
-      // Marketing metrics (use grossRevenue for ROAS - returns don't affect ad performance)
-      const roas = totalAdSpend > 0 ? grossRevenue / totalAdSpend : 0;
-      const mer = totalAdSpend > 0 ? grossRevenue / totalAdSpend : 0;
-      const variableCostPct = revenue > 0 ? (cogs + shipping) / revenue : 0;
-      const beRoas = variableCostPct < 1 ? 1 / (1 - variableCostPct) : 999;
-      
-      // Customer metrics
-      const cac = orderCount > 0 ? totalAdSpend / orderCount : 0;
-      
-      // LTV & Repurchase (group by email)
-      const customerOrders = {};
-      orders.forEach(o => {
-        const email = o.email || 'unknown';
-        if (!customerOrders[email]) customerOrders[email] = [];
-        customerOrders[email].push(o);
-      });
-      
-      const customers = Object.keys(customerOrders);
-      const totalCustomers = customers.length;
-      const repeatCustomers = customers.filter(c => customerOrders[c].length > 1).length;
-      const repurchaseRate = totalCustomers > 0 ? (repeatCustomers / totalCustomers) * 100 : 0;
-      const ltv = totalCustomers > 0 ? revenue / totalCustomers : 0;
-      const ltvCacRatio = cac > 0 ? ltv / cac : 0;
-      
-      // CAC Payback (days to recover CAC based on daily profit per customer)
-      const days = currentDays || 30;
-      const dailyProfitPerCustomer = totalCustomers > 0 ? netProfit / totalCustomers / days : 0;
-      const cacPayback = dailyProfitPerCustomer > 0 ? Math.round(cac / dailyProfitPerCustomer) : 999;
-      
-      // New vs Returning
-      let newRevenue = 0, returningRevenue = 0;
-      customers.forEach(c => {
-        const custOrders = customerOrders[c];
-        if (custOrders.length === 1) {
-          newRevenue += parseFloat(custOrders[0].total_price || 0);
-        } else {
-          custOrders.forEach(o => {
-            returningRevenue += parseFloat(o.total_price || 0);
-          });
-        }
-      });
-      const newPct = revenue > 0 ? (newRevenue / revenue) * 100 : 0;
-      const returningPct = revenue > 0 ? (returningRevenue / revenue) * 100 : 0;
-      
-      // Order metrics
-      const aov = orderCount > 0 ? revenue / orderCount : 0;
-      const unitsPerOrder = orderCount > 0 ? unitsSold / orderCount : 0;
-      const refundRate = orderCount > 0 ? (orders.filter(o => parseFloat(o.refund_amount || 0) > 0).length / orderCount) * 100 : 0;
-      
-      // Discount calculation (estimate from B1G2F: ~$138 discount per 3-polo order)
-      const avgDiscount = orderCount > 0 ? (orders.reduce((s, o) => s + parseFloat(o.subtotal_price || 0), 0) - revenue) / orderCount : 0;
-      const avgDiscountPct = aov > 0 ? (avgDiscount / (aov + avgDiscount)) * 100 : 0;
-      
-      // Cost per unit
-      const costPerUnit = unitsSold > 0 ? cogs / unitsSold : 0;
-      const shipPerOrder = orderCount > 0 ? shipping / orderCount : 0;
-      
-      return {
-        revenue, grossRevenue, refunds, orderCount, unitsSold,
-        grossMargin, grossMarginPct, contribMargin, contribMarginPct,
-        netProfit, netProfitPct,
-        totalAdSpend, fbSpend, googleSpend,
-        roas, mer, beRoas,
-        cac, ltv, ltvCacRatio, repurchaseRate, repeatCustomers, totalCustomers, cacPayback,
-        newRevenue, returningRevenue, newPct, returningPct,
-        aov, unitsPerOrder, refundRate, avgDiscountPct,
-        cogs, shipping, costPerUnit, shipPerOrder,
-        dailyData: adSpend
-      };
+      trigger.classList.remove('active');
+      panel.classList.remove('show');
+      backdrop.classList.remove('show');
     }
-    
-    function updateUI(m) {
-      // Revenue & Profit
-      document.getElementById('revenue').textContent = fmt(m.revenue);
-      document.getElementById('orders-count').textContent = fmtNum(m.orderCount) + ' orders';
-      document.getElementById('gross-margin').textContent = fmt(m.grossMargin);
-      document.getElementById('gross-margin-pct').textContent = fmtPct(m.grossMarginPct) + ' margin';
-      document.getElementById('contrib-margin').textContent = fmt(m.contribMargin);
-      document.getElementById('contrib-margin-pct').textContent = fmtPct(m.contribMarginPct) + ' of revenue';
-      document.getElementById('profit').textContent = fmt(m.netProfit);
-      document.getElementById('profit-margin').textContent = fmtPct(m.netProfitPct) + ' margin';
-      
-      // Profit card color
-      const profitCard = document.getElementById('profit-card');
-      profitCard.className = 'metric-card ' + (m.netProfit >= 0 ? 'highlight' : 'negative');
-      
-      // Marketing
-      document.getElementById('ad-spend').textContent = fmt(m.totalAdSpend);
-      document.getElementById('ad-split').textContent = 'FB ' + fmt(m.fbSpend) + ' · Google ' + fmt(m.googleSpend);
-      document.getElementById('roas').textContent = m.roas.toFixed(2) + 'x';
-      document.getElementById('roas-status').textContent = m.roas >= m.beRoas ? '✅ Profitable' : '⚠️ Below break-even';
-      document.getElementById('roas-status').className = 'metric-sub ' + (m.roas >= m.beRoas ? 'positive' : 'negative');
-      document.getElementById('mer').textContent = m.mer.toFixed(2) + 'x';
-      document.getElementById('be-roas').textContent = m.beRoas.toFixed(2) + 'x';
-      
-      // Customer
-      document.getElementById('cac').textContent = fmt(m.cac);
-      document.getElementById('ltv').textContent = fmt(m.ltv);
-      document.getElementById('ltv-ratio').textContent = 'LTV:CAC = ' + m.ltvCacRatio.toFixed(1) + ':1';
-      document.getElementById('ltv-ratio').className = 'metric-sub ' + (m.ltvCacRatio >= 3 ? 'positive' : m.ltvCacRatio >= 1 ? '' : 'negative');
-      document.getElementById('repurchase').textContent = fmtPct(m.repurchaseRate);
-      document.getElementById('repeat-customers').textContent = fmtNum(m.repeatCustomers) + ' of ' + fmtNum(m.totalCustomers);
-      document.getElementById('cac-payback').textContent = m.cacPayback > 365 ? '365+ days' : m.cacPayback + ' days';
-      
-      // New vs Returning
-      document.getElementById('new-bar').style.width = m.newPct + '%';
-      document.getElementById('returning-bar').style.width = m.returningPct + '%';
-      document.getElementById('new-revenue').textContent = fmt(m.newRevenue);
-      document.getElementById('new-pct').textContent = fmtPct(m.newPct);
-      document.getElementById('returning-revenue').textContent = fmt(m.returningRevenue);
-      document.getElementById('returning-pct').textContent = fmtPct(m.returningPct);
-      
-      // Order metrics
-      document.getElementById('aov').textContent = fmt(m.aov);
-      document.getElementById('units').textContent = fmtNum(m.unitsSold);
-      document.getElementById('units-per-order').textContent = m.unitsPerOrder.toFixed(1);
-      document.getElementById('avg-discount').textContent = fmtPct(m.avgDiscountPct);
-      document.getElementById('refund-rate').textContent = fmtPct(m.refundRate);
-      document.getElementById('refunds').textContent = fmt(m.refunds);
-      
-      // Costs
-      document.getElementById('cogs').textContent = fmt(m.cogs);
-      document.getElementById('shipping').textContent = fmt(m.shipping);
-      document.getElementById('fb-spend').textContent = fmt(m.fbSpend);
-      document.getElementById('google-spend').textContent = fmt(m.googleSpend);
-      document.getElementById('cost-per-unit').textContent = fmt(m.costPerUnit);
-      document.getElementById('ship-per-order').textContent = fmt(m.shipPerOrder);
-      
-      // P&L breakdown
-      document.getElementById('bl-revenue').textContent = fmt(m.revenue);
-      document.getElementById('bl-cogs').textContent = '−' + fmt(m.cogs);
-      document.getElementById('bl-shipping').textContent = '−' + fmt(m.shipping);
-      document.getElementById('bl-fb').textContent = '−' + fmt(m.fbSpend);
-      document.getElementById('bl-google').textContent = '−' + fmt(m.googleSpend);
-      document.getElementById('bl-profit').textContent = fmt(m.netProfit);
-      document.getElementById('bl-profit').className = 'breakdown-value ' + (m.netProfit >= 0 ? 'positive' : 'negative');
-    }
-    
-    function updateChart(m) {
-      const ctx = document.getElementById('spendChart').getContext('2d');
-      
-      const daily = {};
-      m.dailyData.forEach(d => {
-        if (!daily[d.date]) daily[d.date] = 0;
-        daily[d.date] += parseFloat(d.spend);
-      });
-      
-      const labels = Object.keys(daily).sort();
-      const data = labels.map(d => daily[d]);
-      
-      if (chart) chart.destroy();
-      
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels.map(d => new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })),
-          datasets: [{
-            label: 'Ad Spend',
-            data: data,
-            backgroundColor: '#f59e0b',
-            borderRadius: 4
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 45 } },
-            y: { grid: { color: '#e1e3e5' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'k' } }
-          }
-        }
-      });
-    }
-    
-    async function setDateRange(days, label) {
+
+    function setDateRange(days, label) {
       currentDays = days;
-      customStartDate = null;
-      customEndDate = null;
-      document.getElementById('date-range-label').textContent = label;
-      document.getElementById('date-dropdown').classList.remove('show');
-      document.querySelectorAll('.date-option').forEach(el => el.classList.remove('active'));
-      event.target.classList.add('active');
-      await load();
-    }
-    
-    function updateCustomRange() {
-      // Clear preset selections when using custom
-      document.querySelectorAll('.date-option').forEach(el => el.classList.remove('active'));
-    }
-    
-    async function applyCustomRange() {
-      const startInput = document.getElementById('start-date').value;
-      const endInput = document.getElementById('end-date').value;
+      startDate = null;
+      endDate = null;
       
-      if (!startInput || !endInput) {
+      document.getElementById('date-range-label').textContent = label;
+      
+      // Update active state
+      document.querySelectorAll('.preset-option').forEach(opt => {
+        opt.classList.remove('active');
+        if (parseInt(opt.dataset.days) === days) {
+          opt.classList.add('active');
+        }
+      });
+      
+      closeDatePicker();
+      loadData();
+    }
+
+    function applyCustomRange() {
+      const start = document.getElementById('start-date').value;
+      const end = document.getElementById('end-date').value;
+      
+      if (!start || !end) {
         alert('Please select both start and end dates');
         return;
       }
       
-      if (startInput > endInput) {
-        alert('Start date must be before end date');
-        return;
-      }
-      
-      customStartDate = startInput;
-      customEndDate = endInput;
+      startDate = new Date(start + 'T00:00:00');
+      endDate = new Date(end + 'T23:59:59');
       currentDays = null;
       
-      // Format label
-      const start = new Date(startInput + 'T00:00:00');
-      const end = new Date(endInput + 'T00:00:00');
-      const opts = { month: 'short', day: 'numeric' };
-      const label = start.toLocaleDateString('en-US', opts) + ' - ' + end.toLocaleDateString('en-US', opts);
+      const formatDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      document.getElementById('date-range-label').textContent = `${formatDate(startDate)} - ${formatDate(endDate)}`;
       
-      document.getElementById('date-range-label').textContent = label;
-      document.getElementById('date-dropdown').classList.remove('show');
+      // Clear preset active states
+      document.querySelectorAll('.preset-option').forEach(opt => opt.classList.remove('active'));
       
-      await load();
+      closeDatePicker();
+      loadData();
     }
-    
-    async function load() {
-      const data = await fetchData(currentDays, customStartDate, customEndDate);
-      const metrics = calculate(data);
-      updateUI(metrics);
-      updateChart(metrics);
+
+    // Format currency
+    function formatCurrency(amount) {
+      if (amount >= 1000) {
+        return '$' + (amount / 1000).toFixed(1) + 'k';
+      }
+      return '$' + Math.round(amount).toLocaleString();
     }
-    
-    // Initialize date inputs with reasonable defaults
-    function initDatePickers() {
-      const today = new Date();
-      const thirtyDaysAgo = new Date();
-      thirtyDaysAgo.setDate(today.getDate() - 30);
+
+    // Fetch all rows with pagination
+    async function fetchAllRows(table, query = {}) {
+      const PAGE_SIZE = 1000;
+      let allRows = [];
+      let page = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        let q = supabase.from(table).select(query.select || '*');
+        
+        if (query.gte) q = q.gte(query.gte[0], query.gte[1]);
+        if (query.lt) q = q.lt(query.lt[0], query.lt[1]);
+        if (query.order) q = q.order(query.order[0], { ascending: query.order[1] });
+        
+        q = q.range(page * PAGE_SIZE, (page + 1) * PAGE_SIZE - 1);
+        
+        const { data, error } = await q;
+        if (error) throw error;
+        
+        allRows = allRows.concat(data || []);
+        hasMore = data && data.length === PAGE_SIZE;
+        page++;
+      }
       
-      document.getElementById('end-date').value = today.toISOString().split('T')[0];
-      document.getElementById('start-date').value = thirtyDaysAgo.toISOString().split('T')[0];
+      return allRows;
     }
-    
-    initDatePickers();
-    load();
+
+    // Load data
+    async function loadData() {
+      try {
+        // Calculate date range (using MST)
+        let start, end;
+        
+        if (startDate && endDate) {
+          start = startDate;
+          end = endDate;
+        } else {
+          // Use MST timezone
+          const now = new Date();
+          const mstOffset = -7 * 60; // MST is UTC-7
+          const localOffset = now.getTimezoneOffset();
+          const mstNow = new Date(now.getTime() + (localOffset - mstOffset) * 60000);
+          
+          end = new Date(mstNow);
+          end.setHours(23, 59, 59, 999);
+          
+          start = new Date(mstNow);
+          start.setDate(start.getDate() - currentDays + 1);
+          start.setHours(0, 0, 0, 0);
+        }
+
+        const startISO = start.toISOString();
+        const endISO = end.toISOString();
+
+        // Fetch all data
+        const [orders, lineItems, adSpend, productCosts] = await Promise.all([
+          fetchAllRows('orders', { 
+            select: 'id,total_price,shipping_cost,customer_id,created_at,refund_amount',
+            gte: ['created_at', startISO],
+            lt: ['created_at', endISO]
+          }),
+          fetchAllRows('line_items', {
+            select: 'order_id,quantity,title'
+          }),
+          fetchAllRows('daily_ad_spend', {
+            select: '*',
+            gte: ['date', start.toISOString().split('T')[0]],
+            lt: ['date', new Date(end.getTime() + 86400000).toISOString().split('T')[0]]
+          }),
+          supabase.from('product_costs').select('*')
+        ]);
+
+        // Build COGS lookup
+        const costsMap = {};
+        (productCosts.data || []).forEach(p => {
+          costsMap[p.product_type.toLowerCase()] = p.cost_per_unit;
+        });
+        const defaultCOGS = costsMap['polo'] || 7;
+
+        // Filter line items for current orders
+        const orderIds = new Set(orders.map(o => o.id));
+        const relevantLineItems = lineItems.filter(li => orderIds.has(li.order_id));
+
+        // Calculate metrics
+        let totalRevenue = 0;
+        let totalRefunds = 0;
+        let totalCOGS = 0;
+        let totalShipping = 0;
+        let totalUnits = 0;
+        const customerOrders = {};
+        const dailyData = {};
+
+        orders.forEach(order => {
+          const revenue = parseFloat(order.total_price) || 0;
+          const refund = parseFloat(order.refund_amount) || 0;
+          const shipping = parseFloat(order.shipping_cost) || 0;
+          
+          totalRevenue += revenue;
+          totalRefunds += refund;
+          totalShipping += shipping;
+          
+          if (order.customer_id) {
+            customerOrders[order.customer_id] = (customerOrders[order.customer_id] || 0) + 1;
+          }
+
+          // Daily aggregation
+          const day = order.created_at.split('T')[0];
+          if (!dailyData[day]) {
+            dailyData[day] = { revenue: 0, cogs: 0, shipping: 0, adSpend: 0 };
+          }
+          dailyData[day].revenue += revenue;
+          dailyData[day].shipping += shipping;
+        });
+
+        // Calculate COGS from line items
+        relevantLineItems.forEach(li => {
+          const qty = li.quantity || 1;
+          totalUnits += qty;
+          
+          const title = (li.title || '').toLowerCase();
+          let cost = defaultCOGS;
+          if (title.includes('hat') || title.includes('cap')) cost = costsMap['hat'] || 6;
+          else if (title.includes('towel')) cost = costsMap['golf towel'] || 6;
+          else if (title.includes('glove')) cost = costsMap['golf glove'] || 6;
+          
+          totalCOGS += cost * qty;
+
+          // Add to daily
+          const order = orders.find(o => o.id === li.order_id);
+          if (order) {
+            const day = order.created_at.split('T')[0];
+            if (dailyData[day]) {
+              dailyData[day].cogs += cost * qty;
+            }
+          }
+        });
+
+        // Ad spend
+        let fbSpend = 0, googleSpend = 0;
+        adSpend.forEach(row => {
+          fbSpend += parseFloat(row.facebook_spend) || 0;
+          googleSpend += parseFloat(row.google_spend) || 0;
+          if (dailyData[row.date]) {
+            dailyData[row.date].adSpend = (parseFloat(row.facebook_spend) || 0) + (parseFloat(row.google_spend) || 0);
+          }
+        });
+        const totalAdSpend = fbSpend + googleSpend;
+
+        // Calculate derived metrics
+        const netRevenue = totalRevenue - totalRefunds;
+        const grossMargin = netRevenue - totalCOGS;
+        const contributionMargin = grossMargin - totalShipping;
+        const netProfit = contributionMargin - totalAdSpend;
+        
+        const grossMarginPct = netRevenue > 0 ? (grossMargin / netRevenue * 100) : 0;
+        const contribMarginPct = netRevenue > 0 ? (contributionMargin / netRevenue * 100) : 0;
+        const netMarginPct = netRevenue > 0 ? (netProfit / netRevenue * 100) : 0;
+        
+        const roas = totalAdSpend > 0 ? (netRevenue / totalAdSpend) : 0;
+        const mer = totalAdSpend > 0 ? (netRevenue / totalAdSpend) : 0;
+        const breakEvenRoas = contribMarginPct > 0 ? (100 / contribMarginPct) : 0;
+        
+        const uniqueCustomers = Object.keys(customerOrders).length;
+        const cac = uniqueCustomers > 0 ? (totalAdSpend / uniqueCustomers) : 0;
+        const aov = orders.length > 0 ? (netRevenue / orders.length) : 0;
+        const unitsPerOrder = orders.length > 0 ? (totalUnits / orders.length) : 0;
+        
+        const newCustomers = Object.values(customerOrders).filter(c => c === 1).length;
+        const returningCustomers = uniqueCustomers - newCustomers;
+        const newPct = uniqueCustomers > 0 ? (newCustomers / uniqueCustomers * 100) : 0;
+        const repurchaseRate = uniqueCustomers > 0 ? (returningCustomers / uniqueCustomers * 100) : 0;
+        
+        // LTV (simple: AOV * avg orders per customer)
+        const avgOrdersPerCustomer = uniqueCustomers > 0 ? (orders.length / uniqueCustomers) : 1;
+        const ltv = aov * avgOrdersPerCustomer * 1.5; // 1.5x multiplier for future value
+        const ltvCacRatio = cac > 0 ? (ltv / cac) : 0;
+
+        // Update UI
+        document.getElementById('revenue-metrics').innerHTML = `
+          <div class="metric-card"><div class="metric-label">Total Revenue</div><div class="metric-value">${formatCurrency(netRevenue)}</div><div class="metric-sub">${orders.length} orders</div></div>
+          <div class="metric-card"><div class="metric-label">Gross Margin</div><div class="metric-value">${formatCurrency(grossMargin)}</div><div class="metric-sub">${grossMarginPct.toFixed(1)}%</div></div>
+          <div class="metric-card"><div class="metric-label">Contribution Margin</div><div class="metric-value">${formatCurrency(contributionMargin)}</div><div class="metric-sub">${contribMarginPct.toFixed(1)}%</div></div>
+          <div class="metric-card ${netProfit >= 0 ? 'highlight' : 'negative'}"><div class="metric-label">Net Profit</div><div class="metric-value">${formatCurrency(netProfit)}</div><div class="metric-sub">${netMarginPct.toFixed(1)}% margin</div></div>
+        `;
+
+        const roasStatus = roas >= breakEvenRoas ? 'profitable' : 'below break-even';
+        document.getElementById('marketing-metrics').innerHTML = `
+          <div class="metric-card"><div class="metric-label">Ad Spend</div><div class="metric-value">${formatCurrency(totalAdSpend)}</div><div class="metric-sub">FB ${formatCurrency(fbSpend)} / G ${formatCurrency(googleSpend)}</div></div>
+          <div class="metric-card"><div class="metric-label">ROAS</div><div class="metric-value">${roas.toFixed(2)}x</div><div class="metric-sub ${roas >= breakEvenRoas ? 'positive' : 'negative'}">${roasStatus}</div></div>
+          <div class="metric-card"><div class="metric-label">MER</div><div class="metric-value">${mer.toFixed(2)}x</div><div class="metric-sub">Revenue ÷ Spend</div></div>
+          <div class="metric-card"><div class="metric-label">Break-even ROAS</div><div class="metric-value">${breakEvenRoas.toFixed(2)}x</div><div class="metric-sub">Min to profit</div></div>
+        `;
+
+        document.getElementById('customer-metrics').innerHTML = `
+          <div class="metric-card-sm"><div class="metric-label">CAC</div><div class="metric-value">$${cac.toFixed(0)}</div></div>
+          <div class="metric-card-sm"><div class="metric-label">LTV</div><div class="metric-value">$${ltv.toFixed(0)}</div></div>
+          <div class="metric-card-sm"><div class="metric-label">LTV:CAC</div><div class="metric-value">${ltvCacRatio.toFixed(1)}:1</div></div>
+          <div class="metric-card-sm"><div class="metric-label">AOV</div><div class="metric-value">$${aov.toFixed(0)}</div></div>
+          <div class="metric-card-sm"><div class="metric-label">Units/Order</div><div class="metric-value">${unitsPerOrder.toFixed(1)}</div></div>
+          <div class="metric-card-sm"><div class="metric-label">Repurchase</div><div class="metric-value">${repurchaseRate.toFixed(0)}%</div></div>
+        `;
+
+        // Profit breakdown
+        document.getElementById('profit-breakdown').innerHTML = `
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#22c55e"></span>Revenue</div><div class="breakdown-value">${formatCurrency(netRevenue)}</div></div>
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#f59e0b"></span>COGS</div><div class="breakdown-value negative">-${formatCurrency(totalCOGS)}</div></div>
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#8b5cf6"></span>Shipping</div><div class="breakdown-value negative">-${formatCurrency(totalShipping)}</div></div>
+          <div class="breakdown-row"><div class="breakdown-label"><span class="breakdown-dot" style="background:#3b82f6"></span>Ad Spend</div><div class="breakdown-value negative">-${formatCurrency(totalAdSpend)}</div></div>
+          <div class="breakdown-row"><div class="breakdown-label">Net Profit</div><div class="breakdown-value ${netProfit >= 0 ? 'positive' : 'negative'}">${netProfit >= 0 ? '' : '-'}${formatCurrency(Math.abs(netProfit))}</div></div>
+        `;
+
+        // Customer split
+        document.querySelector('.split-bar').innerHTML = `
+          <div class="new" style="width: ${newPct}%"></div>
+          <div class="returning" style="width: ${100 - newPct}%"></div>
+        `;
+        document.querySelector('.split-legend').innerHTML = `
+          <span><span class="legend-dot" style="background:#3b82f6"></span>New: ${newPct.toFixed(0)}%</span>
+          <span><span class="legend-dot" style="background:#22c55e"></span>Returning: ${(100 - newPct).toFixed(0)}%</span>
+        `;
+
+        // Chart
+        const sortedDays = Object.keys(dailyData).sort();
+        const chartLabels = sortedDays.map(d => {
+          const date = new Date(d + 'T12:00:00');
+          return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        });
+        
+        const revenueData = sortedDays.map(d => dailyData[d].revenue);
+        const profitData = sortedDays.map(d => {
+          const day = dailyData[d];
+          return day.revenue - day.cogs - day.shipping - day.adSpend;
+        });
+
+        if (revenueChart) revenueChart.destroy();
+        
+        const ctx = document.getElementById('revenue-chart').getContext('2d');
+        revenueChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: chartLabels,
+            datasets: [
+              {
+                label: 'Revenue',
+                data: revenueData,
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: sortedDays.length > 30 ? 0 : 3
+              },
+              {
+                label: 'Net Profit',
+                data: profitData,
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: sortedDays.length > 30 ? 0 : 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'bottom' }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: value => '$' + (value >= 1000 ? (value/1000).toFixed(0) + 'k' : value)
+                }
+              }
+            }
+          }
+        });
+
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    }
+
+    // Close date picker when clicking outside
+    document.addEventListener('click', (e) => {
+      const wrapper = document.querySelector('.date-picker-wrapper');
+      if (!wrapper.contains(e.target)) {
+        closeDatePicker();
+      }
+    });
+
+    // Initialize
+    loadData();
   </script>
 </body>
 </html>

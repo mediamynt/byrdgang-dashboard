@@ -970,13 +970,24 @@
           }
         });
 
-        // Ad spend
+        // Ad spend - aggregate by platform
         let fbSpend = 0, googleSpend = 0;
+        const dailyAdSpend = {};
         adSpend.forEach(row => {
-          fbSpend += parseFloat(row.facebook_spend) || 0;
-          googleSpend += parseFloat(row.google_spend) || 0;
-          if (dailyData[row.date]) {
-            dailyData[row.date].adSpend = (parseFloat(row.facebook_spend) || 0) + (parseFloat(row.google_spend) || 0);
+          const spend = parseFloat(row.spend) || 0;
+          if (row.platform === 'facebook') {
+            fbSpend += spend;
+          } else if (row.platform === 'google') {
+            googleSpend += spend;
+          }
+          // Aggregate daily
+          if (!dailyAdSpend[row.date]) dailyAdSpend[row.date] = 0;
+          dailyAdSpend[row.date] += spend;
+        });
+        // Apply to dailyData
+        Object.keys(dailyAdSpend).forEach(date => {
+          if (dailyData[date]) {
+            dailyData[date].adSpend = dailyAdSpend[date];
           }
         });
         const totalAdSpend = fbSpend + googleSpend;

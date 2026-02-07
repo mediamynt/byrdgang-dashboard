@@ -703,12 +703,12 @@
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     }
 
-    // Get MST date
+    // Get MST date (America/Denver)
     function getMSTDate() {
       const now = new Date();
-      const mstOffset = -7 * 60;
-      const localOffset = now.getTimezoneOffset();
-      return new Date(now.getTime() + (localOffset - mstOffset) * 60000);
+      // Convert to MST using toLocaleString
+      const mstString = now.toLocaleString('en-US', { timeZone: 'America/Denver' });
+      return new Date(mstString);
     }
 
     // Initialize date displays
@@ -869,10 +869,13 @@
 
     // Load data
     async function loadData() {
+      console.log('Loading data for preset:', currentPreset);
       try {
         const { start, end } = getDateRange();
+        console.log('Date range:', start, 'to', end);
         const startISO = start.toISOString();
         const endISO = end.toISOString();
+        console.log('ISO range:', startISO, 'to', endISO);
 
         // Fetch orders and product costs first
         const [orders, adSpend, productCostsRes] = await Promise.all([
@@ -889,6 +892,8 @@
           supabase.from('product_costs').select('*')
         ]);
 
+        console.log('Fetched:', orders.length, 'orders,', adSpend.length, 'ad spend rows');
+        
         // Build COGS lookup
         const costsMap = {};
         (productCostsRes.data || []).forEach(p => {
@@ -1108,6 +1113,7 @@
 
       } catch (error) {
         console.error('Error loading data:', error);
+        alert('Error: ' + error.message);
       }
     }
 

@@ -654,18 +654,21 @@
         startStr = startOverride;
         endStr = endOverride;
       } else {
-        // Get current date in MST (UTC-7)
-        // Create a date string that represents "now" in MST
+        // Get current date in MST (America/Denver)
         const now = new Date();
-        const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
-        const mstTime = utcTime - (7 * 60 * 60000); // Subtract 7 hours for MST
-        const mstDate = new Date(mstTime);
+        const tz = { timeZone: 'America/Denver' };
+        const year = now.toLocaleString('en-US', { ...tz, year: 'numeric' });
+        const month = now.toLocaleString('en-US', { ...tz, month: '2-digit' });
+        const day = now.toLocaleString('en-US', { ...tz, day: '2-digit' });
+        endStr = year + '-' + month + '-' + day;
         
-        endStr = mstDate.toISOString().split('T')[0];
-        
-        const startDate = new Date(mstTime);
+        // Calculate start date
+        const startDate = new Date(now);
         startDate.setDate(startDate.getDate() - days + 1);
-        startStr = startDate.toISOString().split('T')[0];
+        const sYear = startDate.toLocaleString('en-US', { ...tz, year: 'numeric' });
+        const sMonth = startDate.toLocaleString('en-US', { ...tz, month: '2-digit' });
+        const sDay = startDate.toLocaleString('en-US', { ...tz, day: '2-digit' });
+        startStr = sYear + '-' + sMonth + '-' + sDay;
       }
       
       // Use MST offset (-07:00) for queries

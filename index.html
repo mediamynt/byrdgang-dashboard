@@ -75,195 +75,235 @@
     
     .header h2 { font-size: 20px; font-weight: 600; }
     
-    /* Modern Date Picker */
-    .date-picker-wrapper {
-      position: relative;
-    }
-    
-    .date-picker-trigger {
-      display: flex;
+    /* Shopify-style Date Picker */
+    .date-btn {
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      background: white;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #f6f6f7;
+      border: 1px solid #c9cccf;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.15s;
       color: #1a1a1a;
+      transition: all 0.15s;
     }
     
-    .date-picker-trigger:hover {
-      border-color: #9ca3af;
-      background: #fafafa;
+    .date-btn:hover {
+      background: #f1f1f1;
     }
     
-    .date-picker-trigger.active {
-      border-color: #008060;
-      box-shadow: 0 0 0 3px rgba(0, 128, 96, 0.1);
-    }
-    
-    .date-picker-trigger svg {
+    .date-btn svg {
       width: 16px;
       height: 16px;
-      color: #6b7280;
+      color: #5c5f62;
     }
     
-    .date-picker-trigger .chevron {
-      margin-left: 4px;
-      transition: transform 0.2s;
-    }
-    
-    .date-picker-trigger.active .chevron {
-      transform: rotate(180deg);
-    }
-    
-    /* Backdrop */
-    .date-picker-backdrop {
+    /* Modal Overlay */
+    .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.3);
-      z-index: 199;
-      opacity: 0;
-      transition: opacity 0.2s;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: flex-end;
+      justify-content: center;
     }
     
-    .date-picker-backdrop.show {
-      display: block;
-      opacity: 1;
+    .modal-overlay.show {
+      display: flex;
     }
     
-    /* Dropdown Panel */
-    .date-picker-panel {
-      display: none;
-      position: absolute;
-      top: calc(100% + 6px);
-      right: 0;
+    /* Modal Content - Shopify Style */
+    .date-modal {
       background: white;
-      border-radius: 14px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-      z-index: 200;
-      min-width: 280px;
-      overflow: hidden;
-      transform: translateY(-8px);
-      opacity: 0;
-      transition: transform 0.2s, opacity 0.2s;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px 16px 0 0;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.3s ease-out;
     }
     
-    .date-picker-panel.show {
-      display: block;
+    .modal-overlay.show .date-modal {
       transform: translateY(0);
-      opacity: 1;
     }
     
-    /* Preset Options */
-    .date-presets {
-      padding: 8px;
-    }
-    
-    .preset-option {
+    .modal-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 16px 20px;
+      border-bottom: 1px solid #e1e3e5;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+    }
+    
+    .modal-header h3 {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    
+    .modal-close {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: #f1f1f1;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #5c5f62;
+    }
+    
+    .modal-close:hover {
+      background: #e1e3e5;
+    }
+    
+    .modal-body {
+      padding: 8px 0;
+    }
+    
+    /* Date Option Row */
+    .date-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
       cursor: pointer;
       transition: background 0.1s;
     }
     
-    .preset-option:hover {
-      background: #f3f4f6;
+    .date-option:hover {
+      background: #f6f6f7;
     }
     
-    .preset-option.active {
-      background: #ecfdf5;
-      color: #047857;
+    .date-option:active {
+      background: #f1f1f1;
     }
     
-    .preset-option.active::after {
-      content: '✓';
-      font-weight: 600;
-      color: #059669;
-    }
-    
-    /* Custom Range Section */
-    .custom-section {
-      border-top: 1px solid #e5e7eb;
-      padding: 12px;
-    }
-    
-    .custom-header {
+    .date-option-left {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
+      gap: 12px;
     }
     
-    .custom-header span {
-      font-size: 12px;
+    .date-option-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #8c9196;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .date-option.selected .date-option-radio {
+      border-color: #008060;
+      background: #008060;
+    }
+    
+    .date-option.selected .date-option-radio::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: white;
+      border-radius: 50%;
+    }
+    
+    .date-option-label {
+      font-size: 15px;
+      color: #1a1a1a;
+    }
+    
+    .date-option-value {
+      font-size: 14px;
+      color: #6d7175;
+    }
+    
+    /* Section divider */
+    .modal-section {
+      padding: 12px 20px 8px;
+      font-size: 13px;
       font-weight: 600;
-      color: #6b7280;
+      color: #6d7175;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      background: #f6f6f7;
+      border-top: 1px solid #e1e3e5;
+      border-bottom: 1px solid #e1e3e5;
     }
     
-    .custom-inputs {
-      display: flex;
-      gap: 8px;
+    /* Custom Range */
+    .custom-range-section {
+      padding: 16px 20px;
+      border-top: 1px solid #e1e3e5;
+    }
+    
+    .custom-range-header {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6d7175;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       margin-bottom: 12px;
     }
     
-    .custom-input {
+    .custom-range-inputs {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .custom-input-group {
       flex: 1;
     }
     
-    .custom-input label {
+    .custom-input-group label {
       display: block;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 500;
-      color: #6b7280;
-      margin-bottom: 4px;
+      color: #6d7175;
+      margin-bottom: 6px;
     }
     
-    .custom-input input {
+    .custom-input-group input {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid #d1d5db;
+      border: 1px solid #c9cccf;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 15px;
       font-family: inherit;
-      transition: border-color 0.15s;
     }
     
-    .custom-input input:focus {
+    .custom-input-group input:focus {
       outline: none;
       border-color: #008060;
-      box-shadow: 0 0 0 3px rgba(0, 128, 96, 0.1);
+      box-shadow: 0 0 0 2px rgba(0, 128, 96, 0.2);
     }
     
-    .apply-btn {
+    .apply-custom-btn {
       width: 100%;
+      margin-top: 12px;
       padding: 12px;
       background: #008060;
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s;
     }
     
-    .apply-btn:hover {
+    .apply-custom-btn:hover {
       background: #006e52;
-    }
-    
-    .apply-btn:active {
-      transform: scale(0.98);
     }
 
     /* Section titles */
@@ -452,70 +492,101 @@
       .metrics-grid-6 { grid-template-columns: repeat(2, 1fr); }
       .metric-value { font-size: 20px; }
       .chart-container { height: 180px; }
-      
-      /* Mobile date picker - slides up from bottom */
-      .date-picker-panel {
-        position: fixed;
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: none;
-        border-radius: 20px 20px 0 0;
-        transform: translateY(100%);
-        max-height: 80vh;
-        overflow-y: auto;
+    }
+    
+    @media (min-width: 769px) {
+      .modal-overlay {
+        align-items: center;
       }
       
-      .date-picker-panel.show {
-        transform: translateY(0);
-      }
-      
-      .date-picker-panel::before {
-        content: '';
-        display: block;
-        width: 36px;
-        height: 4px;
-        background: #d1d5db;
-        border-radius: 2px;
-        margin: 10px auto 6px;
-      }
-      
-      .date-presets {
-        padding: 12px 16px;
-      }
-      
-      .preset-option {
-        padding: 14px 12px;
-        font-size: 16px;
-      }
-      
-      .custom-section {
-        padding: 16px;
-      }
-      
-      .custom-inputs {
-        flex-direction: column;
-        gap: 12px;
-      }
-      
-      .custom-input input {
-        padding: 14px;
-        font-size: 16px;
-      }
-      
-      .apply-btn {
-        padding: 16px;
-        font-size: 16px;
+      .date-modal {
+        border-radius: 12px;
+        max-height: 70vh;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Backdrop for mobile -->
-  <div class="date-picker-backdrop" id="date-backdrop" onclick="closeDatePicker()"></div>
-  
+  <!-- Date Picker Modal -->
+  <div class="modal-overlay" id="date-modal-overlay" onclick="closeDateModal(event)">
+    <div class="date-modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Select dates</h3>
+        <button class="modal-close" onclick="closeDatePicker()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="date-option selected" data-value="today" onclick="selectPreset('today')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Today</span>
+          </div>
+          <span class="date-option-value" id="today-date"></span>
+        </div>
+        <div class="date-option" data-value="yesterday" onclick="selectPreset('yesterday')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Yesterday</span>
+          </div>
+          <span class="date-option-value" id="yesterday-date"></span>
+        </div>
+        
+        <div class="modal-section">Rolling periods</div>
+        
+        <div class="date-option" data-value="7" onclick="selectPreset('7')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Last 7 days</span>
+          </div>
+        </div>
+        <div class="date-option" data-value="14" onclick="selectPreset('14')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Last 14 days</span>
+          </div>
+        </div>
+        <div class="date-option" data-value="30" onclick="selectPreset('30')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Last 30 days</span>
+          </div>
+        </div>
+        <div class="date-option" data-value="90" onclick="selectPreset('90')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Last 90 days</span>
+          </div>
+        </div>
+        <div class="date-option" data-value="180" onclick="selectPreset('180')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Last 6 months</span>
+          </div>
+        </div>
+        <div class="date-option" data-value="365" onclick="selectPreset('365')">
+          <div class="date-option-left">
+            <div class="date-option-radio"></div>
+            <span class="date-option-label">Last 12 months</span>
+          </div>
+        </div>
+        
+        <div class="custom-range-section">
+          <div class="custom-range-header">Custom range</div>
+          <div class="custom-range-inputs">
+            <div class="custom-input-group">
+              <label>Starting</label>
+              <input type="date" id="start-date">
+            </div>
+            <div class="custom-input-group">
+              <label>Ending</label>
+              <input type="date" id="end-date">
+            </div>
+          </div>
+          <button class="apply-custom-btn" onclick="applyCustomRange()">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <aside class="sidebar">
     <div class="sidebar-logo">
       <span>🦩</span>
@@ -532,45 +603,15 @@
   <main class="main">
     <header class="header">
       <h2>Analytics Dashboard</h2>
-      <div class="date-picker-wrapper">
-        <button class="date-picker-trigger" id="date-trigger" onclick="toggleDatePicker()">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" />
-          </svg>
-          <span id="date-range-label">Today</span>
-          <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-          </svg>
-        </button>
-        
-        <div class="date-picker-panel" id="date-panel">
-          <div class="date-presets">
-            <div class="preset-option active" data-days="1" onclick="setDateRange(1, 'Today')">Today</div>
-            <div class="preset-option" data-days="7" onclick="setDateRange(7, 'Last 7 days')">Last 7 days</div>
-            <div class="preset-option" data-days="14" onclick="setDateRange(14, 'Last 2 weeks')">Last 2 weeks</div>
-            <div class="preset-option" data-days="30" onclick="setDateRange(30, 'Last 30 days')">Last 30 days</div>
-            <div class="preset-option" data-days="90" onclick="setDateRange(90, 'Last 90 days')">Last 90 days</div>
-            <div class="preset-option" data-days="180" onclick="setDateRange(180, 'Last 6 months')">Last 6 months</div>
-          </div>
-          
-          <div class="custom-section">
-            <div class="custom-header">
-              <span>Custom Range</span>
-            </div>
-            <div class="custom-inputs">
-              <div class="custom-input">
-                <label>Start Date</label>
-                <input type="date" id="start-date">
-              </div>
-              <div class="custom-input">
-                <label>End Date</label>
-                <input type="date" id="end-date">
-              </div>
-            </div>
-            <button class="apply-btn" onclick="applyCustomRange()">Apply Range</button>
-          </div>
-        </div>
-      </div>
+      <button class="date-btn" onclick="openDatePicker()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.75 2a.75.75 0 01.75.75V4h7V2.75a.75.75 0 011.5 0V4h.25A2.75 2.75 0 0118 6.75v8.5A2.75 2.75 0 0115.25 18H4.75A2.75 2.75 0 012 15.25v-8.5A2.75 2.75 0 014.75 4H5V2.75A.75.75 0 015.75 2zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75z" clip-rule="evenodd" />
+        </svg>
+        <span id="date-label">Today</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+        </svg>
+      </button>
     </header>
 
     <div class="section-title">Revenue & Profit</div>
@@ -633,75 +674,108 @@
     );
 
     // State
-    let currentDays = 1;
-    let startDate = null;
-    let endDate = null;
+    let currentPreset = 'today';
+    let customStartDate = null;
+    let customEndDate = null;
     let revenueChart = null;
 
-    // Date picker functions
-    function toggleDatePicker() {
-      const trigger = document.getElementById('date-trigger');
-      const panel = document.getElementById('date-panel');
-      const backdrop = document.getElementById('date-backdrop');
+    // Format date for display
+    function formatDateShort(date) {
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    // Get MST date
+    function getMSTDate() {
+      const now = new Date();
+      const mstOffset = -7 * 60;
+      const localOffset = now.getTimezoneOffset();
+      return new Date(now.getTime() + (localOffset - mstOffset) * 60000);
+    }
+
+    // Initialize date displays
+    function initDateLabels() {
+      const today = getMSTDate();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
       
-      const isOpen = panel.classList.contains('show');
+      document.getElementById('today-date').textContent = formatDateShort(today);
+      document.getElementById('yesterday-date').textContent = formatDateShort(yesterday);
       
-      if (isOpen) {
-        closeDatePicker();
-      } else {
-        trigger.classList.add('active');
-        panel.classList.add('show');
-        backdrop.classList.add('show');
-      }
+      // Set default dates for custom inputs
+      const todayStr = today.toISOString().split('T')[0];
+      document.getElementById('end-date').value = todayStr;
+      
+      const weekAgo = new Date(today);
+      weekAgo.setDate(weekAgo.getDate() - 7);
+      document.getElementById('start-date').value = weekAgo.toISOString().split('T')[0];
+    }
+
+    // Date picker modal
+    function openDatePicker() {
+      document.getElementById('date-modal-overlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeDatePicker() {
-      const trigger = document.getElementById('date-trigger');
-      const panel = document.getElementById('date-panel');
-      const backdrop = document.getElementById('date-backdrop');
-      
-      trigger.classList.remove('active');
-      panel.classList.remove('show');
-      backdrop.classList.remove('show');
+      document.getElementById('date-modal-overlay').classList.remove('show');
+      document.body.style.overflow = '';
     }
 
-    function setDateRange(days, label) {
-      currentDays = days;
-      startDate = null;
-      endDate = null;
+    function closeDateModal(event) {
+      if (event.target === event.currentTarget) {
+        closeDatePicker();
+      }
+    }
+
+    function selectPreset(value) {
+      currentPreset = value;
+      customStartDate = null;
+      customEndDate = null;
       
-      document.getElementById('date-range-label').textContent = label;
-      
-      // Update active state
-      document.querySelectorAll('.preset-option').forEach(opt => {
-        opt.classList.remove('active');
-        if (parseInt(opt.dataset.days) === days) {
-          opt.classList.add('active');
+      // Update UI
+      document.querySelectorAll('.date-option').forEach(opt => {
+        opt.classList.remove('selected');
+        if (opt.dataset.value === value) {
+          opt.classList.add('selected');
         }
       });
+      
+      // Update label
+      const labels = {
+        'today': 'Today',
+        'yesterday': 'Yesterday',
+        '7': 'Last 7 days',
+        '14': 'Last 14 days',
+        '30': 'Last 30 days',
+        '90': 'Last 90 days',
+        '180': 'Last 6 months',
+        '365': 'Last 12 months'
+      };
+      document.getElementById('date-label').textContent = labels[value] || 'Custom';
       
       closeDatePicker();
       loadData();
     }
 
     function applyCustomRange() {
-      const start = document.getElementById('start-date').value;
-      const end = document.getElementById('end-date').value;
+      const startInput = document.getElementById('start-date').value;
+      const endInput = document.getElementById('end-date').value;
       
-      if (!start || !end) {
-        alert('Please select both start and end dates');
+      if (!startInput || !endInput) {
+        alert('Please select both dates');
         return;
       }
       
-      startDate = new Date(start + 'T00:00:00');
-      endDate = new Date(end + 'T23:59:59');
-      currentDays = null;
+      customStartDate = new Date(startInput + 'T00:00:00');
+      customEndDate = new Date(endInput + 'T23:59:59');
+      currentPreset = 'custom';
       
-      const formatDate = (d) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      document.getElementById('date-range-label').textContent = `${formatDate(startDate)} - ${formatDate(endDate)}`;
+      // Clear selections
+      document.querySelectorAll('.date-option').forEach(opt => opt.classList.remove('selected'));
       
-      // Clear preset active states
-      document.querySelectorAll('.preset-option').forEach(opt => opt.classList.remove('active'));
+      // Update label
+      document.getElementById('date-label').textContent = 
+        `${formatDateShort(customStartDate)} – ${formatDateShort(customEndDate)}`;
       
       closeDatePicker();
       loadData();
@@ -742,36 +816,46 @@
       return allRows;
     }
 
+    // Calculate date range
+    function getDateRange() {
+      if (customStartDate && customEndDate) {
+        return { start: customStartDate, end: customEndDate };
+      }
+      
+      const mstNow = getMSTDate();
+      let start, end;
+      
+      if (currentPreset === 'today') {
+        start = new Date(mstNow);
+        start.setHours(0, 0, 0, 0);
+        end = new Date(mstNow);
+        end.setHours(23, 59, 59, 999);
+      } else if (currentPreset === 'yesterday') {
+        start = new Date(mstNow);
+        start.setDate(start.getDate() - 1);
+        start.setHours(0, 0, 0, 0);
+        end = new Date(start);
+        end.setHours(23, 59, 59, 999);
+      } else {
+        const days = parseInt(currentPreset);
+        end = new Date(mstNow);
+        end.setHours(23, 59, 59, 999);
+        start = new Date(mstNow);
+        start.setDate(start.getDate() - days + 1);
+        start.setHours(0, 0, 0, 0);
+      }
+      
+      return { start, end };
+    }
+
     // Load data
     async function loadData() {
-      console.log('Loading data...');
       try {
-        // Calculate date range (using MST)
-        let start, end;
-        
-        if (startDate && endDate) {
-          start = startDate;
-          end = endDate;
-        } else {
-          // Use MST timezone
-          const now = new Date();
-          const mstOffset = -7 * 60; // MST is UTC-7
-          const localOffset = now.getTimezoneOffset();
-          const mstNow = new Date(now.getTime() + (localOffset - mstOffset) * 60000);
-          
-          end = new Date(mstNow);
-          end.setHours(23, 59, 59, 999);
-          
-          start = new Date(mstNow);
-          start.setDate(start.getDate() - currentDays + 1);
-          start.setHours(0, 0, 0, 0);
-        }
-
+        const { start, end } = getDateRange();
         const startISO = start.toISOString();
         const endISO = end.toISOString();
 
         // Fetch orders and product costs first
-        console.log('Fetching orders and costs...');
         const [orders, adSpend, productCostsRes] = await Promise.all([
           fetchAllRows('orders', { 
             select: 'id,total_price,shipping_cost,customer_id,created_at,refund_amount',
@@ -785,8 +869,6 @@
           }),
           supabase.from('product_costs').select('*')
         ]);
-        
-        console.log('Orders:', orders.length, 'Ad spend rows:', adSpend.length);
 
         // Build COGS lookup
         const costsMap = {};
@@ -795,12 +877,11 @@
         });
         const defaultCOGS = costsMap['polo'] || 7;
 
-        // Fetch line items only for these orders (batch by order IDs)
+        // Fetch line items only for these orders
         const orderIds = orders.map(o => o.id);
         let relevantLineItems = [];
         
         if (orderIds.length > 0) {
-          // Fetch in batches of 100 order IDs to avoid URL limits
           const batchSize = 100;
           for (let i = 0; i < orderIds.length; i += batchSize) {
             const batch = orderIds.slice(i, i + batchSize);
@@ -812,7 +893,6 @@
             relevantLineItems = relevantLineItems.concat(data || []);
           }
         }
-        console.log('Line items:', relevantLineItems.length);
 
         // Calculate metrics
         let totalRevenue = 0;
@@ -836,7 +916,6 @@
             customerOrders[order.customer_id] = (customerOrders[order.customer_id] || 0) + 1;
           }
 
-          // Daily aggregation
           const day = order.created_at.split('T')[0];
           if (!dailyData[day]) {
             dailyData[day] = { revenue: 0, cogs: 0, shipping: 0, adSpend: 0 };
@@ -858,7 +937,6 @@
           
           totalCOGS += cost * qty;
 
-          // Add to daily
           const order = orders.find(o => o.id === li.order_id);
           if (order) {
             const day = order.created_at.split('T')[0];
@@ -903,9 +981,8 @@
         const newPct = uniqueCustomers > 0 ? (newCustomers / uniqueCustomers * 100) : 0;
         const repurchaseRate = uniqueCustomers > 0 ? (returningCustomers / uniqueCustomers * 100) : 0;
         
-        // LTV (simple: AOV * avg orders per customer)
         const avgOrdersPerCustomer = uniqueCustomers > 0 ? (orders.length / uniqueCustomers) : 1;
-        const ltv = aov * avgOrdersPerCustomer * 1.5; // 1.5x multiplier for future value
+        const ltv = aov * avgOrdersPerCustomer * 1.5;
         const ltvCacRatio = cac > 0 ? (ltv / cac) : 0;
 
         // Update UI
@@ -1012,19 +1089,11 @@
 
       } catch (error) {
         console.error('Error loading data:', error);
-        alert('Error loading data: ' + error.message);
       }
     }
 
-    // Close date picker when clicking outside
-    document.addEventListener('click', (e) => {
-      const wrapper = document.querySelector('.date-picker-wrapper');
-      if (!wrapper.contains(e.target)) {
-        closeDatePicker();
-      }
-    });
-
     // Initialize
+    initDateLabels();
     loadData();
   </script>
 </body>

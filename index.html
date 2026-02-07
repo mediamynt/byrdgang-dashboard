@@ -702,10 +702,10 @@
       const orderCount = orders.length;
       const unitsSold = lineItems.reduce((s, i) => s + (i.quantity || 1), 0);
       
-      // Revenue
-      const grossRevenue = orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
+      // Revenue (total_price is already current_total_price, which is net of refunds)
+      const revenue = orders.reduce((s, o) => s + parseFloat(o.total_price || 0), 0);
       const refunds = orders.reduce((s, o) => s + parseFloat(o.refund_amount || 0), 0);
-      const revenue = grossRevenue - refunds;
+      // Note: refunds are tracked for display but NOT subtracted (already reflected in total_price)
       
       // Ad spend
       const fbSpend = adSpend.filter(a => a.platform === 'facebook').reduce((s, a) => s + parseFloat(a.spend), 0);

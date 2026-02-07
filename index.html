@@ -264,6 +264,7 @@
     
     .custom-input-group {
       flex: 1;
+      min-width: 0;
     }
     
     .custom-input-group label {
@@ -276,11 +277,15 @@
     
     .custom-input-group input {
       width: 100%;
-      padding: 10px 12px;
+      max-width: 100%;
+      padding: 10px 8px;
       border: 1px solid #c9cccf;
       border-radius: 8px;
-      font-size: 15px;
+      font-size: 14px;
       font-family: inherit;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      appearance: none;
     }
     
     .custom-input-group input:focus {
@@ -492,6 +497,20 @@
       .metrics-grid-6 { grid-template-columns: repeat(2, 1fr); }
       .metric-value { font-size: 20px; }
       .chart-container { height: 180px; }
+      
+      .custom-range-section {
+        padding: 16px;
+      }
+      
+      .custom-range-inputs {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .custom-input-group input {
+        padding: 14px 12px;
+        font-size: 16px;
+      }
     }
     
     @media (min-width: 769px) {

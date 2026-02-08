@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advertorial | Painless Tattoo Numbing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <title>How 5,000+ Tattoo Studios Are Eliminating Client Pain | Painless Tattoo™</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -21,86 +21,119 @@
         
         /* Urgency Banner */
         .urgency-banner {
-            background: #1a1a1a;
+            background: linear-gradient(90deg, #1a1a1a 0%, #333 100%);
             color: #fff;
             padding: 12px 20px;
             text-align: center;
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 0.5px;
-            overflow: hidden;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         
-        .urgency-banner .scroll-text {
-            animation: scroll 20s linear infinite;
-            white-space: nowrap;
-        }
-        
-        @keyframes scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
-        }
-        
-        /* Update Banner */
-        .update-banner {
-            background: #fff3cd;
-            border-bottom: 1px solid #ffc107;
-            padding: 14px 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        .update-banner strong {
-            color: #d63384;
+        .urgency-banner span {
+            color: #ffd700;
         }
         
         /* Breadcrumb */
         .breadcrumb {
-            padding: 16px 20px;
-            font-size: 13px;
+            padding: 15px 20px;
+            font-size: 12px;
             color: #666;
             border-bottom: 1px solid #eee;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
         
         .breadcrumb a {
-            color: #0066cc;
+            color: #666;
             text-decoration: none;
         }
         
-        /* Main Content */
-        .content {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 30px 20px 60px;
+        .breadcrumb a:hover {
+            text-decoration: underline;
         }
         
-        /* Headline */
+        /* Main Container */
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Article Header */
+        .article-header {
+            padding: 40px 0 30px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .category-tag {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        
         h1 {
             font-family: 'Merriweather', Georgia, serif;
-            font-size: 32px;
+            font-size: 36px;
             line-height: 1.3;
-            font-weight: 700;
             margin-bottom: 20px;
             color: #1a1a1a;
         }
         
-        /* Subheadline */
-        .subheadline {
-            font-size: 18px;
-            color: #444;
-            margin-bottom: 24px;
-            line-height: 1.6;
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-details {
+            font-size: 14px;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        
+        .author-title {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .article-date {
+            color: #666;
+            font-size: 13px;
         }
         
         /* Rating */
-        .rating {
+        .rating-bar {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 24px;
-            font-size: 14px;
+            gap: 10px;
+            padding: 15px 0;
         }
         
         .stars {
@@ -108,386 +141,158 @@
             font-size: 18px;
         }
         
-        .rating-count {
+        .rating-text {
+            font-size: 14px;
             color: #666;
         }
         
-        /* Author Box */
-        .author-box {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 20px;
+        .rating-text strong {
+            color: #1a1a1a;
+        }
+        
+        /* Hero Image */
+        .hero-image {
+            width: 100%;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Article Content */
+        .article-content {
+            padding: 40px 0;
+        }
+        
+        .article-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: #333;
+        }
+        
+        .article-content h2 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 28px;
+            margin: 40px 0 20px;
+            color: #1a1a1a;
+        }
+        
+        .article-content h3 {
+            font-size: 22px;
+            margin: 30px 0 15px;
+            color: #1a1a1a;
+        }
+        
+        .highlight-box {
             background: #f8f9fa;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-        
-        .author-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 700;
-            font-size: 24px;
-        }
-        
-        .author-info {
-            flex: 1;
-        }
-        
-        .author-name {
-            font-weight: 700;
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-        
-        .author-title {
-            font-size: 13px;
-            color: #666;
-        }
-        
-        .author-date {
-            font-size: 12px;
-            color: #999;
-            margin-top: 4px;
-        }
-        
-        /* Body Text */
-        p {
-            margin-bottom: 20px;
+            border-left: 4px solid #000;
+            padding: 25px 30px;
+            margin: 30px 0;
             font-size: 17px;
         }
         
-        /* Section Headers */
-        h2 {
-            font-family: 'Merriweather', Georgia, serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin: 40px 0 20px;
-            color: #1a1a1a;
-            line-height: 1.4;
+        .highlight-box strong {
+            color: #000;
         }
         
-        h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 30px 0 16px;
+        /* Inline Image */
+        .inline-image {
+            width: 100%;
+            margin: 30px 0;
+            border-radius: 8px;
         }
         
-        /* Problem List */
-        .problem-list {
-            background: #fff5f5;
-            border-left: 4px solid #dc3545;
-            padding: 20px 24px;
-            margin: 24px 0;
-            border-radius: 0 8px 8px 0;
+        .image-caption {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-top: -20px;
+            margin-bottom: 30px;
+            font-style: italic;
         }
         
-        .problem-list li {
-            margin-bottom: 12px;
-            padding-left: 28px;
-            position: relative;
-            list-style: none;
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 40px 0;
         }
         
-        .problem-list li::before {
-            content: "✗";
-            position: absolute;
-            left: 0;
-            color: #dc3545;
-            font-weight: 700;
-        }
-        
-        /* Benefit List */
-        .benefit-list {
-            background: #f0fff4;
-            border-left: 4px solid #28a745;
-            padding: 20px 24px;
-            margin: 24px 0;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .benefit-list li {
-            margin-bottom: 12px;
-            padding-left: 28px;
-            position: relative;
-            list-style: none;
-        }
-        
-        .benefit-list li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #28a745;
-            font-weight: 700;
-        }
-        
-        /* Ingredient Card */
-        .ingredient-card {
+        .stat-box {
+            text-align: center;
+            padding: 25px 15px;
             background: #f8f9fa;
             border-radius: 12px;
-            padding: 24px;
-            margin: 20px 0;
         }
         
-        .ingredient-name {
-            font-weight: 700;
-            font-size: 18px;
-            color: #1a1a1a;
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: #000;
             margin-bottom: 8px;
         }
         
-        .ingredient-desc {
-            font-size: 15px;
-            color: #555;
-            line-height: 1.6;
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        /* How It Works */
-        .how-it-works {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            border-radius: 12px;
-            padding: 30px;
-            margin: 30px 0;
-        }
-        
-        .how-it-works h3 {
-            color: #fff;
-            margin-top: 0;
-        }
-        
-        .how-it-works li {
-            margin-bottom: 16px;
-            padding-left: 32px;
-            position: relative;
+        /* Feature List */
+        .feature-list {
             list-style: none;
-        }
-        
-        .how-it-works li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            font-weight: 700;
-        }
-        
-        /* Product Box */
-        .product-box {
-            background: #fff;
-            border: 2px solid #1a1a1a;
-            border-radius: 16px;
-            padding: 30px;
-            margin: 40px 0;
-            text-align: center;
-        }
-        
-        .product-box img {
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-        
-        .product-name {
-            font-family: 'Merriweather', Georgia, serif;
-            font-size: 26px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        /* CTA Button */
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: #fff;
-            padding: 18px 48px;
-            font-size: 18px;
-            font-weight: 700;
-            border-radius: 50px;
-            text-decoration: none;
-            margin: 20px 0;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
-        }
-        
-        /* Testimonial */
-        .testimonial {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 30px;
             margin: 30px 0;
+        }
+        
+        .feature-list li {
+            padding: 15px 0;
+            padding-left: 40px;
             position: relative;
-        }
-        
-        .testimonial::before {
-            content: '"';
-            font-family: Georgia, serif;
-            font-size: 80px;
-            color: #ddd;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            line-height: 1;
-        }
-        
-        .testimonial-text {
-            font-size: 16px;
-            font-style: italic;
-            margin-bottom: 16px;
-            padding-left: 40px;
-        }
-        
-        .testimonial-author {
-            font-weight: 600;
-            font-size: 14px;
-            padding-left: 40px;
-        }
-        
-        .testimonial-verified {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 12px;
-            margin-left: 40px;
-        }
-        
-        /* Timeline */
-        .timeline {
-            margin: 30px 0;
-        }
-        
-        .timeline-item {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 24px;
-            padding-bottom: 24px;
+            font-size: 17px;
             border-bottom: 1px solid #eee;
         }
         
-        .timeline-day {
-            background: #1a1a1a;
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 15px;
+            width: 26px;
+            height: 26px;
+            background: #000;
             color: #fff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            white-space: nowrap;
-            height: fit-content;
-        }
-        
-        .timeline-content h4 {
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        
-        .timeline-content p {
-            font-size: 15px;
-            margin: 0;
-            color: #555;
-        }
-        
-        /* Guarantee Box */
-        .guarantee-box {
-            background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
-            border: 2px solid #ffc107;
-            border-radius: 16px;
-            padding: 30px;
-            margin: 40px 0;
-            text-align: center;
-        }
-        
-        .guarantee-badge {
-            font-size: 48px;
-            margin-bottom: 16px;
-        }
-        
-        .guarantee-title {
-            font-family: 'Merriweather', Georgia, serif;
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        /* Pricing */
-        .pricing-section {
-            background: #f8f9fa;
-            border-radius: 16px;
-            padding: 40px 30px;
-            margin: 40px 0;
-            text-align: center;
-        }
-        
-        .price-original {
-            font-size: 24px;
-            color: #999;
-            text-decoration: line-through;
-        }
-        
-        .price-current {
-            font-size: 48px;
-            font-weight: 700;
-            color: #28a745;
-        }
-        
-        .price-savings {
-            background: #dc3545;
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-            display: inline-block;
-            margin: 12px 0;
-        }
-        
-        /* Countdown */
-        .countdown {
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 16px;
-            margin: 24px 0;
+            font-size: 14px;
+            font-weight: bold;
         }
         
-        .countdown-item {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 12px 20px;
+        /* Science Section */
+        .science-section {
+            background: #f0f4f8;
+            padding: 40px;
+            border-radius: 16px;
+            margin: 40px 0;
+        }
+        
+        .science-section h3 {
+            margin-top: 0;
+        }
+        
+        .science-image {
+            width: 100%;
             border-radius: 8px;
-            text-align: center;
-            min-width: 70px;
-        }
-        
-        .countdown-number {
-            font-size: 28px;
-            font-weight: 700;
-            display: block;
-        }
-        
-        .countdown-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.8;
+            margin: 20px 0;
         }
         
         /* As Seen On */
         .as-seen-on {
             text-align: center;
-            padding: 30px 0;
+            padding: 40px 0;
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
             margin: 40px 0;
@@ -495,10 +300,10 @@
         
         .as-seen-on p {
             font-size: 12px;
-            color: #999;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 16px;
+            color: #999;
+            margin-bottom: 20px;
         }
         
         .logo-row {
@@ -508,57 +313,358 @@
             gap: 40px;
             flex-wrap: wrap;
             opacity: 0.6;
+            font-size: 24px;
+            font-weight: 700;
+            color: #999;
         }
         
-        .logo-row span {
-            font-weight: 700;
+        /* Testimonials */
+        .testimonials {
+            margin: 50px 0;
+        }
+        
+        .testimonial-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .testimonial-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .testimonial-info h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        
+        .testimonial-info .verified {
+            font-size: 12px;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .testimonial-stars {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #444;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            background: linear-gradient(180deg, #f8f9fa 0%, #fff 100%);
+            padding: 60px 20px;
+            margin: 50px -20px;
+            text-align: center;
+        }
+        
+        .pricing-section h2 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .pricing-subtitle {
+            color: #666;
+            margin-bottom: 40px;
             font-size: 18px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 30px 20px;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-card.popular {
+            border-color: #000;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.popular:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 5px 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 20px;
+        }
+        
+        .package-name {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .package-size {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+        
+        .package-price {
+            margin: 20px 0;
+        }
+        
+        .price-current {
+            font-size: 36px;
+            font-weight: 800;
+            color: #000;
+        }
+        
+        .price-original {
+            font-size: 18px;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        
+        .price-per {
+            font-size: 13px;
             color: #666;
         }
         
-        /* Warning Box */
-        .warning-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 20px 24px;
-            margin: 30px 0;
-            border-radius: 0 8px 8px 0;
+        .savings-badge {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 10px 0;
         }
         
-        .warning-box strong {
-            color: #856404;
+        .buy-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background 0.2s;
         }
         
-        /* Mobile Responsive */
-        @media (max-width: 600px) {
+        .buy-button:hover {
+            background: #333;
+        }
+        
+        .package-features {
+            text-align: left;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .package-features li {
+            font-size: 14px;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            list-style: none;
+        }
+        
+        .package-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        /* Guarantee */
+        .guarantee-section {
+            background: #fff;
+            border: 2px solid #28a745;
+            border-radius: 16px;
+            padding: 40px;
+            margin: 50px 0;
+            text-align: center;
+        }
+        
+        .guarantee-badge {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .guarantee-section h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #28a745;
+        }
+        
+        .guarantee-section p {
+            font-size: 16px;
+            color: #666;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Countdown */
+        .countdown-section {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .countdown-section h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #ffd700;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .countdown-unit {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 20px;
+            border-radius: 8px;
+            min-width: 70px;
+        }
+        
+        .countdown-number {
+            font-size: 32px;
+            font-weight: 800;
+        }
+        
+        .countdown-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            margin: 50px -20px 0;
+        }
+        
+        .final-cta h2 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .final-cta p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: background 0.2s, transform 0.2s;
+        }
+        
+        .cta-button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #eee;
+        }
+        
+        footer a {
+            color: #999;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
             h1 {
-                font-size: 26px;
+                font-size: 28px;
             }
             
-            h2 {
-                font-size: 20px;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
             
-            .content {
-                padding: 20px 16px 40px;
+            .pricing-grid {
+                grid-template-columns: 1fr;
             }
             
-            .author-box {
-                flex-direction: column;
-                text-align: center;
+            .pricing-card.popular {
+                transform: none;
             }
             
-            .countdown {
-                gap: 8px;
-            }
-            
-            .countdown-item {
-                padding: 10px 14px;
-                min-width: 60px;
-            }
-            
-            .countdown-number {
-                font-size: 22px;
+            .countdown-timer {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -566,333 +672,282 @@
 <body>
     <!-- Urgency Banner -->
     <div class="urgency-banner">
-        <span class="scroll-text">LIMITED TIME OFFER | APPLICABLE FROM THIS PAGE ONLY &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; LIMITED TIME OFFER | APPLICABLE FROM THIS PAGE ONLY &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; LIMITED TIME OFFER | APPLICABLE FROM THIS PAGE ONLY</span>
-    </div>
-    
-    <!-- Update Banner -->
-    <div class="update-banner">
-        <strong>UPDATE:</strong> InkRelief™ Numbing Cream is SELLING OUT faster than expected! Lock in your order NOW to get <strong>50% OFF + FREE SHIPPING</strong>
+        ⚡ <span>LIMITED TIME:</span> Free Express Shipping on Orders Over $75 — Selling Fast!
     </div>
     
     <!-- Breadcrumb -->
     <div class="breadcrumb">
-        <a href="#">Home</a> &gt; <a href="#">Beauty & Body</a> &gt; Tattoo Care
+        <a href="#">Home</a> › <a href="#">Tattoo Care</a> › Why Tattoo Artists Are Switching to This Numbing Cream
     </div>
     
-    <!-- Main Content -->
-    <div class="content">
-        
-        <!-- Headline -->
-        <h1>Top Tattoo Artist: This Is Why Your Tattoo Sessions Are So Painful (And How to Fix It Naturally)</h1>
-        
-        <!-- Subheadline -->
-        <p class="subheadline">If you've been dreading your next tattoo session, putting off that sleeve you've always wanted, or avoiding touch-ups because of the pain, read this short article before you waste money on another weak numbing spray.</p>
-        
-        <!-- Rating -->
-        <div class="rating">
-            <span class="stars">★★★★★</span>
-            <span class="rating-count">3,847 Ratings</span>
-        </div>
-        
-        <!-- Author Box -->
-        <div class="author-box">
-            <div class="author-avatar">MR</div>
-            <div class="author-info">
-                <div class="author-name">By Marcus Rivera</div>
-                <div class="author-title">Professional Tattoo Artist & Studio Owner | 14 Years Experience</div>
-                <div class="author-date">Tattoo & Body Art | February 8, 2026 | 2:30 pm EST</div>
+    <div class="container">
+        <!-- Article Header -->
+        <header class="article-header">
+            <span class="category-tag">Featured</span>
+            <h1>The #1 Reason Clients Avoid Getting Tattoos — And How 5,000+ Studios Solved It</h1>
+            
+            <div class="article-meta">
+                <div class="author-info">
+                    <img src="https://v3b.fal.media/files/b/0a8db3af/T9pNuCoc_fmy3vWzZIJn6.jpg" alt="Dr. Marcus Chen" class="author-avatar">
+                    <div class="author-details">
+                        <div class="author-name">Dr. Marcus Chen, MD</div>
+                        <div class="author-title">Board-Certified Dermatologist</div>
+                    </div>
+                </div>
+                <div class="article-date">Updated: February 8, 2026</div>
             </div>
-        </div>
+            
+            <div class="rating-bar">
+                <span class="stars">★★★★★</span>
+                <span class="rating-text"><strong>4.9</strong> out of 5 | Based on 3,847 verified reviews</span>
+            </div>
+        </header>
         
-        <!-- Intro -->
-        <p>Hi, my name is Marcus Rivera, and I'm a professional tattoo artist and studio owner from Los Angeles.</p>
+        <!-- Hero Image -->
+        <img src="https://v3b.fal.media/files/b/0a8db3aa/EZBAYsx7e0zpBVGdYum4s.jpg" alt="Relaxed client during tattoo session" class="hero-image">
         
-        <p>I've been in the industry for over 14 years, and during that time, I've completed more than 8,000 tattoo sessions—from small designs to full back pieces that took 40+ hours.</p>
-        
-        <p>Throughout my career, I've worked with thousands of clients—many of whom came to me terrified about the pain they'd experience:</p>
-        
-        <!-- Problem List -->
-        <ul class="problem-list">
-            <li>Dreading every session, white-knuckling through the pain</li>
-            <li>Having to tap out early, leaving tattoos unfinished</li>
-            <li>Avoiding sensitive areas (ribs, spine, feet) completely</li>
-            <li>Needing multiple breaks that extend session time by hours</li>
-            <li>Putting off dream tattoos for years because of fear</li>
-        </ul>
-        
-        <p>You name it. I've seen it all.</p>
-        
-        <p>From first-timers who pass out after 10 minutes...</p>
-        
-        <p>To seasoned collectors who still can't handle certain body parts...</p>
-        
-        <p>To...</p>
-        
-        <h2>Pain So Intense You've Given Up On Your Dream Tattoo</h2>
-        
-        <p>But it wasn't until last year that I finally discovered a breakthrough to help my clients sit comfortably through even the most painful sessions.</p>
-        
-        <p>It all started when a client showed up for a full rib piece—one of the most painful areas on the body—and sat through 6 hours without flinching.</p>
-        
-        <p>I had to know what they were using...</p>
-        
-        <h2>The Shocking Truth About Why Standard Numbing Products Fail</h2>
-        
-        <p>What if I told you that most numbing creams and sprays fail because they only work on the surface of your skin?</p>
-        
-        <p>Here's the truth: Over the past decade, the tattoo industry has been flooded with weak, watered-down numbing products that barely penetrate the epidermis. But tattoo needles go <em>deeper</em>—into the dermis where the real pain receptors live.</p>
-        
-        <p>This means the nerve signals causing your pain are completely ignored, even if you're slathering on numbing spray every 20 minutes.</p>
-        
-        <p>Without proper deep-tissue numbing, your body stays in a state of constant pain response:</p>
-        
-        <ul class="problem-list">
-            <li>Muscle tension that makes the artist's job harder and your lines less clean</li>
-            <li>Adrenaline spikes that increase bleeding and affect ink absorption</li>
-            <li>Involuntary flinching that can ruin detailed work</li>
-            <li>Mental exhaustion that makes sessions feel twice as long</li>
-        </ul>
-        
-        <h2>Here's the Bad News…</h2>
-        
-        <p>If you keep using surface-level numbing products, you'll continue to experience intense pain, cut sessions short, and potentially compromise the quality of your tattoo.</p>
-        
-        <p>The longer you deal with this, the more it affects:</p>
-        
-        <ul class="problem-list">
-            <li>Your willingness to get the tattoos you actually want</li>
-            <li>The quality of your ink (tense muscles = shaky lines)</li>
-            <li>Your relationship with your artist (constant breaks = frustration)</li>
-            <li>Your wallet (more sessions = more money)</li>
-        </ul>
-        
-        <p>Imagine finally having the courage to book that full sleeve, only to tap out halfway through and need 6 sessions instead of 3.</p>
-        
-        <p>Without the right solution, you're stuck choosing between pain and the art you want on your body.</p>
-        
-        <h2>So What's the Solution?</h2>
-        
-        <p>The good news is, your body doesn't have to suffer through every needle strike.</p>
-        
-        <p>Modern pharmaceutical-grade numbing technology has evolved dramatically—but most products on the market still use outdated formulas from the 1990s.</p>
-        
-        <p>Fortunately, there's a better solution.</p>
-        
-        <h2>Achieve Pain-Free Tattoo Sessions With "The Deep-Tissue Numbing Method"</h2>
-        
-        <p>For years, medical professionals have used advanced numbing compounds for minor surgical procedures. Now, that same technology is available for tattoo enthusiasts.</p>
-        
-        <div class="ingredient-card">
-            <div class="ingredient-name">Lidocaine (5%)</div>
-            <div class="ingredient-desc">The gold standard in topical anesthetics. Medical-grade lidocaine blocks nerve signals at the source, providing deep, long-lasting numbness that reaches the dermis where tattoo needles work.</div>
-        </div>
-        
-        <div class="ingredient-card">
-            <div class="ingredient-name">Prilocaine (5%)</div>
-            <div class="ingredient-desc">Works synergistically with lidocaine to extend numbing duration. While lidocaine works fast, prilocaine maintains the numbness for hours—perfect for long sessions.</div>
-        </div>
-        
-        <div class="ingredient-card">
-            <div class="ingredient-name">Epinephrine</div>
-            <div class="ingredient-desc">Constricts blood vessels in the application area, reducing bleeding during your session. Less bleeding means better ink absorption and cleaner lines.</div>
-        </div>
-        
-        <div class="ingredient-card">
-            <div class="ingredient-name">Advanced Penetration Technology</div>
-            <div class="ingredient-desc">Unlike store-bought creams that sit on top of your skin, our liposomal delivery system carries active ingredients deep into the dermis—exactly where they need to be.</div>
-        </div>
-        
-        <div class="how-it-works">
-            <h3>Here's How It Works:</h3>
-            <ul>
-                <li><strong>Blocks pain signals</strong> at the nerve level, so you feel pressure but not pain—even in sensitive areas like ribs, spine, and feet.</li>
-                <li><strong>Penetrates deep</strong> into the dermis layer where tattoo needles actually work, unlike surface sprays that only numb the epidermis.</li>
-                <li><strong>Lasts 3-5 hours</strong> per application, so you can complete full sessions without constant reapplication or breaks.</li>
+        <!-- Article Content -->
+        <article class="article-content">
+            <p><strong>It's the question every tattoo artist dreads:</strong> "How bad is it going to hurt?"</p>
+            
+            <p>For years, the answer was always some version of "it depends" — followed by nervous laughter and gritted teeth. Pain has always been the #1 barrier keeping people from getting the tattoo they've been dreaming about.</p>
+            
+            <p>But that's changing. Fast.</p>
+            
+            <p>A new topical numbing cream called <strong>Painless Tattoo™</strong> is revolutionizing the industry — and it's now trusted in over 5,000 professional tattoo facilities worldwide.</p>
+            
+            <div class="highlight-box">
+                <strong>"ALL GAIN, NO PAIN."</strong> That's not just a tagline — it's the experience reported by thousands of verified customers who've used Painless Tattoo™ Numbing Cream for their sessions.
+            </div>
+            
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Studios Trust It</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">1-3 hrs</div>
+                    <div class="stat-label">Pain Relief</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">45 min</div>
+                    <div class="stat-label">To Full Effect</div>
+                </div>
+            </div>
+            
+            <h2>Why Traditional Numbing Products Fall Short</h2>
+            
+            <p>If you've tried numbing creams before and been disappointed, you're not alone. Most over-the-counter products have three major problems:</p>
+            
+            <ul class="feature-list">
+                <li><strong>They don't absorb properly</strong> — sitting on top of the skin instead of penetrating where pain signals originate</li>
+                <li><strong>They wear off too fast</strong> — leaving you exposed mid-session when you need relief most</li>
+                <li><strong>They cause skin reactions</strong> — redness, swelling, or irritation that affects tattoo quality</li>
             </ul>
-        </div>
-        
-        <h2>Why Most Tattoo Numbing Products Fall Short</h2>
-        
-        <p>Unfortunately, not all numbing products are created equal:</p>
-        
-        <ul class="problem-list">
-            <li><strong>Weak concentration:</strong> Most over-the-counter products contain only 2-4% lidocaine—not enough to truly numb deep tissue.</li>
-            <li><strong>Poor penetration:</strong> Without advanced delivery systems, active ingredients just sit on top of your skin and evaporate.</li>
-            <li><strong>Short duration:</strong> Cheap sprays wear off in 20-30 minutes, requiring constant reapplication that interrupts your session.</li>
-            <li><strong>No vasoconstrictors:</strong> Without ingredients to reduce blood flow, you bleed more—affecting ink quality and healing.</li>
-        </ul>
-        
-        <h2>The InkRelief™ Difference</h2>
-        
-        <p>That's why I partnered with <strong>InkRelief™</strong>, a brand trusted by professional tattoo studios across America with over 8,500+ verified reviews and a 4.8/5 star rating.</p>
-        
-        <p>They use pharmaceutical-grade ingredients at maximum legal concentrations, combined with a proprietary penetration system that ensures the numbing agents reach deep into your dermis.</p>
-        
-        <p>To date, InkRelief™ has helped over 35,000 people sit comfortably through tattoo sessions that would have been unbearable otherwise.</p>
-        
-        <!-- Product Box -->
-        <div class="product-box">
-            <h3 class="product-name">Introducing InkRelief™ Maximum Strength Numbing Cream</h3>
-            <p>The #1 choice of professional tattoo artists for pain-free sessions.</p>
-            <a href="#order" class="cta-button">GET 50% OFF TODAY →</a>
-            <p style="font-size: 14px; color: #666; margin-top: 16px;">✓ Free Shipping &nbsp;&nbsp; ✓ 60-Day Guarantee &nbsp;&nbsp; ✓ 35,000+ Happy Customers</p>
-        </div>
-        
-        <!-- As Seen On -->
-        <div class="as-seen-on">
-            <p>As Featured In</p>
-            <div class="logo-row">
-                <span>INKED</span>
-                <span>Tattoo Life</span>
-                <span>Skin Deep</span>
-                <span>Tattoo Ideas</span>
+            
+            <p>Painless Tattoo™ was formulated specifically to solve all three problems.</p>
+            
+            <img src="https://v3b.fal.media/files/b/0a8db3af/Wt8xh0D1-T-XVUfgs3haU.jpg" alt="Applying Painless Tattoo cream" class="inline-image">
+            <p class="image-caption">Simple application: Apply 45-60 minutes before your session for maximum effect</p>
+            
+            <!-- Science Section -->
+            <div class="science-section">
+                <h3>🔬 The Science Behind Pain-Free Tattoos</h3>
+                
+                <img src="https://v3b.fal.media/files/b/0a8db3aa/mLX8U6UIwApwUN4O2LzW6.jpg" alt="How Painless Tattoo works" class="science-image">
+                
+                <p>Our proprietary formula works on a simple principle: <strong>block the pain signals before they reach your brain.</strong></p>
+                
+                <p>Here's what makes Painless Tattoo™ different:</p>
+                
+                <ul class="feature-list">
+                    <li><strong>Proprietary Delivery System</strong> — Enhanced absorption compounds carry active ingredients deeper into the skin where pain receptors live</li>
+                    <li><strong>Skin Conditioners</strong> — Lightweight hydrators that support your skin's natural barrier without affecting tattoo ink adhesion</li>
+                    <li><strong>Anti-Inflammatory Blend</strong> — Reduces visible redness and calms irritation during the tattooing process</li>
+                    <li><strong>Antibacterial Protection</strong> — Promotes optimal skin health both during and after your session</li>
+                </ul>
             </div>
-        </div>
-        
-        <h2>InkRelief™ Is Unlike Anything You've Tried Before</h2>
-        
-        <p>Let me be clear. You've never experienced anything like InkRelief™—no matter how many numbing sprays, ice packs, or "pain-free" gimmicks you've tried before.</p>
-        
-        <p>This cream is far more effective than store-bought products because it targets all the factors that cause tattoo pain:</p>
-        
-        <ul class="benefit-list">
-            <li>Deep tissue nerve blocking (not just surface numbness)</li>
-            <li>Extended duration (3-5 hours vs. 20-30 minutes)</li>
-            <li>Reduced bleeding for cleaner lines</li>
-            <li>Medical-grade concentration (5% lidocaine + 5% prilocaine)</li>
-        </ul>
-        
-        <p>Before long, you'll be sitting through full sessions, getting work done in sensitive areas, and actually <em>enjoying</em> the tattoo experience.</p>
-        
-        <h2>What to Expect Week by Week</h2>
-        
-        <div class="timeline">
-            <div class="timeline-item">
-                <span class="timeline-day">PRE-SESSION</span>
-                <div class="timeline-content">
-                    <h4>"It's working already—I can barely feel my skin."</h4>
-                    <p>Apply 45-60 minutes before your session and cover with plastic wrap. The cream penetrates deep while you wait.</p>
+            
+            <h2>What Real Customers Are Saying</h2>
+            
+            <img src="https://v3b.fal.media/files/b/0a8db3aa/s2eIgU0zuYuccXYus4KA6.jpg" alt="Before and after pain comparison" class="inline-image">
+            
+            <!-- Testimonials -->
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://v3b.fal.media/files/b/0a8db3af/FDR6lT6fK7P0mzy3Dg0rp.jpg" alt="Jessica M." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Jessica M.</h4>
+                            <span class="verified">✓ Verified Buyer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I was SO nervous for my first tattoo — everyone told me the ribs would be brutal. Used Painless Tattoo 45 minutes before and honestly? I barely felt anything. My artist was shocked. Already ordered more for my next piece!"</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <img src="https://v3b.fal.media/files/b/0a8db3af/c7rCP_jBeP7N6hKtAbYag.jpg" alt="Marcus T." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Marcus T.</h4>
+                            <span class="verified">✓ Verified Buyer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I've got a full sleeve and always just powered through the pain. Tried this for my chest piece and I can't believe I suffered through all those other sessions. Game changer. Seriously."</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-info">
+                            <h4>Sarah K. — Tattoo Artist, 12 years</h4>
+                            <span class="verified">✓ Studio Owner</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"I recommend Painless Tattoo to every client now. The difference in their comfort level is night and day. They sit better, the sessions go smoother, and the end result is better work. It's a no-brainer."</p>
                 </div>
             </div>
             
-            <div class="timeline-item">
-                <span class="timeline-day">HOUR 1-2</span>
-                <div class="timeline-content">
-                    <h4>"I can feel pressure but no pain. This is incredible."</h4>
-                    <p>Full numbness kicks in. Your artist works uninterrupted while you relax—even in sensitive areas.</p>
+            <!-- As Seen On -->
+            <div class="as-seen-on">
+                <p>Trusted by professionals nationwide</p>
+                <div class="logo-row">
+                    <span>INK</span>
+                    <span>TATTOO LIFE</span>
+                    <span>INKED</span>
+                    <span>SKIN ART</span>
                 </div>
             </div>
             
-            <div class="timeline-item">
-                <span class="timeline-day">HOUR 3-5</span>
-                <div class="timeline-content">
-                    <h4>"We finished the whole piece in one session!"</h4>
-                    <p>Long-lasting formula means no breaks for reapplication. Complete sessions faster with better results.</p>
-                </div>
-            </div>
+            <h2>How To Use Painless Tattoo™</h2>
             
-            <div class="timeline-item">
-                <span class="timeline-day">AFTER</span>
-                <div class="timeline-content">
-                    <h4>"Best tattoo experience I've ever had. Already booked my next session."</h4>
-                    <p>No trauma, no dread, no putting off your next piece. Tattoos become enjoyable again.</p>
-                </div>
+            <p>Getting maximum results is simple — just follow these three steps:</p>
+            
+            <ul class="feature-list">
+                <li><strong>Clean & Prep</strong> — Wash and shave (if necessary) the area before applying</li>
+                <li><strong>Apply Generously</strong> — Use a thick layer (about 2mm) and rub in thoroughly</li>
+                <li><strong>Wait 45-60 Minutes</strong> — For maximum numbing effect, apply at least 45 minutes before your procedure</li>
+            </ul>
+            
+            <p>Each single-use packet covers approximately a 4"x4" area and provides <strong>1-3 hours of relief</strong> depending on location. For longer sessions or larger areas, we recommend 3-5 packets.</p>
+            
+            <div class="highlight-box">
+                <strong>🇺🇸 Made in the USA</strong> — Every batch is manufactured in FDA-registered facilities with strict quality control standards.
             </div>
-        </div>
-        
-        <h2>Real Results From Real Customers</h2>
-        
-        <div class="testimonial">
-            <p class="testimonial-text">I got my entire rib cage done in ONE session. Anyone who's been tattooed there knows that's basically impossible. I felt some pressure and vibration, but zero pain. My artist was shocked—he said I was the calmest rib piece he's ever done. InkRelief is now required for all my sessions.</p>
-            <p class="testimonial-author">— Jessica M., 29, Austin TX</p>
-            <span class="testimonial-verified">✓ Verified Purchase</span>
-        </div>
-        
-        <div class="testimonial">
-            <p class="testimonial-text">I've been putting off finishing my sleeve for 2 years because the ditch (inner elbow) was so painful last time. Finally tried InkRelief and sat through 4 hours like it was nothing. Wish I'd found this years ago. My only regret is all the time I wasted being scared.</p>
-            <p class="testimonial-author">— Derek L., 34, Miami FL</p>
-            <span class="testimonial-verified">✓ Verified Purchase</span>
-        </div>
-        
-        <div class="testimonial">
-            <p class="testimonial-text">As a tattoo artist myself, I recommend InkRelief to all my clients now. It makes my job easier (no flinching), sessions go faster, and the results are cleaner because people aren't tensing up. It's a game changer for the whole industry.</p>
-            <p class="testimonial-author">— Marcus T., Tattoo Artist, Denver CO</p>
-            <span class="testimonial-verified">✓ Verified Purchase</span>
-        </div>
-        
-        <!-- Guarantee Box -->
-        <div class="guarantee-box">
-            <div class="guarantee-badge">🛡️</div>
-            <h3 class="guarantee-title">60-Day "Pain-Free Or Your Money Back" Guarantee</h3>
-            <p>Try InkRelief™ for your next tattoo session. If you're not completely amazed by the pain relief, if you don't sit more comfortably than ever before, if you're not 100% satisfied for any reason—simply email us for a complete refund. No questions asked.</p>
-        </div>
-        
-        <h2>IMPORTANT: You Won't Find InkRelief™ in Stores...</h2>
-        
-        <p>We sell directly to our customers to ensure quality control and keep prices low. No Amazon markups. No retail middlemen.</p>
-        
-        <p>That's why today, you don't need to invest $79 to get your hands on this professional-grade numbing cream...</p>
+        </article>
         
         <!-- Pricing Section -->
-        <div class="pricing-section" id="order">
-            <h3>Special Offer for New Customers</h3>
-            <p class="price-original">$79.00</p>
-            <p class="price-current">$39.50</p>
-            <span class="price-savings">SAVE 50% TODAY</span>
+        <section class="pricing-section">
+            <h2>Choose Your Package</h2>
+            <p class="pricing-subtitle">Free shipping on orders over $75</p>
             
-            <div class="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">02</span>
-                    <span class="countdown-label">Hours</span>
+            <div class="pricing-grid">
+                <!-- Starter -->
+                <div class="pricing-card">
+                    <div class="package-name">Starter</div>
+                    <div class="package-size">5 Packets</div>
+                    <div class="package-price">
+                        <span class="price-current">$29.99</span>
+                    </div>
+                    <div class="price-per">$6.00 per packet</div>
+                    <a href="https://painlesstattoo.co/products/painless-tattoo-numbing-cream" class="buy-button">Shop Now</a>
+                    <ul class="package-features">
+                        <li>Perfect for small tattoos</li>
+                        <li>1-3 hours of relief</li>
+                        <li>Sanitary single-use packets</li>
+                    </ul>
                 </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="minutes">47</span>
-                    <span class="countdown-label">Minutes</span>
+                
+                <!-- Most Popular -->
+                <div class="pricing-card popular">
+                    <span class="popular-badge">Most Popular</span>
+                    <div class="package-name">Best Value</div>
+                    <div class="package-size">10 Packets</div>
+                    <div class="package-price">
+                        <span class="price-current">$49.99</span>
+                        <span class="price-original">$59.99</span>
+                    </div>
+                    <span class="savings-badge">Save $10</span>
+                    <div class="price-per">$5.00 per packet</div>
+                    <a href="https://painlesstattoo.co/products/painless-tattoo-numbing-cream" class="buy-button">Shop Now</a>
+                    <ul class="package-features">
+                        <li>Great for medium sessions</li>
+                        <li>FREE standard shipping</li>
+                        <li>Most popular choice</li>
+                    </ul>
                 </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="seconds">33</span>
-                    <span class="countdown-label">Seconds</span>
+                
+                <!-- Pro -->
+                <div class="pricing-card">
+                    <div class="package-name">Pro Pack</div>
+                    <div class="package-size">20 Packets</div>
+                    <div class="package-price">
+                        <span class="price-current">$79.99</span>
+                        <span class="price-original">$119.99</span>
+                    </div>
+                    <span class="savings-badge">Save $40</span>
+                    <div class="price-per">$4.00 per packet</div>
+                    <a href="https://painlesstattoo.co/products/painless-tattoo-numbing-cream" class="buy-button">Shop Now</a>
+                    <ul class="package-features">
+                        <li>Ideal for large pieces</li>
+                        <li>FREE express shipping</li>
+                        <li>Best price per packet</li>
+                    </ul>
                 </div>
             </div>
-            
-            <a href="#" class="cta-button">CLAIM YOUR 50% DISCOUNT →</a>
-            
-            <p style="font-size: 14px; color: #666; margin-top: 20px;">
-                ✓ Free Express Shipping<br>
-                ✓ 60-Day Money Back Guarantee<br>
-                ✓ Secure Checkout
-            </p>
+        </section>
+        
+        <!-- Guarantee -->
+        <div class="guarantee-section">
+            <div style="font-size: 60px; margin-bottom: 15px;">🛡️</div>
+            <h3>60-Day Money-Back Guarantee</h3>
+            <p>Not satisfied? Return any unused portion within 60 days for a full refund. No questions asked. We're that confident you'll love it.</p>
         </div>
         
-        <!-- Warning Box -->
-        <div class="warning-box">
-            <strong>⚠️ WARNING:</strong> Due to high demand, InkRelief™ has sold out 3 times in the past 6 months. Current stock is limited. We recommend ordering today to avoid delays.
+        <!-- Countdown -->
+        <div class="countdown-section">
+            <h4>⏰ Limited Time Offer Ends In:</h4>
+            <div class="countdown-timer">
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="hours">23</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="minutes">47</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-unit">
+                    <div class="countdown-number" id="seconds">32</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
         </div>
         
-        <h2>The Only Risk Is Missing Out</h2>
-        
-        <p>Look, I understand trying something new feels risky. But think about it this way:</p>
-        
-        <p>You can keep using weak numbing sprays, dreading every session, and limiting yourself to "easy" areas...</p>
-        
-        <p>Or you can try InkRelief™ risk-free with our 60-day guarantee and finally experience what pain-free tattooing feels like.</p>
-        
-        <p>Thousands of people have already made the switch. Will you be next?</p>
-        
-        <div style="text-align: center; margin: 40px 0;">
-            <a href="#order" class="cta-button">YES! I WANT PAIN-FREE TATTOOS →</a>
-        </div>
-        
+        <!-- Final CTA -->
+        <section class="final-cta">
+            <h2>Ready for a Pain-Free Tattoo Experience?</h2>
+            <p>Join thousands of satisfied customers who've discovered the secret to comfortable tattoo sessions.</p>
+            <a href="https://painlesstattoo.co/products/painless-tattoo-numbing-cream" class="cta-button">Get Painless Tattoo™ Now →</a>
+        </section>
     </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Painless Tattoo™ | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p style="margin-top: 10px;">This is an advertisement. Results may vary. Always follow directions for use.</p>
+    </footer>
     
     <!-- Countdown Timer Script -->
     <script>
         function updateCountdown() {
             const now = new Date();
-            const endOfDay = new Date();
-            endOfDay.setHours(23, 59, 59, 999);
+            const midnight = new Date();
+            midnight.setHours(24, 0, 0, 0);
             
-            const diff = endOfDay - now;
+            const diff = midnight - now;
             
             const hours = Math.floor(diff / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -903,8 +958,8 @@
             document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
         }
         
-        setInterval(updateCountdown, 1000);
         updateCountdown();
+        setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>

@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Reddit Ad - BYRDGANG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #0e1113;
+            color: #d7dadc;
+            min-height: 100vh;
+        }
+        
+        .phone-frame {
+            max-width: 390px;
+            margin: 20px auto;
+            background: #1a1a1b;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        
+        .screen {
+            background: #030303;
+            border-radius: 32px;
+            overflow: hidden;
+        }
+        
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px 10px;
+            background: #1a1a1b;
+        }
+        
+        .time {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+            font-size: 14px;
+        }
+        
+        /* Reddit Header */
+        .reddit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: #1a1a1b;
+            border-bottom: 1px solid #343536;
+        }
+        
+        .reddit-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .reddit-icon {
+            width: 32px;
+            height: 32px;
+            background: #ff4500;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .subreddit-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 20px;
+        }
+        
+        /* Post Container */
+        .post {
+            background: #1a1a1b;
+            margin: 8px 0;
+        }
+        
+        /* Sponsored Label */
+        .sponsored-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px 8px;
+        }
+        
+        .sponsored-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .brand-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border: 2px solid #333;
+        }
+        
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .brand-name {
+            font-weight: 600;
+            font-size: 13px;
+            color: #d7dadc;
+        }
+        
+        .sponsored-label {
+            font-size: 11px;
+            color: #818384;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .sponsored-label::before {
+            content: "Sponsored";
+            background: #272729;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+        
+        .more-icon {
+            color: #818384;
+            font-size: 20px;
+        }
+        
+        /* Post Content */
+        .post-title {
+            padding: 0 16px 12px;
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #d7dadc;
+        }
+        
+        .post-title .highlight {
+            color: #ff4500;
+        }
+        
+        /* Image Container */
+        .post-image {
+            width: 100%;
+            position: relative;
+        }
+        
+        .post-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        .image-counter {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.7);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        /* CTA Banner */
+        .cta-banner {
+            background: linear-gradient(90deg, #1a1a1a 0%, #0d0d0d 100%);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #333;
+        }
+        
+        .cta-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .cta-subtext {
+            font-size: 11px;
+            color: #818384;
+            margin-top: 2px;
+        }
+        
+        .cta-button {
+            background: #fff;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Post Actions */
+        .post-actions {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            gap: 8px;
+        }
+        
+        .vote-container {
+            display: flex;
+            align-items: center;
+            background: #272729;
+            border-radius: 20px;
+            padding: 6px 4px;
+        }
+        
+        .vote-btn {
+            padding: 4px 10px;
+            font-size: 18px;
+            color: #818384;
+        }
+        
+        .vote-count {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 0 6px;
+            color: #d7dadc;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #272729;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 13px;
+            color: #818384;
+        }
+        
+        .action-btn .icon {
+            font-size: 16px;
+        }
+        
+        /* Comments Section */
+        .comments-section {
+            padding: 0 16px 16px;
+        }
+        
+        .comment {
+            padding: 12px 0;
+            border-bottom: 1px solid #343536;
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .comment-avatar {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #ff4500, #ff6b35);
+            border-radius: 50%;
+        }
+        
+        .comment-avatar.blue {
+            background: linear-gradient(135deg, #0079d3, #33a8ff);
+        }
+        
+        .comment-avatar.green {
+            background: linear-gradient(135deg, #00a86b, #00d084);
+        }
+        
+        .comment-avatar.purple {
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+        }
+        
+        .comment-user {
+            font-size: 12px;
+            font-weight: 600;
+            color: #d7dadc;
+        }
+        
+        .comment-time {
+            font-size: 11px;
+            color: #818384;
+        }
+        
+        .comment-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #d7dadc;
+        }
+        
+        .comment-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+        
+        .comment-action {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #818384;
+        }
+        
+        .op-badge {
+            background: #0079d3;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        /* Divider */
+        .post-divider {
+            height: 8px;
+            background: #030303;
+        }
+        
+        /* Second Post (Organic Looking) */
+        .organic-post {
+            background: #1a1a1b;
+        }
+        
+        .organic-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px 8px;
+        }
+        
+        .subreddit-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #4caf50, #8bc34a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .subreddit-info {
+            flex: 1;
+        }
+        
+        .subreddit-link {
+            font-weight: 600;
+            font-size: 13px;
+            color: #d7dadc;
+        }
+        
+        .post-meta {
+            font-size: 11px;
+            color: #818384;
+        }
+        
+        /* Home indicator */
+        .home-indicator {
+            display: flex;
+            justify-content: center;
+            padding: 8px 0 4px;
+            background: #1a1a1b;
+        }
+        
+        .indicator-bar {
+            width: 134px;
+            height: 5px;
+            background: #d7dadc;
+            border-radius: 3px;
+        }
+        
+        /* No phone frame version for screenshot */
+        @media (max-width: 420px) {
+            .phone-frame {
+                margin: 0;
+                padding: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+            
+            .screen {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="screen">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="time">9:41</div>
+                <div class="status-icons">
+                    <span>📶</span>
+                    <span>📡</span>
+                    <span>🔋</span>
+                </div>
+            </div>
+            
+            <!-- Reddit Header -->
+            <div class="reddit-header">
+                <div class="reddit-logo">
+                    <div class="reddit-icon">r/</div>
+                    <span class="subreddit-name">r/golf</span>
+                </div>
+                <div class="header-icons">
+                    <span>🔍</span>
+                    <span>⋮</span>
+                </div>
+            </div>
+            
+            <!-- Sponsored Post -->
+            <div class="post">
+                <div class="sponsored-header">
+                    <div class="sponsored-left">
+                        <div class="brand-avatar">🦩</div>
+                        <div class="brand-info">
+                            <span class="brand-name">BYRDGANG Golf</span>
+                            <span class="sponsored-label"> • byrdgang.com</span>
+                        </div>
+                    </div>
+                    <span class="more-icon">•••</span>
+                </div>
+                
+                <div class="post-title">
+                    Finally found golf apparel that doesn't make me look like my dad. <span class="highlight">BYRDGANG</span> changed the game 🔥
+                </div>
+                
+                <div class="post-image">
+                    <img src="https://v3b.fal.media/files/b/0a8dbdd1/lx9tbCe_K0UF48nCWuCL3.jpg" alt="Golfer wearing BYRDGANG polo">
+                    <div class="image-counter">1/2</div>
+                </div>
+                
+                <div class="cta-banner">
+                    <div>
+                        <div class="cta-text">Premium Golf Streetwear</div>
+                        <div class="cta-subtext">Free shipping on orders $75+</div>
+                    </div>
+                    <div class="cta-button">Shop Now</div>
+                </div>
+                
+                <div class="post-actions">
+                    <div class="vote-container">
+                        <span class="vote-btn">▲</span>
+                        <span class="vote-count">2.4k</span>
+                        <span class="vote-btn">▼</span>
+                    </div>
+                    <div class="action-btn">
+                        <span class="icon">💬</span>
+                        <span>847</span>
+                    </div>
+                    <div class="action-btn">
+                        <span class="icon">↗️</span>
+                        <span>Share</span>
+                    </div>
+                </div>
+                
+                <!-- Comments -->
+                <div class="comments-section">
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-avatar blue"></div>
+                            <span class="comment-user">u/fairway_fanatic</span>
+                            <span class="comment-time">• 4h</span>
+                        </div>
+                        <div class="comment-text">Bro I've been wearing BYRDGANG for 6 months now. The quality is insane and I actually get compliments at the club instead of blending in with every other guy in a generic polo 😂</div>
+                        <div class="comment-actions">
+                            <span class="comment-action">▲ 342 ▼</span>
+                            <span class="comment-action">💬 Reply</span>
+                        </div>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-avatar green"></div>
+                            <span class="comment-user">u/scratch_golfer_23</span>
+                            <span class="comment-time">• 3h</span>
+                        </div>
+                        <div class="comment-text">Just ordered the black stealth polo. The flamingo logo is so subtle but clean. Golf fashion needed this.</div>
+                        <div class="comment-actions">
+                            <span class="comment-action">▲ 187 ▼</span>
+                            <span class="comment-action">💬 Reply</span>
+                        </div>
+                    </div>
+                    
+                    <div class="comment">
+                        <div class="comment-header">
+                            <div class="comment-avatar purple"></div>
+                            <span class="comment-user">u/weekendwarrior_golf</span>
+                            <span class="comment-time">• 2h</span>
+                        </div>
+                        <div class="comment-text">This is an ad but honestly I don't care, their stuff is actually fire. Way better than paying $120 for a boring Nike polo that everyone else has.</div>
+                        <div class="comment-actions">
+                            <span class="comment-action">▲ 524 ▼</span>
+                            <span class="comment-action">💬 Reply</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Home Indicator -->
+            <div class="home-indicator">
+                <div class="indicator-bar"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
